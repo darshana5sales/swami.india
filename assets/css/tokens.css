@@ -1,0 +1,274 @@
+/* ==========================================================================
+   SWAMI INDIA INTERNATIONAL — "ATLANTIC LINE" DESIGN SYSTEM
+   tokens.css — the single source of truth for the visual language.
+   Change a value here and it propagates everywhere.
+   ========================================================================== */
+
+:root {
+
+  /* ------------------------------------------------------------------
+     1. COLOUR — NEUTRALS
+     A warm-neutral ramp. Every grey carries a trace of earth so that
+     photography of laterite, sand and concrete sits naturally on it.
+     ------------------------------------------------------------------ */
+  --c-ink:        #0A0B0D;   /* deepest ground — footer, hero scrim      */
+  --c-onyx:       #101216;   /* dark section base                        */
+  --c-graphite:   #191C21;   /* raised dark surface / cards              */
+  --c-slate:      #2B2F36;   /* dark borders, muted dark text            */
+  --c-ash:        #6B6F77;   /* secondary text on light                  */
+  --c-stone:      #9E9A92;   /* tertiary text, warm mid grey             */
+  --c-mist:       #D8D2C7;   /* hairlines on light                       */
+  --c-linen:      #E8E2D7;   /* soft filled surface                      */
+  --c-ivory:      #F7F4EF;   /* page background — warm paper             */
+  --c-white:      #FFFFFF;
+
+  /* ------------------------------------------------------------------
+     2. COLOUR — ACCENT: SWAMI BRAND GOLD
+
+     Anchored on #B09020, sampled directly from the company logo
+     (assets/img/logo.png). The ramp is built around that single fixed
+     point so the logo and every UI accent read as one system — a warmer
+     bronze alongside this yellow-gold logo reads as two different metals.
+
+     500 is the brand gold exactly. Do not alter it.
+     700 and 300 exist because 500 fails contrast at small sizes:
+       500 on ivory = 2.8:1  ✗   →  use 700 (5.5:1) for small text on light
+       500 on ink   = 6.3:1  ✓       use 300 (10.8:1) for small text on dark
+     ------------------------------------------------------------------ */
+  --c-gold-50:  #FBF7E9;
+  --c-gold-100: #F4ECCC;
+  --c-gold-200: #E7D49B;   /* gradient highlight                        */
+  --c-gold-300: #D9C070;   /* small text / eyebrows ON DARK   (10.8:1)  */
+  --c-gold-400: #C8AA45;
+  --c-gold-500: #B09020;   /* ◆ BRAND GOLD — sampled from the logo      */
+  --c-gold-600: #93781A;
+  --c-gold-700: #776114;   /* small text / eyebrows ON LIGHT   (5.5:1)  */
+  --c-gold-800: #5C4B10;
+  --c-gold-900: #3D3209;
+
+  /* Semantic aliases — use these in components, not raw ramps. */
+  --c-accent:        var(--c-gold-500);
+  --c-accent-soft:   var(--c-gold-300);
+  --c-accent-deep:   var(--c-gold-700);
+
+  --c-bg:            var(--c-ivory);
+  --c-bg-alt:        var(--c-linen);
+  --c-bg-dark:       var(--c-ink);
+  --c-surface:       var(--c-white);
+  --c-text:          var(--c-ink);
+  --c-text-muted:    var(--c-ash);
+  --c-text-invert:   var(--c-ivory);
+  --c-border:        rgba(10, 11, 13, 0.10);
+  --c-border-soft:   rgba(10, 11, 13, 0.06);
+  --c-border-invert: rgba(247, 244, 239, 0.14);
+
+  /* Status */
+  --c-selling:   #4E8C6A;
+  --c-completed: var(--c-ash);
+
+  /* ------------------------------------------------------------------
+     3. GRADIENTS
+     ------------------------------------------------------------------ */
+  --grad-gold:  linear-gradient(118deg, #E7D49B 0%, #B09020 46%, #776114 100%);
+  --grad-gold-r: linear-gradient(118deg, #776114 0%, #B09020 54%, #E7D49B 100%);
+  --grad-hairline: linear-gradient(90deg, transparent, var(--c-gold-500), transparent);
+  --grad-scrim-b: linear-gradient(to top,
+                    rgba(10,11,13,.92) 0%,
+                    rgba(10,11,13,.72) 22%,
+                    rgba(10,11,13,.28) 52%,
+                    rgba(10,11,13,0)   100%);
+  --grad-scrim-t: linear-gradient(to bottom,
+                    rgba(10,11,13,.62) 0%,
+                    rgba(10,11,13,.18) 45%,
+                    rgba(10,11,13,0)   100%);
+  /* Slow-drifting aurora used behind the CTA band */
+  --grad-aurora:  radial-gradient(60% 80% at 20% 30%, rgba(176,144,32,.30), transparent 62%),
+                  radial-gradient(50% 70% at 82% 66%, rgba(119,97,20,.26), transparent 60%),
+                  radial-gradient(70% 60% at 50% 105%, rgba(231,212,155,.14), transparent 60%);
+
+  /* ------------------------------------------------------------------
+     4. GLASS
+     Used sparingly: sticky nav, testimonial cards, floating badges.
+     ------------------------------------------------------------------ */
+  --glass-light-bg:     rgba(247, 244, 239, 0.72);
+  --glass-light-border: rgba(255, 255, 255, 0.55);
+  --glass-dark-bg:      rgba(25, 28, 33, 0.46);
+  --glass-dark-border:  rgba(231,212,155, 0.16);
+  --glass-blur:         18px;
+  --glass-blur-strong:  30px;
+
+  /* ------------------------------------------------------------------
+     5. TYPOGRAPHY
+     Sora     — display. Geometric, architectural; superb at hairline
+                weights and very large sizes.
+     Manrope  — text. Humanist warmth, excellent small-size legibility.
+     ------------------------------------------------------------------ */
+  --ff-display: 'Sora', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ff-text:    'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --fw-thin:      200;
+  --fw-light:     300;
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+
+  /* Fluid type scale. Ratio ≈ 1.28 at the small end, widening on desktop
+     so the display sizes get genuinely dramatic without breaking mobile. */
+  --fs-display: clamp(3.25rem, 1.35rem + 8.1vw, 9rem);      /*  52 → 144 */
+  --fs-h1:      clamp(2.5rem,  1.45rem + 4.5vw, 5.25rem);   /*  40 →  84 */
+  --fs-h2:      clamp(2rem,    1.32rem + 2.9vw, 3.75rem);   /*  32 →  60 */
+  --fs-h3:      clamp(1.5rem,  1.22rem + 1.2vw, 2.25rem);   /*  24 →  36 */
+  --fs-h4:      clamp(1.175rem,1.06rem + 0.5vw, 1.5rem);    /*  19 →  24 */
+  --fs-lead:    clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem); /*  17 →  21 */
+  --fs-body:    1rem;
+  --fs-sm:      0.9375rem;
+  --fs-xs:      0.8125rem;
+  --fs-eyebrow: 0.6875rem;
+  --fs-mono:    0.75rem;
+
+  --lh-tight:   0.98;
+  --lh-display: 1.02;
+  --lh-snug:    1.16;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.72;
+
+  --ls-display: -0.035em;   /* large text needs negative tracking       */
+  --ls-heading: -0.022em;
+  --ls-normal:  -0.005em;
+  --ls-wide:     0.06em;
+  --ls-eyebrow:  0.26em;    /* the signature luxury micro-label          */
+
+  /* ------------------------------------------------------------------
+     6. SPACING — 4px base, named so intent survives refactors
+     ------------------------------------------------------------------ */
+  --sp-1:  0.25rem;   /*   4 */
+  --sp-2:  0.5rem;    /*   8 */
+  --sp-3:  0.75rem;   /*  12 */
+  --sp-4:  1rem;      /*  16 */
+  --sp-5:  1.5rem;    /*  24 */
+  --sp-6:  2rem;      /*  32 */
+  --sp-7:  2.5rem;    /*  40 */
+  --sp-8:  3rem;      /*  48 */
+  --sp-9:  4rem;      /*  64 */
+  --sp-10: 5rem;      /*  80 */
+  --sp-11: 6.5rem;    /* 104 */
+  --sp-12: 8rem;      /* 128 */
+  --sp-13: 10rem;     /* 160 */
+
+  /* Vertical rhythm between major sections — the single most important
+     spacing decision on a luxury page. Generous, and it scales. */
+  --section-y:    clamp(5rem, 3rem + 8vw, 10.5rem);
+  --section-y-sm: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+
+  /* ------------------------------------------------------------------
+     7. LAYOUT
+     ------------------------------------------------------------------ */
+  --max-w:        1440px;   /* outer shell                              */
+  --max-w-content:1180px;   /* standard content width                   */
+  --max-w-text:   62ch;     /* optimal measure for body copy            */
+  --gutter:       clamp(1.25rem, 0.6rem + 3vw, 4.5rem);
+  --grid-gap:     clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
+  --nav-h:        84px;
+  --nav-h-sm:     68px;
+
+  /* ------------------------------------------------------------------
+     8. RADII
+     ------------------------------------------------------------------ */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   22px;
+  --r-xl:   32px;
+  --r-2xl:  44px;
+  --r-pill: 999px;
+
+  /* ------------------------------------------------------------------
+     9. ELEVATION — warm-tinted, multi-layer, low opacity.
+     Never a single hard shadow; luxury depth is always stacked and soft.
+     ------------------------------------------------------------------ */
+  --sh-xs: 0 1px 2px rgba(10,11,13,.04);
+  --sh-sm: 0 1px 2px rgba(10,11,13,.04), 0 3px 10px rgba(10,11,13,.045);
+  --sh-md: 0 2px 6px rgba(10,11,13,.05), 0 12px 30px rgba(10,11,13,.07);
+  --sh-lg: 0 6px 18px rgba(10,11,13,.07), 0 28px 60px rgba(10,11,13,.11);
+  --sh-xl: 0 12px 32px rgba(10,11,13,.09), 0 48px 100px rgba(10,11,13,.16);
+  --sh-accent: 0 10px 30px rgba(176,144,32,.30);
+  --sh-inset-hairline: inset 0 1px 0 rgba(255,255,255,.5);
+
+  /* ------------------------------------------------------------------
+     10. MOTION
+     One easing family. `--e-out` is the house curve — a fast start that
+     settles gently, which is what makes motion read as "expensive".
+     ------------------------------------------------------------------ */
+  --e-out:    cubic-bezier(0.22, 1, 0.36, 1);      /* house curve        */
+  --e-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --e-soft:   cubic-bezier(0.33, 1, 0.68, 1);
+  --e-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* micro-interactions */
+
+  --d-instant: 120ms;
+  --d-fast:    260ms;
+  --d-base:    520ms;
+  --d-slow:    820ms;
+  --d-xslow:   1300ms;
+  --d-reveal:  1100ms;
+
+  --stagger:   90ms;   /* delay between siblings in a staggered reveal  */
+
+  /* ------------------------------------------------------------------
+     11. IMAGE TREATMENT
+     A single consistent grade unifies photography from mixed sources.
+     Set --img-grade-sat to 1 and --img-grade-con to 1 to disable.
+     ------------------------------------------------------------------ */
+  --img-sat: 0.92;
+  --img-con: 1.04;
+  --img-bri: 1.0;
+  --img-grade: saturate(var(--img-sat)) contrast(var(--img-con)) brightness(var(--img-bri));
+
+  /* ------------------------------------------------------------------
+     12. Z-INDEX — a flat, documented scale. No magic numbers elsewhere.
+     ------------------------------------------------------------------ */
+  --z-base:      1;
+  --z-raised:    10;
+  --z-sticky:    100;
+  --z-nav:       200;
+  --z-overlay:   300;
+  --z-lightbox:  400;
+  --z-cursor:    500;
+  --z-preloader: 600;
+}
+
+/* ---------------------------------------------------------------------
+   DARK CONTEXT
+   Any section can opt into the inverted palette with class `.on-dark`.
+   Components read the semantic aliases, so they invert automatically.
+   --------------------------------------------------------------------- */
+.on-dark {
+  --c-bg:          var(--c-ink);
+  --c-bg-alt:      var(--c-graphite);
+  --c-surface:     var(--c-graphite);
+  --c-text:        var(--c-ivory);
+  --c-text-muted:  var(--c-stone);
+  --c-text-invert: var(--c-ink);
+  --c-border:      var(--c-border-invert);
+  --c-border-soft: rgba(247, 244, 239, 0.07);
+  color-scheme: dark;
+
+  /* Re-declaring the alias is not enough on its own: `body { color: var(--c-text) }`
+     already resolved to ink, and descendants inherit that computed colour.
+     The declaration has to be re-applied here or every element that does not
+     set its own colour (a bare .h2, for one) stays ink-on-ink and vanishes. */
+  color: var(--c-text);
+}
+
+/* ---------------------------------------------------------------------
+   REDUCED MOTION
+   Collapse every duration to near-zero rather than removing the
+   animation, so final states (opacity:1, transform:none) still apply.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-instant: 1ms; --d-fast: 1ms; --d-base: 1ms;
+    --d-slow: 1ms; --d-xslow: 1ms; --d-reveal: 1ms;
+    --stagger: 0ms;
+  }
+}

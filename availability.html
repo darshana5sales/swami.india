@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0B0D">
+
+<title>Availability &amp; Floor Plans — Swami India International</title>
+<meta name="description" content="Live availability at The Diplomat, Fajara and Airport Residency, Old Yundum. Choose a tower, explore floor by floor, and unlock pricing privately.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/explorer.css">
+
+<script>document.documentElement.className = document.documentElement.className.replace('no-js','js');</script>
+</head>
+
+<body class="on-dark xpage" id="top">
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"><span class="cursor__label"></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"><span class="progress__bar" id="progressBar"></span></div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+
+    <a class="brand" href="index.html" aria-label="Swami India International — home">
+      <img class="brand__logo brand__logo--light" src="assets/img/logo-light.png"
+           alt="Swami India International" width="214" height="53" fetchpriority="high">
+      <img class="brand__logo brand__logo--dark" src="assets/img/logo.png"
+           alt="" aria-hidden="true" width="214" height="53">
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#developments">Developments</a>
+      <a href="availability.html" class="is-current" aria-current="page">Availability</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#voices">Residents</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav__tel" href="tel:+2202082828">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.2 2.5 6.6 5 5.3 6.6a8 8 0 0 0 4.1 4.1L11 9.4l2.5 1.4v2.4c0 .6-.5 1-1.1.9C6.6 13.5 2.5 9.4 1.9 3.6c-.1-.6.3-1.1.9-1.1h2.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        <span>+220 208 2828</span>
+      </a>
+      <a class="btn btn--solid btn--sm" href="index.html#cta" data-magnetic><span>Enquire</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Menu overlay -->
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
+  <div class="menu__bg" aria-hidden="true"></div>
+  <div class="menu__inner">
+    <nav class="menu__nav" aria-label="Menu">
+      <a href="index.html"><i>01</i><span>Home</span></a>
+      <a href="index.html#about"><i>02</i><span>About</span></a>
+      <a href="index.html#developments"><i>03</i><span>Developments</span></a>
+      <a href="availability.html"><i>04</i><span>Availability</span></a>
+      <a href="index.html#gallery"><i>05</i><span>Gallery</span></a>
+      <a href="index.html#cta"><i>06</i><span>Enquire</span></a>
+    </nav>
+    <div class="menu__aside">
+      <div class="menu__block">
+        <h3 class="eyebrow">Sales Office</h3>
+        <p>Paradise Estate, Coastal Highway<br>Old Yundum, Banjul, The&nbsp;Gambia</p>
+      </div>
+      <div class="menu__block">
+        <h3 class="eyebrow">Speak to us</h3>
+        <p>
+          <a href="tel:+2202082828">+220 208 2828</a><br>
+          <a href="mailto:sales@swamiindiainternational.com">sales@swamiindiainternational.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<main id="main">
+
+<!-- ══════════════════════════ PAGE HEADER ══════════════════════════ -->
+<section class="xhead">
+  <div class="shell">
+    <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>Live availability</p>
+    <h1 class="xhead__title" data-split="words">Choose the view you will wake to.</h1>
+    <p class="lead lead--muted xhead__lead" data-reveal="up" data-reveal-delay="180">
+      Every residence at The Diplomat and Airport Residency, plotted live. Explore
+      the plan, open any home, and unlock its price privately — no obligation.
+    </p>
+
+    <div class="xhead__stats" data-reveal="up" data-reveal-delay="280">
+      <div class="xstat"><b id="statHomes">92</b><span>Diplomat residences</span></div>
+      <div class="xstat"><b>210</b><span>Airport Residency villas</span></div>
+      <div class="xstat"><b>2</b><span>Towers, Fajara</span></div>
+      <div class="xstat"><b id="statAvail">—</b><span>Available in this preview</span></div>
+    </div>
+
+    <div class="xhead__how" data-reveal="up" data-reveal-delay="360">
+      <ol class="howto">
+        <li><i>01</i>Select a tower or villa plot</li>
+        <li><i>02</i>Hover — or tap — for residence details</li>
+        <li><i>03</i>Unlock exact pricing with one enquiry</li>
+      </ol>
+      <ul class="legend" aria-label="Status legend">
+        <li><span class="lg-dot lg-dot--av"></span>Available</li>
+        <li><span class="lg-dot lg-dot--rs"></span>Reserved</li>
+        <li><span class="lg-dot lg-dot--sd"></span>Sold</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ TABS ═════════════════════════════ -->
+<div class="shell">
+  <div class="xtabs" role="tablist" aria-label="Choose a development">
+    <button class="xtab is-on" id="tabTowers" role="tab" aria-selected="true" aria-controls="panelTowers" data-tab="towers" type="button">
+      <b>The Diplomat</b><span>Apartment towers · Fajara</span>
+    </button>
+    <button class="xtab" id="tabVillas" role="tab" aria-selected="false" aria-controls="panelVillas" data-tab="villas" type="button">
+      <b>Airport Residency</b><span>Villa community · Old Yundum</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═════════════════════════ TOWERS PANEL ══════════════════════════ -->
+<section class="panel" id="panelTowers" role="tabpanel" aria-labelledby="tabTowers">
+  <div class="shell">
+
+    <!-- Illustrated site plan — one SVG, towers as clickable blocks -->
+    <div class="stage-scroll" data-reveal="up">
+      <div class="stage stage--schem" id="mpStage">
+        <svg viewBox="0 0 1280 660" role="group"
+             aria-label="The Diplomat — illustrated site plan. Two towers; select one to open its floor view."><!-- drawn by explorer.js renderMasterplan() --></svg>
+      </div>
+    </div>
+
+    <div class="mp__chips" id="mpChips" data-reveal="up" data-reveal-delay="120"></div>
+
+    <div class="elev" id="elevation" data-reveal="up">
+      <header class="elev__head">
+        <h2 class="h3" id="elevTitle">Tower A</h2>
+        <p class="elev__meta" id="elevMeta"></p>
+        <div class="elev__switch" role="tablist" aria-label="Choose tower">
+          <button type="button" data-tower="A" class="is-on" role="tab" aria-selected="true">Tower A</button>
+          <button type="button" data-tower="B" role="tab" aria-selected="false">Tower B</button>
+        </div>
+      </header>
+
+      <!-- Straight-on floor plate: one box per residence, exact totals -->
+      <div class="stage-scroll">
+        <div class="stage stage--schem" id="elevStage">
+          <svg id="elevSvg" viewBox="0 0 980 600" role="group" aria-label="Tower floor plate — one block per residence"></svg>
+        </div>
+      </div>
+
+      <p class="xnote">
+        All 92 residences of The Diplomat are plotted across the two towers.
+        Ground and mezzanine levels are commercial. Hover any home for details,
+        click for price &amp; floor plan.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═════════════════════════ VILLAS PANEL ══════════════════════════ -->
+<section class="panel" id="panelVillas" role="tabpanel" aria-labelledby="tabVillas" hidden>
+  <div class="shell">
+    <!-- Illustrated society plan — every Phase 1 villa is its own block -->
+    <div class="stage-scroll stage-scroll--wide" data-reveal="up">
+      <div class="stage stage--schem" id="vStage">
+        <svg id="vSvg" viewBox="0 0 1480 900" role="group"
+             aria-label="Airport Residency — illustrated society plan, all 82 Phase 1 villas around the central clubhouse and gardens.">
+          <defs>
+            <filter id="vSh" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+
+          <!-- site plot -->
+          <rect class="mk-site" x="24" y="24" width="1432" height="842" rx="28"/>
+
+          <!-- roads between the villa rows -->
+          <g class="vm-roads">
+            <rect class="mk-road" x="24" y="138" width="1432" height="26" rx="8"/>
+            <line class="mk-dash" x1="48" y1="151" x2="1432" y2="151"/>
+            <rect class="mk-road" x="24" y="260" width="1432" height="26" rx="8"/>
+            <line class="mk-dash" x1="48" y1="273" x2="1432" y2="273"/>
+            <rect class="mk-road" x="24" y="382" width="1432" height="26" rx="8"/>
+            <line class="mk-dash" x1="48" y1="395" x2="1432" y2="395"/>
+            <rect class="mk-road" x="24" y="604" width="1432" height="26" rx="8"/>
+            <line class="mk-dash" x1="48" y1="617" x2="1432" y2="617"/>
+            <rect class="mk-road" x="24" y="726" width="1432" height="26" rx="8"/>
+            <line class="mk-dash" x1="48" y1="739" x2="1432" y2="739"/>
+            <rect class="mk-road" x="726" y="752" width="32" height="114" rx="8"/>
+          </g>
+
+          <!-- central amenity spine -->
+          <g class="vm-spine">
+            <rect class="mk-spine" x="200" y="424" width="1080" height="92" rx="40"/>
+            <rect class="mk-am" x="238" y="438" width="150" height="64" rx="10"/>
+            <text class="mk-s mk-c" x="313" y="474">CLUBHOUSE</text>
+            <rect class="mk-pool" x="424" y="442" width="120" height="56" rx="28"/>
+            <path class="mk-wave" d="M444 466 q10 -7 20 0 t20 0 t20 0"/>
+            <path class="mk-wave" d="M444 480 q10 -7 20 0 t20 0 t20 0"/>
+            <rect class="mk-court" x="580" y="440" width="72" height="60" rx="6"/>
+            <line class="mk-courtline" x1="616" y1="440" x2="616" y2="500"/>
+            <rect class="mk-court" x="660" y="440" width="72" height="60" rx="6"/>
+            <line class="mk-courtline" x1="696" y1="440" x2="696" y2="500"/>
+            <text class="mk-s mk-c" x="850" y="462">GARDENS · GAZEBO</text>
+            <text class="mk-s mk-c" x="850" y="482">JOGGING TRACK · PLAY AREA</text>
+            <rect class="mk-am" x="1060" y="438" width="76" height="64" rx="8"/>
+            <circle class="mk-dome" cx="1098" cy="438" r="12"/>
+            <text class="mk-s mk-c" x="1098" y="530">MOSQUE</text>
+          </g>
+
+          <!-- gate -->
+          <g class="vm-gate">
+            <rect class="mk-gate" x="706" y="846" width="100" height="20" rx="6"/>
+            <text class="mk-s mk-c" x="756" y="890">MAIN GATE · 24/7 SECURITY</text>
+          </g>
+
+          <!-- greenery -->
+          <g class="mk-trees">
+            <circle cx="80" cy="80" r="13"/><circle cx="110" cy="60" r="9"/>
+            <circle cx="1400" cy="80" r="12"/><circle cx="1372" cy="106" r="8"/>
+            <circle cx="80" cy="820" r="12"/><circle cx="1400" cy="820" r="12"/>
+            <circle cx="160" cy="470" r="10"/><circle cx="1330" cy="470" r="10"/>
+          </g>
+
+          <!-- villas injected by explorer.js -->
+          <g id="vHomes"></g>
+        </svg>
+      </div>
+    </div>
+    <p class="xnote">
+      Illustrated society plan — all <b>82 Phase&nbsp;1 villas</b> are plotted;
+      Phase&nbsp;2 adds 128 more homes (210 in total). Artist's impression based
+      on the project masterplan — hover any villa for details, click for price
+      &amp; floor plan.
+    </p>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ═════════════════════════ SLIM FOOTER ═══════════════════════════ -->
+<footer class="footer on-dark footer--slim">
+  <div class="shell">
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        © <span id="year">2026</span> Swami India International Limited. All rights reserved.
+        <i>Designed &amp; developed by <b>Ampli5 Digital</b></i>
+      </p>
+      <nav class="footer__legal" aria-label="Legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Floating unit tooltip (desktop hover) -->
+<div class="tip" id="tip" hidden aria-hidden="true"></div>
+
+<!-- ═══════════════════════ RESIDENCE SHEET ═════════════════════════ -->
+<div class="usheet" id="usheet" role="dialog" aria-modal="true" aria-label="Residence details" hidden>
+  <div class="usheet__card">
+    <button class="usheet__close" id="usheetClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+
+    <figure class="usheet__plan">
+      <div id="planBox"><!-- floorplan SVG injected --></div>
+      <figcaption>Representative floor plan — final plates from our sales team. All areas approximate.</figcaption>
+    </figure>
+
+    <div class="usheet__body">
+      <p class="usheet__crumb" id="uCrumb"></p>
+      <div class="usheet__title">
+        <h3 id="uTitle"></h3>
+        <span class="badge" id="uBadge"></span>
+      </div>
+      <p class="usheet__type" id="uTypeName"></p>
+
+      <dl class="facts" id="uFacts"></dl>
+
+      <div class="usheet__price" id="uPrice"><!-- rendered by state --></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/explorer.js" defer></script>
+</body>
+</html>

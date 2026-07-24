@@ -1,0 +1,967 @@
+/* ==========================================================================
+   SWAMI — AVAILABILITY EXPLORER  (availability.html)
+   explorer.css — page-specific layer on top of tokens.css + main.css.
+
+   CONTENTS
+   01  Page shell
+   02  Header, stats, how-to, legend
+   03  Tabs
+   04  Masterplan SVG
+   05  Tower chips
+   06  Elevation grid & unit cells
+   07  Villas map
+   08  Tooltip
+   09  Residence sheet (modal) & price gate
+   10  Slim footer, responsive, reduced motion
+
+   Status colour language (used by cells, villas, badges, legend):
+     available = green  (go — matches .is-selling elsewhere on the site)
+     reserved  = gold   (held, still worth enquiring)
+     sold      = dimmed
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01 · PAGE SHELL
+   ========================================================================== */
+
+body.xpage {
+  /* main.css paints an ivory radial on body; this page lives on ink. */
+  background: var(--c-onyx);
+  background-image:
+    radial-gradient(90% 50% at 50% 0%, rgba(176,144,32,.07), transparent 60%),
+    radial-gradient(120% 80% at 50% 110%, #07080A 0%, var(--c-onyx) 55%);
+}
+
+.panel { padding-bottom: var(--section-y-sm); }
+
+.xnote {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+  max-width: 62ch;
+}
+
+
+/* ==========================================================================
+   02 · HEADER
+   ========================================================================== */
+
+.xhead {
+  padding-top: calc(var(--nav-h-sm) + clamp(3rem, 6vw, 5.5rem));
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+@media (min-width: 1080px) {
+  .xhead { padding-top: calc(var(--nav-h) + clamp(3rem, 6vw, 5.5rem)); }
+}
+
+.xhead__title {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-thin);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  max-width: 16ch;
+  margin-bottom: var(--sp-5);
+}
+.xhead__lead { margin-bottom: var(--sp-7); }
+
+.xhead__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6) var(--sp-8);
+  padding: var(--sp-5) 0;
+  border-top: 1px solid var(--c-border-invert);
+  border-bottom: 1px solid var(--c-border-invert);
+  margin-bottom: var(--sp-5);
+}
+.xstat { display: grid; gap: 2px; }
+.xstat b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  font-weight: var(--fw-thin);
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.xstat span {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+
+.xhead__how {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4) var(--sp-7);
+}
+.howto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  font-size: var(--fs-xs);
+  color: var(--c-linen);
+}
+.howto li { display: flex; align-items: center; gap: var(--sp-2); }
+.howto i {
+  font-style: normal;
+  font-family: var(--ff-display);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--c-gold-400);
+}
+
+.legend {
+  display: flex;
+  gap: var(--sp-5);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.legend li { display: flex; align-items: center; gap: var(--sp-2); }
+.lg-dot { width: 9px; height: 9px; border-radius: 50%; }
+.lg-dot--av { background: #8FD3AE; }
+.lg-dot--rs { background: var(--c-gold-400); }
+.lg-dot--sd { background: var(--c-slate); box-shadow: inset 0 0 0 1px var(--c-border-invert); }
+
+
+/* ==========================================================================
+   03 · TABS
+   ========================================================================== */
+
+.xtabs {
+  display: flex;
+  gap: var(--sp-2);
+  border-bottom: 1px solid var(--c-border-invert);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.xtab {
+  display: grid;
+  gap: 3px;
+  padding: var(--sp-4) var(--sp-5) var(--sp-4) 0;
+  margin-right: var(--sp-5);
+  text-align: left;
+  opacity: .5;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: opacity var(--d-fast) var(--e-out), border-color var(--d-fast) var(--e-out);
+}
+.xtab:hover { opacity: .85; }
+.xtab.is-on { opacity: 1; border-bottom-color: var(--c-gold-500); }
+.xtab b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.05rem, 1rem + .4vw, 1.35rem);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.xtab span {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+
+
+/* ==========================================================================
+   04 · IMAGE STAGES — real renders with SVG polygon hotspots
+   The reference (gemwaterfront) technique: an actual project render with a
+   transparent, coordinate-matched SVG on top. `preserveAspectRatio="none"`
+   pins the viewBox to the image box, so traced points always align.
+   ========================================================================== */
+
+.stage-scroll {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border-invert);
+  background: var(--c-graphite);
+  overflow: hidden;
+}
+.stage {
+  position: relative;
+  min-width: 100%;
+}
+.stage img { width: 100%; height: auto; display: block; }
+.stage svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* On phones the render must not shrink until polygons are untappable —
+   the stage scrolls sideways inside its frame instead. */
+@media (max-width: 899px) {
+  .stage-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .stage-scroll .stage { width: 900px; }
+  .stage-scroll--wide .stage { width: 1100px; }
+}
+
+/* --- illustrated plan language (masterplan + society plan) ------------ */
+/* Base linework */
+.mk-site  { fill: #111318; stroke: var(--c-border-invert); }
+.mk-road  { fill: rgba(255, 255, 255, .04); }
+.mk-dash  { stroke: rgba(247, 244, 239, .22); stroke-width: 1.4; stroke-dasharray: 11 9; }
+.mk-drive { fill: none; stroke: #1B1E24; stroke-width: 30; stroke-linecap: round; }
+.mk-drivedash { fill: none; stroke: rgba(247, 244, 239, .18); stroke-width: 1.4; stroke-dasharray: 8 8; }
+.mk-gate  { fill: var(--c-gold-700); }
+.mk-spine { fill: rgba(176, 144, 32, .06); stroke: var(--c-gold-600); stroke-dasharray: 7 6; }
+
+/* Buildings — ivory roof plans on the dark site, like an architect's model */
+.mk-bld   { fill: #E9E2D4; stroke: rgba(10, 11, 13, .35); stroke-width: 1.5; }
+.mk-ins   { fill: none; stroke: rgba(10, 11, 13, .22); stroke-width: 1.5; }
+.mk-plant { fill: #D7CEBB; stroke: rgba(10, 11, 13, .25); }
+.mk-pod   { fill: rgba(255, 255, 255, .05); stroke: var(--c-border-invert); stroke-dasharray: 6 5; }
+.mk-am    { fill: rgba(255, 255, 255, .04); stroke: rgba(247, 244, 239, .2); stroke-dasharray: 6 5; }
+.mk-pool  { fill: rgba(176, 144, 32, .12); stroke: var(--c-gold-600); }
+.mk-wave  { fill: none; stroke: rgba(231, 212, 155, .55); stroke-width: 2; stroke-linecap: round; }
+.mk-court { fill: rgba(78, 140, 106, .22); stroke: rgba(143, 211, 174, .45); }
+.mk-courtline { stroke: rgba(143, 211, 174, .45); stroke-width: 1.2; }
+.mk-dome  { fill: rgba(217, 192, 112, .35); stroke: var(--c-gold-500); }
+.mk-park rect { fill: rgba(255, 255, 255, .05); stroke: rgba(247, 244, 239, .18); }
+.mk-trees circle { fill: #2E4A3C; opacity: .85; }
+
+/* Plan typography */
+.mk-t {
+  fill: var(--c-ivory);
+  font-family: var(--ff-display);
+  font-size: 23px;
+  font-weight: 300;
+  letter-spacing: .04em;
+  pointer-events: none;
+}
+.mk-s {
+  fill: var(--c-stone);
+  font-family: var(--ff-text);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  pointer-events: none;
+}
+.mk-c { text-anchor: middle; }
+.mk-a {
+  fill: #8FD3AE;
+  font-family: var(--ff-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+
+/* Isometric building faces on the masterplan */
+.mk-face { fill: rgba(150, 175, 200, .07); stroke: rgba(247, 244, 239, .28); stroke-width: 1.5; }
+.mk-floorline { stroke: rgba(247, 244, 239, .14); stroke-width: 1; pointer-events: none; }
+.mk-sidef { fill: #CFC6B2; stroke: rgba(10, 11, 13, .3); }
+.mk-plinth { fill: rgba(255, 255, 255, .06); stroke: var(--c-border-invert); }
+.mk-letter {
+  font-family: var(--ff-display);
+  font-weight: 300;
+  font-size: 86px;
+  fill: rgba(217, 192, 112, .8);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* Clickable tower blocks */
+.blk { cursor: pointer; outline: none; }
+.blk .mk-bld, .blk .mk-face {
+  transition: stroke var(--d-fast) var(--e-out), stroke-width var(--d-fast) var(--e-out);
+}
+.blk:hover .mk-bld, .blk:hover .mk-face,
+.blk:focus-visible .mk-bld, .blk:focus-visible .mk-face,
+.blk.is-current .mk-bld, .blk.is-current .mk-face { stroke: var(--c-gold-500); stroke-width: 3; }
+.blk:hover .mk-t, .blk.is-current .mk-t { fill: var(--c-gold-200); }
+.blk:hover .mk-letter, .blk.is-current .mk-letter { fill: var(--c-gold-200); }
+
+/* The plan draws itself in — site, roads, towers, amenities, greenery */
+#panelTowers .stage-scroll .mk-item { opacity: 0; }
+#panelTowers .stage-scroll.is-in .mk-item {
+  animation: mkin .7s var(--e-out) both;
+  animation-delay: var(--md, 0ms);
+}
+@keyframes mkin {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.mk-item { transform-box: fill-box; }
+
+/* villa inner detail lines (parapet, driveway tick) */
+.v-in { fill: none; stroke: rgba(10, 11, 13, .28); stroke-width: 1.3; pointer-events: none; }
+.stage--anim .v-in { opacity: 0; }
+.stage--anim.go .v-in {
+  animation: vin .45s var(--e-out) both;
+  animation-delay: var(--vd, 0ms);
+}
+
+/* --- floor groups: the tower "constructs" from the ground up ---------- */
+/* Each floor is one <g class="fl"> holding its band outline + unit
+   polygons. Once the stage has entered the viewport (.go), floors rise
+   bottom-first — the 0 → top build the client asked for. Replays on
+   every tower switch because the nodes are recreated. */
+.fl { transform-box: fill-box; }
+.stage--anim .fl { opacity: 0; }
+.stage--anim.go .fl {
+  animation: flin .55s var(--e-out) both;
+  animation-delay: var(--fd, 0ms);
+}
+@keyframes flin {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* the floor's own outline — draws in just after the floor lands */
+.fl-band {
+  fill: transparent;
+  stroke: rgba(231, 212, 155, .34);
+  stroke-width: 1.2;
+  stroke-dasharray: 1;
+  pointer-events: none;
+  transition: stroke var(--d-fast) var(--e-out), fill var(--d-fast) var(--e-out);
+}
+.stage--anim.go .fl-band {
+  stroke-dashoffset: 1;
+  animation: fldraw .8s var(--e-out) both;
+  animation-delay: calc(var(--fd, 0ms) + 120ms);
+}
+@keyframes fldraw { to { stroke-dashoffset: 0; } }
+
+/* hovering anywhere on a floor lights the whole band */
+.fl:hover .fl-band {
+  stroke: var(--c-gold-300);
+  fill: rgba(231, 212, 155, .07);
+}
+
+/* --- unit / villa polygons (status-coloured, Gem-style) --------------- */
+.q {
+  cursor: pointer;
+  stroke-width: 1.6;
+  transition: fill var(--d-fast) var(--e-out), stroke var(--d-fast) var(--e-out);
+}
+
+/* villas draw in one by one across the estate */
+.stage--anim .q-v { opacity: 0; }
+.stage--anim.go .q-v {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: vin .45s var(--e-out) both, fldraw .7s var(--e-out) both;
+  animation-delay: var(--vd, 0ms);
+}
+@keyframes vin { from { opacity: 0; } to { opacity: 1; } }
+
+/* villa number tags */
+.q-tag {
+  fill: var(--c-ivory);
+  font-family: var(--ff-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-anchor: middle;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(10, 11, 13, .75);
+  stroke-width: 2.6px;
+}
+.stage--anim .q-tag { opacity: 0; }
+.stage--anim.go .q-tag {
+  animation: vin .45s var(--e-out) both;
+  animation-delay: calc(var(--vd, 0ms) + 150ms);
+}
+.q-av { stroke: rgba(143, 211, 174, .9); fill: rgba(143, 211, 174, .07); }
+.q-av:hover { fill: rgba(143, 211, 174, .38); stroke: #B8EED2; }
+
+.q-rs { stroke: rgba(217, 192, 112, .85); fill: rgba(176, 144, 32, .3); }
+.q-rs:hover { fill: rgba(217, 192, 112, .48); }
+
+.q-sd { stroke: rgba(247, 244, 239, .22); fill: rgba(10, 11, 13, .55); }
+.q-sd:hover { fill: rgba(10, 11, 13, .68); }
+
+/* switch-tower hotspot over the non-selected tower in the elevation view */
+.q-switch {
+  fill: rgba(255, 255, 255, .03);
+  stroke: rgba(247, 244, 239, .35);
+  stroke-width: 1.6;
+  stroke-dasharray: 8 6;
+  cursor: pointer;
+  transition: fill var(--d-fast) var(--e-out), stroke var(--d-fast) var(--e-out);
+}
+.q-switch:hover { fill: rgba(231, 212, 155, .16); stroke: var(--c-gold-300); }
+
+.q-label {
+  fill: var(--c-ivory);
+  font-family: var(--ff-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-anchor: middle;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(10, 11, 13, .8);
+  stroke-width: 3px;
+}
+
+/* floor labels beside the traced facade */
+.q-floor {
+  fill: #F7F4EF;
+  font-family: var(--ff-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-anchor: end;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(10, 11, 13, .85);
+  stroke-width: 3px;
+}
+
+
+/* ==========================================================================
+   05 · TOWER CHIPS
+   ========================================================================== */
+
+.mp__chips {
+  display: grid;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+@media (min-width: 700px) { .mp__chips { grid-template-columns: 1fr 1fr; } }
+
+.chip-t {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-md);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+  text-align: left;
+  transition: border-color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out), transform var(--d-fast) var(--e-out);
+}
+.chip-t:hover { border-color: rgba(231,212,155,.4); transform: translateY(-2px); }
+.chip-t.is-current { border-color: var(--c-gold-500); background: rgba(176,144,32,.08); }
+
+.chip-t__name {
+  display: block;
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.chip-t__meta { display: block; font-size: var(--fs-xs); color: var(--c-stone); margin-top: 2px; }
+.chip-t__av {
+  flex: none;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: #8FD3AE;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   06 · ELEVATION GRID
+   ========================================================================== */
+
+.elev { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.elev__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+.elev__meta { font-size: var(--fs-sm); color: var(--c-stone); }
+.elev__meta b { color: #8FD3AE; font-weight: var(--fw-bold); }
+
+.elev__switch {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+}
+.elev__switch button {
+  padding: .5rem 1.1rem;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--c-stone);
+  transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.elev__switch button:hover { color: var(--c-ivory); }
+.elev__switch button.is-on { background: var(--c-gold-500); color: var(--c-ink); }
+
+/* --- schematic elevation drawing -------------------------------------- */
+.stage--schem {
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(176,144,32,.06), transparent 55%),
+    linear-gradient(180deg, #14161B 0%, #0D0F12 100%);
+  padding: clamp(1rem, 2.5vw, 2rem);
+}
+.stage--schem svg { position: static; width: 100%; height: auto; display: block; }
+
+.sk-body   { fill: rgba(255,255,255,.025); stroke: var(--c-border-invert); }
+.sk-slab   { fill: #E9E2D4; opacity: .9; }
+.sk-roof   { fill: #E9E2D4; opacity: .95; }
+.sk-pod    { fill: rgba(255,255,255,.045); stroke: var(--c-border-invert); }
+.sk-door   { fill: rgba(231,212,155,.12); stroke: rgba(231,212,155,.4); }
+.sk-ground { stroke: rgba(247,244,239,.14); stroke-width: 2; }
+
+.sk-podt {
+  fill: var(--c-stone);
+  font-family: var(--ff-text);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.sk-chip  { fill: rgba(10,11,13,.65); stroke: rgba(231,212,155,.32); }
+.sk-chipt {
+  fill: var(--c-gold-200);
+  font-family: var(--ff-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.sk-num {
+  fill: var(--c-ivory);
+  font-family: var(--ff-display);
+  font-size: 14px;
+  font-weight: 400;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.sk-code {
+  fill: var(--c-stone);
+  font-family: var(--ff-text);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-anchor: middle;
+  pointer-events: none;
+}
+/* window detail inside each unit box */
+.sk-mull { stroke: rgba(247, 244, 239, .14); stroke-width: 1; pointer-events: none; }
+.sk-rail { stroke: rgba(247, 244, 239, .2); stroke-width: 1.2; pointer-events: none; }
+.sk-terr { fill: #E9E2D4; opacity: .88; }
+
+/* landscaping */
+.sk-grass { fill: rgba(78, 140, 106, .16); }
+.sk-hedge { fill: #2E4A3C; opacity: .85; }
+.sk-palmT { fill: none; stroke: #6E5A40; stroke-width: 6; stroke-linecap: round; }
+.sk-leaf  { fill: none; stroke: #3E5C4B; stroke-width: 4; stroke-linecap: round; }
+
+/* sold homes read struck-through, like the rest of the system */
+.q-sd ~ .sk-num { fill: var(--c-slate); text-decoration: line-through; }
+.q-sd ~ .sk-code { fill: var(--c-slate); }
+
+/* --- villa house glyphs ------------------------------------------------ */
+.vh-wall  { fill: #EFE8DA; stroke: rgba(10, 11, 13, .3); stroke-width: .8; }
+.vh-gable { fill: #E4DCCB; stroke: rgba(10, 11, 13, .3); stroke-width: .8; }
+.vh-side  { fill: #D2C8B2; stroke: rgba(10, 11, 13, .3); stroke-width: .8; }
+.vh-roof  { fill: #A85C3B; stroke: rgba(10, 11, 13, .35); stroke-width: .8; }
+.vh-roof2 { fill: #8F4A2E; stroke: rgba(10, 11, 13, .35); stroke-width: .8; }
+.vh-door  { fill: rgba(10, 11, 13, .5); }
+
+.stage--anim .vh { opacity: 0; }
+.stage--anim.go .vh {
+  animation: vin .45s var(--e-out) both;
+  animation-delay: calc(var(--vd, 0ms) + 120ms);
+}
+.vg:hover .vh-roof  { fill: #C06A44; }
+.vg:hover .vh-roof2 { fill: #A55636; }
+
+/* (unit cells and the schematic villa map were replaced by the image
+   stages in section 04 — the real renders now carry the polygons) */
+
+
+/* ==========================================================================
+   08 · TOOLTIP (hover, fine pointers only — JS gates it)
+   ========================================================================== */
+
+.tip {
+  position: fixed;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  width: 250px;
+  padding: 15px 17px 13px;
+  border-radius: 14px;
+  background: rgba(13,15,18,.94);
+  border: 1px solid rgba(231,212,155,.28);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--sh-xl);
+  opacity: 0;
+  transform: translateY(6px) scale(.97);
+  transition: opacity .16s var(--e-out), transform .16s var(--e-out);
+}
+.tip.is-on { opacity: 1; transform: none; }
+
+.tip__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: 4px;
+}
+.tip__head b {
+  font-family: var(--ff-display);
+  font-size: 1.05rem;
+  font-weight: var(--fw-regular);
+  color: var(--c-ivory);
+}
+.tip__type { font-size: 11px; color: var(--c-gold-200); letter-spacing: .04em; margin-bottom: 10px; }
+.tip__rows { display: grid; gap: 4px; font-size: 11.5px; color: var(--c-stone); }
+.tip__rows span b { color: var(--c-linen); font-weight: var(--fw-semibold); float: right; }
+.tip__cta {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--c-border-invert);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+}
+
+
+/* ==========================================================================
+   09 · RESIDENCE SHEET
+   ========================================================================== */
+
+.usheet {
+  position: fixed; inset: 0;
+  z-index: var(--z-lightbox);
+  display: grid;
+  place-items: center;
+  padding: clamp(.75rem, 3vw, 2.5rem);
+  background: rgba(7,8,10,.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity var(--d-base) var(--e-out);
+}
+.usheet[hidden] { display: none; }
+.usheet.is-open { opacity: 1; }
+
+.usheet__card {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  max-height: 92svh;
+  display: grid;
+  overflow: hidden auto;
+  border-radius: var(--r-xl);
+  background: var(--c-graphite);
+  border: 1px solid rgba(231,212,155,.22);
+  box-shadow: var(--sh-xl);
+  transform: translateY(14px) scale(.97);
+  transition: transform var(--d-base) var(--e-out);
+}
+.usheet.is-open .usheet__card { transform: none; }
+
+.usheet__close {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 3;
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  color: var(--c-ivory);
+  background: rgba(13,15,18,.55);
+  border: 1px solid var(--c-border-invert);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.usheet__close svg { width: 18px; height: 18px; }
+.usheet__close:hover { background: var(--c-gold-500); color: var(--c-ink); }
+
+/* plan side — light, like a printed drawing */
+.usheet__plan {
+  background: #EFEAE0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: grid;
+  align-content: center;
+  gap: var(--sp-3);
+}
+.usheet__plan svg { width: 100%; height: auto; }
+.usheet__plan figcaption { font-size: 10px; color: var(--c-ash); line-height: 1.5; }
+
+/* floorplan drawing language */
+.fp-wall  { fill: none; stroke: #23252B; stroke-width: 4; }
+.fp-part  { fill: none; stroke: #23252B; stroke-width: 1.6; }
+.fp-out   { fill: url(#fpHatch); stroke: var(--c-gold-700); stroke-width: 1.4; stroke-dasharray: 7 5; }
+.fp-label { fill: #6B6F77; font-family: var(--ff-text); font-size: 9.5px; font-weight: 600; letter-spacing: .14em; text-anchor: middle; }
+.fp-door  { fill: none; stroke: #23252B; stroke-width: 1.2; }
+
+/* body side */
+.usheet__body {
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  display: grid;
+  align-content: start;
+  gap: var(--sp-4);
+}
+.usheet__crumb {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+}
+.usheet__title { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+.usheet__title h3 {
+  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem);
+  font-weight: var(--fw-thin);
+  color: var(--c-ivory);
+}
+.usheet__type { font-size: var(--fs-sm); color: var(--c-linen); margin-top: -6px; }
+
+.badge {
+  padding: .3rem .85rem;
+  border-radius: var(--r-pill);
+  font-size: 9.5px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.badge.b-av { color: #8FD3AE; border: 1px solid rgba(143,211,174,.4); background: rgba(78,140,106,.14); }
+.badge.b-rs { color: var(--c-gold-200); border: 1px solid rgba(217,192,112,.45); background: rgba(176,144,32,.14); }
+.badge.b-sd { color: var(--c-stone); border: 1px solid var(--c-border-invert); background: rgba(255,255,255,.03); }
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--sp-5);
+  border-top: 1px solid var(--c-border-invert);
+}
+.facts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: .65rem 0;
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.facts dt {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+.facts dd { font-size: var(--fs-sm); color: var(--c-ivory); font-weight: var(--fw-semibold); }
+
+/* --- price gate ------------------------------------------------------- */
+.usheet__price { margin-top: var(--sp-2); }
+
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+.price-tag b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.7rem, 1.4rem + 1.4vw, 2.4rem);
+  font-weight: var(--fw-thin);
+  letter-spacing: -.02em;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.price-tag.is-locked b {
+  filter: blur(9px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.price-tag .lock {
+  display: inline-grid; place-items: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(217,192,112,.4);
+  color: var(--c-gold-300);
+}
+.price-tag .lock svg { width: 12px; height: 12px; }
+
+.price-note {
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+  line-height: 1.6;
+  margin-top: var(--sp-2);
+  max-width: 40ch;
+}
+
+.price-form {
+  display: grid;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+@media (min-width: 560px) { .price-form { grid-template-columns: 1fr 1fr; } }
+.price-form .field--full, .price-form .btn { grid-column: 1 / -1; }
+.price-form .btn { justify-self: start; }
+
+.field.is-error input { border-bottom-color: #C96F63; }
+.field.is-error label { color: #C96F63; }
+@keyframes fshake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.field.is-error { animation: fshake .22s var(--e-out) 2; }
+
+.price-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.price-sold {
+  font-family: var(--ff-display);
+  font-size: 1.4rem;
+  font-weight: var(--fw-light);
+  color: var(--c-stone);
+}
+
+/* price reveal moment */
+@keyframes prin { from { opacity: 0; transform: translateY(10px); } }
+.price-in { animation: prin .6s var(--e-out) both; }
+
+
+/* ==========================================================================
+   09b · FLOORPLANS PAGE (floorplans.html) — Gem-flow, one scroll
+   ========================================================================== */
+
+.fp-head {
+  padding-top: calc(var(--nav-h-sm) + clamp(3rem, 6vw, 5rem));
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  text-align: center;
+}
+@media (min-width: 1080px) {
+  .fp-head { padding-top: calc(var(--nav-h) + clamp(3rem, 6vw, 5rem)); }
+}
+.fp-head__logo {
+  width: clamp(190px, 22vw, 260px);
+  height: auto;
+  margin-inline: auto;
+  margin-bottom: var(--sp-6);
+}
+.fp-head__intro {
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  color: var(--c-linen);
+  max-width: 46ch;
+  margin-inline: auto;
+  margin-bottom: var(--sp-7);
+}
+
+/* instructions block — Gem's bullet list, in the house style */
+.instr {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: left;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+}
+.instr__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+  margin-bottom: var(--sp-4);
+}
+.instr__list { display: grid; gap: var(--sp-3); }
+.instr__list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--c-stone);
+}
+.instr__list li > i {
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-gold-500);
+}
+.instr__list .nw { white-space: nowrap; }
+.instr__list b { color: var(--c-linen); font-weight: var(--fw-semibold); }
+.instr__list a { color: var(--c-gold-300); border-bottom: 1px solid rgba(217,192,112,.4); }
+.instr__list a:hover { border-color: currentColor; }
+.instr__list .lg-dot { display: inline-block; transform: translateY(-1px); margin: 0 2px; }
+
+/* section headings between the plans */
+.fp-sec { margin-bottom: clamp(1.75rem, 3vw, 2.75rem); }
+.fp-sec .lead { margin-top: var(--sp-4); }
+
+/* terms of payment */
+.terms { max-width: 780px; }
+.terms__list {
+  display: grid;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+}
+.terms__list li {
+  display: grid;
+  gap: 4px;
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-md);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--c-stone);
+}
+.terms__list li > b {
+  font-family: var(--ff-text);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+}
+.terms__meta { display: grid; gap: var(--sp-4); justify-items: start; }
+.terms__meta p { font-size: var(--fs-sm); line-height: var(--lh-relaxed); color: var(--c-stone); }
+.terms__meta p b { color: var(--c-ivory); font-weight: var(--fw-semibold); }
+
+
+/* ==========================================================================
+   10 · SLIM FOOTER · RESPONSIVE · REDUCED MOTION
+   ========================================================================== */
+
+.footer--slim { padding-top: var(--sp-6); margin-top: var(--section-y-sm); }
+
+@media (min-width: 880px) {
+  .usheet__card { grid-template-columns: 1.02fr 1fr; overflow: hidden; }
+  .usheet__body { overflow-y: auto; max-height: 92svh; }
+}
+@media (max-width: 879px) {
+  .usheet__plan { padding-bottom: var(--sp-4); }
+  .facts { grid-template-columns: 1fr; }
+}
+
+/* nav gets crowded between 1080–1279 with six links + phone */
+@media (min-width: 1080px) and (max-width: 1279px) {
+  .nav__tel { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tip { transition: none; }
+  .field.is-error { animation: none; }
+  .price-in { animation: none; }
+  /* skip the build-up theatre; land on final states immediately */
+  .hot, .stage--anim.go .fl, .stage--anim.go .fl-band,
+  .stage--anim.go .q-v, .stage--anim.go .q-tag { animation: none; }
+  .hot { stroke-dashoffset: 0; }
+  .stage--anim .fl, .stage--anim .q-v, .stage--anim .q-tag { opacity: 1; }
+  .stage--anim.go .fl-band, .stage--anim.go .q-v { stroke-dashoffset: 0; }
+}
