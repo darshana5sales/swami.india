@@ -69,27 +69,41 @@
   function splitText() {
     $$('[data-split]').forEach(function (el) {
       var mode = el.getAttribute('data-split');
-      var raw = el.textContent.replace(/\s+$/, '').replace(/^\s+/, '');
-      var parts;
+      var parts = [];
 
       if (mode === 'lines') {
-        parts = raw.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+        el.textContent.replace(/^\s+|\s+$/g, '').split('\n').forEach(function (s) {
+          s = s.trim();
+          if (s) parts.push({ t: s, em: false });
+        });
       } else {
-        parts = raw.split(/\s+/).filter(Boolean);
+        /* Walk child nodes so inline emphasis (<em>/<strong>) survives the
+           split — those words get .word--em for the gold accent. */
+        (function walk(node, em) {
+          Array.prototype.forEach.call(node.childNodes, function (n) {
+            if (n.nodeType === 3) {
+              n.textContent.split(/\s+/).forEach(function (w) {
+                if (w) parts.push({ t: w, em: em });
+              });
+            } else if (n.nodeType === 1) {
+              walk(n, em || /^(EM|STRONG|B|I)$/.test(n.tagName));
+            }
+          });
+        })(el, false);
       }
 
       // Preserve the accessible text; the visual pieces are decorative.
-      el.setAttribute('aria-label', parts.join(' '));
+      el.setAttribute('aria-label', parts.map(function (p) { return p.t; }).join(' '));
 
       var frag = document.createDocumentFragment();
       parts.forEach(function (part, i) {
         var outer = document.createElement('span');
-        outer.className = mode === 'lines' ? 'line' : 'word';
+        outer.className = (mode === 'lines' ? 'line' : 'word') + (part.em ? ' word--em' : '');
         outer.setAttribute('aria-hidden', 'true');
 
         var inner = document.createElement('span');
         inner.className = mode === 'lines' ? 'line__i' : 'word__i';
-        inner.textContent = part;
+        inner.textContent = part.t;
         inner.style.setProperty('--wd', (i * (mode === 'lines' ? 110 : 42)) + 'ms');
 
         outer.appendChild(inner);
