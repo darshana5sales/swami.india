@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" width="1280" height="540" role="img" aria-label="Illustrated quarry benches, cut laterite blocks, a haul truck and a graded stockpile">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#101318"/><stop offset="1" stop-color="#191C21"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="99%" r="70%">
+    <stop offset="0" stop-color="#B09020" stop-opacity=".30"/>
+    <stop offset="1" stop-color="#B09020" stop-opacity="0"/>
+  </radialGradient>
+  <style>
+    .si-h{fill:none;stroke:rgba(247,244,239,.30);stroke-width:2}
+    .si-l{fill:none;stroke:rgba(247,244,239,.28);stroke-width:1.6;stroke-linecap:round}
+    .si-f{fill:rgba(247,244,239,.05);stroke:rgba(247,244,239,.22);stroke-width:1.5}
+    .si-g{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-gf{fill:rgba(217,192,112,.50)}
+    .si-lead{fill:rgba(176,144,32,.20);stroke:#C8AA45;stroke-width:1.6}
+    .si-mark{fill:#C8AA45}
+    .si-ring{fill:none;stroke:rgba(247,244,239,.30);stroke-width:1.6}
+    .si-key{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-bench{fill:rgba(176,144,32,.09)}
+    .si-sub{fill:none;stroke:rgba(247,244,239,.16);stroke-width:1.5;stroke-dasharray:8 11}
+  </style>
+</defs>
+
+<rect width="1280" height="540" fill="url(#sky)"/>
+<rect width="1280" height="540" fill="url(#glow)"/>
+<!-- the face, cut back in benches -->
+<path class="si-bench" d="M70 470V330h160v-72h160v-74h180v216Z"/>
+<path class="si-g" d="M70 330h160v-72h160v-74h180"/>
+<path class="si-l" d="M230 330v-72M390 258v-74M110 390h120M270 300h120M430 240h140M110 430h120"/>
+
+<!-- cut blocks stacked at the haul road -->
+<g class="si-f">
+  <rect x="630" y="366" width="86" height="104" rx="2"/>
+  <rect x="722" y="366" width="86" height="104" rx="2"/>
+  <rect x="676" y="256" width="86" height="104" rx="2"/>
+</g>
+<path class="si-l" d="M673 366v104M765 366v104M719 256v104M630 416h178M676 308h86"/>
+
+<!-- haul truck -->
+<path class="si-lead" d="M872 396h104l34 74h-138Z"/>
+<path class="si-l" d="M872 396v74"/>
+<circle class="si-ring" cx="902" cy="470" r="16"/>
+<circle class="si-ring" cx="982" cy="470" r="16"/>
+
+<!-- graded stockpile -->
+<path class="si-f" d="M1064 470 1156 322 1248 470Z"/>
+<path class="si-l" d="M1100 410h112"/>
+
+<path class="si-h" d="M0 470h1280"/>
+</svg>

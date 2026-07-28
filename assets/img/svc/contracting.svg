@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" width="1280" height="540" role="img" aria-label="Illustrated building frame, braced scaffold and tower crane on site">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#101318"/><stop offset="1" stop-color="#191C21"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="99%" r="70%">
+    <stop offset="0" stop-color="#B09020" stop-opacity=".30"/>
+    <stop offset="1" stop-color="#B09020" stop-opacity="0"/>
+  </radialGradient>
+  <style>
+    .si-h{fill:none;stroke:rgba(247,244,239,.30);stroke-width:2}
+    .si-l{fill:none;stroke:rgba(247,244,239,.28);stroke-width:1.6;stroke-linecap:round}
+    .si-f{fill:rgba(247,244,239,.05);stroke:rgba(247,244,239,.22);stroke-width:1.5}
+    .si-g{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-gf{fill:rgba(217,192,112,.50)}
+    .si-lead{fill:rgba(176,144,32,.20);stroke:#C8AA45;stroke-width:1.6}
+    .si-mark{fill:#C8AA45}
+    .si-ring{fill:none;stroke:rgba(247,244,239,.30);stroke-width:1.6}
+    .si-key{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-bench{fill:rgba(176,144,32,.09)}
+    .si-sub{fill:none;stroke:rgba(247,244,239,.16);stroke-width:1.5;stroke-dasharray:8 11}
+  </style>
+</defs>
+
+<rect width="1280" height="540" fill="url(#sky)"/>
+<rect width="1280" height="540" fill="url(#glow)"/>
+<!-- structure going up: columns, beams, the last slab poured -->
+<rect class="si-f" x="150" y="430" width="300" height="40" rx="2"/>
+<path class="si-l" d="M150 220v250M250 220v250M350 220v250M450 220v250
+  M150 290h300M150 360h300M150 430h300"/>
+<path class="si-g" d="M150 220h300"/>
+
+<!-- braced scaffold against the frame -->
+<path class="si-l" d="M482 250v220M566 250v220
+  M482 250h84M482 305h84M482 360h84M482 415h84M482 470h84
+  M482 250l84 55M566 305l-84 55M482 360l84 55M566 415l-84 55"/>
+
+<!-- topped-out frame further along the site -->
+<rect class="si-f" x="1010" y="330" width="220" height="140" rx="2"/>
+<path class="si-l" d="M1010 290v180M1083 290v180M1156 290v180M1230 290v180M1010 330h220M1010 400h220"/>
+<path class="si-g" d="M1010 290h220"/>
+
+<!-- tower crane -->
+<path class="si-l" d="M790 470V150M840 470V150M790 200h50M790 250h50M790 300h50M790 350h50M790 400h50M790 450h50"/>
+<path class="si-g" d="M660 150h360M815 150V96M815 96l-38 54M815 96l38 54M958 150v110"/>
+<rect class="si-lead" x="666" y="132" width="54" height="36" rx="3"/>
+<rect class="si-lead" x="932" y="260" width="52" height="34" rx="2"/>
+
+<path class="si-h" d="M0 470h1280"/>
+</svg>

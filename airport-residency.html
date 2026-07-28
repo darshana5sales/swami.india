@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0B0D">
 
-<title>Floor Plans &amp; Prices — Swami India International</title>
-<meta name="description" content="Browse unit availability, floor plans and prices at The Diplomat, Fajara and Airport Residency, Old Yundum — plotted plot by plot, floor by floor.">
+<title>Airport Residency, Old Yundum — Availability &amp; Floor Plans | Swami India International</title>
+<meta name="description" content="Live availability at Airport Residency, Old Yundum. A gated community of 210 villas and duplexes — explore the society plan, open any plot, and unlock pricing privately.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,9 @@
 <script>document.documentElement.className = document.documentElement.className.replace('no-js','js');</script>
 </head>
 
-<!-- One-scroll "Floorplans & Prices" page in the gemwaterfront.com/gem/ flow:
-     centred brand → instructions + legend → apartments site plan → tower
-     floor plate → villas plan → terms of payment. Reuses the explorer
-     engine (tooltip, sheet, price gate) unchanged. -->
 <body class="on-dark xpage" id="top">
 
+<!-- Custom cursor -->
 <div class="cursor" id="cursor" aria-hidden="true">
   <div class="cursor__dot"></div>
   <div class="cursor__ring"><span class="cursor__label"></span></div>
@@ -49,7 +46,7 @@
       <a href="index.html">Home</a>
       <a href="index.html#about">About</a>
       <a href="index.html#developments">Developments</a>
-      <a href="floorplans.html" class="is-current" aria-current="page">Floor Plans &amp; Prices</a>
+      <a href="airport-residency.html" class="is-current" aria-current="page">Availability</a>
       <a href="index.html#gallery">Gallery</a>
       <a href="index.html#voices">Residents</a>
     </nav>
@@ -74,15 +71,16 @@
   <div class="menu__inner">
     <nav class="menu__nav" aria-label="Menu">
       <a href="index.html"><i>01</i><span>Home</span></a>
-      <a href="index.html#developments"><i>02</i><span>Developments</span></a>
-      <a href="floorplans.html"><i>03</i><span>Floor Plans &amp; Prices</span></a>
-      <a href="availability.html"><i>04</i><span>Availability</span></a>
-      <a href="index.html#gallery"><i>05</i><span>Gallery</span></a>
-      <a href="index.html#cta"><i>06</i><span>Enquire</span></a>
+      <a href="index.html#about"><i>02</i><span>About</span></a>
+      <a href="index.html#developments"><i>03</i><span>Developments</span></a>
+      <a href="availability.html"><i>04</i><span>The Diplomat</span></a>
+      <a href="airport-residency.html"><i>05</i><span>Airport Residency</span></a>
+      <a href="index.html#gallery"><i>06</i><span>Gallery</span></a>
+      <a href="index.html#cta"><i>07</i><span>Enquire</span></a>
     </nav>
     <div class="menu__aside">
       <div class="menu__block">
-        <h3 class="eyebrow">Sales Office</h3>
+        <h3 class="eyebrow">Head Office</h3>
         <p>Paradise Estate, Coastal Highway<br>Old Yundum, Banjul, The&nbsp;Gambia</p>
       </div>
       <div class="menu__block">
@@ -99,98 +97,42 @@
 
 <main id="main">
 
-<!-- ═══════════════ CENTRED BRAND + INSTRUCTIONS (Gem-style) ═════════ -->
-<section class="fp-head">
+<!-- ══════════════════════════ PAGE HEADER ══════════════════════════ -->
+<section class="xhead">
   <div class="shell">
-    <img class="fp-head__logo" src="assets/img/logo-light.png"
-         alt="Swami India International" width="214" height="53" data-reveal="fade">
-
-    <p class="fp-head__intro" data-reveal="up" data-reveal-delay="120">
-      Browse our unit availability, floor plans and prices here.
-      All prices are in US dollars.
+    <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>Airport Residency · Old Yundum</p>
+    <h1 class="xhead__title" data-split="words">A gate, a garden, and a door of your own.</h1>
+    <p class="lead lead--muted xhead__lead" data-reveal="up" data-reveal-delay="180">
+      Every Phase 1 plot at Airport Residency, mapped live. Walk the society
+      plan, open any villa, and unlock its price privately — no obligation.
     </p>
 
-    <div class="instr" data-reveal="up" data-reveal-delay="220">
-      <h2 class="instr__title">How it works</h2>
-      <ul class="instr__list">
-        <li><i></i>Click a tower on the site plan below to open its floor-by-floor plate.</li>
-        <li><i></i>
-          <span class="nw"><span class="lg-dot lg-dot--av"></span> <b>Green</b> = available for purchase</span> ·
-          <span class="nw"><span class="lg-dot lg-dot--rs"></span> <b>Gold</b> = reservation in progress</span> ·
-          <span class="nw"><span class="lg-dot lg-dot--sd"></span> <b>Dimmed</b> = sold.</span>
-        </li>
-        <li><i></i>Hover your mouse over a home — or tap on mobile — for its details.</li>
-        <li><i></i>Click any home for its <b>price&nbsp;&amp;&nbsp;floor&nbsp;plan</b>. Pricing unlocks privately after one enquiry — no obligation.</li>
-        <li><i></i><a href="#terms">Terms of payment.</a></li>
+    <div class="xhead__stats" data-reveal="up" data-reveal-delay="280">
+      <div class="xstat"><b>210</b><span>Villas &amp; duplexes</span></div>
+      <div class="xstat"><b id="statHomes">82</b><span>Plotted in Phase 1</span></div>
+      <div class="xstat"><b>6</b><span>Home types</span></div>
+      <div class="xstat"><b id="statAvail">—</b><span>Available in this preview</span></div>
+    </div>
+
+    <div class="xhead__how" data-reveal="up" data-reveal-delay="360">
+      <ol class="howto">
+        <li><i>01</i>Find a plot on the society plan</li>
+        <li><i>02</i>Hover — or tap — for villa details</li>
+        <li><i>03</i>Unlock exact pricing with one enquiry</li>
+      </ol>
+      <ul class="legend" aria-label="Status legend">
+        <li><span class="lg-dot lg-dot--av"></span>Available</li>
+        <li><span class="lg-dot lg-dot--rs"></span>Reserved</li>
+        <li><span class="lg-dot lg-dot--sd"></span>Sold</li>
       </ul>
     </div>
   </div>
 </section>
 
-
-<!-- ═════════════ LUXURY APARTMENTS — THE DIPLOMAT ═══════════════════ -->
-<section class="panel" id="panelTowers">
-  <div class="shell">
-
-    <header class="section-head section-head--center fp-sec">
-      <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>Fajara · Kanifing</p>
-      <h2 class="h2" data-split="words">Luxury city apartments.</h2>
-      <p class="lead lead--muted" data-reveal="up" data-reveal-delay="160">
-        The Diplomat — two towers, 92 residences over a commercial podium.
-        Select a tower to see every home, floor by floor.
-      </p>
-    </header>
-
-    <!-- Illustrated site plan — towers as clickable blocks -->
-    <div class="stage-scroll" data-reveal="up">
-      <div class="stage stage--schem" id="mpStage">
-        <svg viewBox="0 0 1280 660" role="group"
-             aria-label="The Diplomat — illustrated site plan. Two towers; select one to open its floor view."><!-- drawn by explorer.js renderMasterplan() --></svg>
-      </div>
-    </div>
-
-    <div class="mp__chips" id="mpChips" data-reveal="up" data-reveal-delay="120"></div>
-
-    <!-- Tower floor plate -->
-    <div class="elev" id="elevation" data-reveal="up">
-      <header class="elev__head">
-        <h2 class="h3" id="elevTitle">Tower A</h2>
-        <p class="elev__meta" id="elevMeta"></p>
-        <div class="elev__switch" role="tablist" aria-label="Choose tower">
-          <button type="button" data-tower="A" class="is-on" role="tab" aria-selected="true">Tower A</button>
-          <button type="button" data-tower="B" role="tab" aria-selected="false">Tower B</button>
-        </div>
-      </header>
-
-      <div class="stage-scroll">
-        <div class="stage stage--schem" id="elevStage">
-          <svg id="elevSvg" viewBox="0 0 980 600" role="group" aria-label="Tower floor plate — one block per residence"></svg>
-        </div>
-      </div>
-
-      <p class="xnote">
-        All 92 residences of The Diplomat are plotted across the two towers.
-        Ground and mezzanine levels are commercial.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ═════════════ LUXURY VILLAS — AIRPORT RESIDENCY ══════════════════ -->
+<!-- ═════════════════════════ VILLAS PANEL ══════════════════════════ -->
 <section class="panel" id="panelVillas">
   <div class="shell">
-
-    <header class="section-head section-head--center fp-sec">
-      <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>Old Yundum · 5 min from the airport</p>
-      <h2 class="h2" data-split="words">Luxury villas.</h2>
-      <p class="lead lead--muted" data-reveal="up" data-reveal-delay="160">
-        Airport Residency — a gated community of 210 villas and duplexes.
-        All 82 Phase&nbsp;1 plots below; hover any villa for details.
-      </p>
-    </header>
-
+    <!-- Illustrated society plan — every Phase 1 villa is its own block -->
     <div class="stage-scroll stage-scroll--wide" data-reveal="up">
       <div class="stage stage--schem" id="vStage">
         <svg id="vSvg" viewBox="0 0 1480 900" role="group"
@@ -201,8 +143,10 @@
             </filter>
           </defs>
 
+          <!-- site plot -->
           <rect class="mk-site" x="24" y="24" width="1432" height="842" rx="28"/>
 
+          <!-- roads between the villa rows -->
           <g class="vm-roads">
             <rect class="mk-road" x="24" y="138" width="1432" height="26" rx="8"/>
             <line class="mk-dash" x1="48" y1="151" x2="1432" y2="151"/>
@@ -217,6 +161,7 @@
             <rect class="mk-road" x="726" y="752" width="32" height="114" rx="8"/>
           </g>
 
+          <!-- central amenity spine -->
           <g class="vm-spine">
             <rect class="mk-spine" x="200" y="424" width="1080" height="92" rx="40"/>
             <rect class="mk-am" x="238" y="438" width="150" height="64" rx="10"/>
@@ -235,11 +180,13 @@
             <text class="mk-s mk-c" x="1098" y="530">MOSQUE</text>
           </g>
 
+          <!-- gate -->
           <g class="vm-gate">
             <rect class="mk-gate" x="706" y="846" width="100" height="20" rx="6"/>
             <text class="mk-s mk-c" x="756" y="890">MAIN GATE · 24/7 SECURITY</text>
           </g>
 
+          <!-- greenery -->
           <g class="mk-trees">
             <circle cx="80" cy="80" r="13"/><circle cx="110" cy="60" r="9"/>
             <circle cx="1400" cy="80" r="12"/><circle cx="1372" cy="106" r="8"/>
@@ -247,42 +194,26 @@
             <circle cx="160" cy="470" r="10"/><circle cx="1330" cy="470" r="10"/>
           </g>
 
+          <!-- villas injected by explorer.js -->
           <g id="vHomes"></g>
         </svg>
       </div>
     </div>
     <p class="xnote">
-      Illustrated society plan — artist's impression based on the project
-      masterplan. Phase&nbsp;2 adds 128 more homes (210 in total).
+      Illustrated society plan — all <b>82 Phase&nbsp;1 villas</b> are plotted;
+      Phase&nbsp;2 adds 128 more homes (210 in total). Artist's impression based
+      on the project masterplan — hover any villa for details, click for price
+      &amp; floor plan.
     </p>
-  </div>
-</section>
 
+    <!-- The other development selling now lives on its own page. -->
+    <a class="xswitch" href="availability.html">
+      <span class="xswitch__label">Also selling</span>
+      <span class="xswitch__name">The Diplomat</span>
+      <span class="xswitch__meta">Apartment towers · Fajara</span>
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
 
-<!-- ═════════════════════ TERMS OF PAYMENT ═══════════════════════════ -->
-<section class="panel" id="terms">
-  <div class="shell terms">
-    <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>Terms of payment</p>
-
-    <ol class="terms__list" data-reveal="stagger">
-      <li><b>Option 1</b>30% down payment · 40% in construction-linked instalments · 30% on handover of the unit.</li>
-      <li><b>Option 2</b>25% down payment · equal quarterly instalments to be completed by handover.</li>
-      <li><b>Reservation</b>Reserve any home from a modest deposit, credited in full to the purchase price.</li>
-    </ol>
-
-    <div class="terms__meta" data-reveal="up" data-reveal-delay="200">
-      <p><b>Estimated completion</b><br>
-        Airport Residency — Phase 1: 2024 · Phase 2: 2027<br>
-        The Diplomat — completion announced for December 2025; confirm current
-        handover status with our sales team.
-      </p>
-      <p class="xnote">
-        Payment options are indicative and subject to confirmation on your
-        reservation agreement. Prices are quoted in US dollars and subject to
-        change. Flexible terms available for diaspora buyers.
-      </p>
-      <a class="btn btn--solid" href="index.html#cta" data-magnetic><span>Request the full price list</span></a>
-    </div>
   </div>
 </section>
 
@@ -309,7 +240,7 @@
 <!-- Floating unit tooltip (desktop hover) -->
 <div class="tip" id="tip" hidden aria-hidden="true"></div>
 
-<!-- Residence sheet -->
+<!-- ═══════════════════════ RESIDENCE SHEET ═════════════════════════ -->
 <div class="usheet" id="usheet" role="dialog" aria-modal="true" aria-label="Residence details" hidden>
   <div class="usheet__card">
     <button class="usheet__close" id="usheetClose" aria-label="Close">

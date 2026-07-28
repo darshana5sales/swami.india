@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" width="1280" height="540" role="img" aria-label="Illustrated apartment blocks with lit windows beside a handed-over key">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#101318"/><stop offset="1" stop-color="#191C21"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="99%" r="70%">
+    <stop offset="0" stop-color="#B09020" stop-opacity=".30"/>
+    <stop offset="1" stop-color="#B09020" stop-opacity="0"/>
+  </radialGradient>
+  <style>
+    .si-h{fill:none;stroke:rgba(247,244,239,.30);stroke-width:2}
+    .si-l{fill:none;stroke:rgba(247,244,239,.28);stroke-width:1.6;stroke-linecap:round}
+    .si-f{fill:rgba(247,244,239,.05);stroke:rgba(247,244,239,.22);stroke-width:1.5}
+    .si-g{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-gf{fill:rgba(217,192,112,.50)}
+    .si-lead{fill:rgba(176,144,32,.20);stroke:#C8AA45;stroke-width:1.6}
+    .si-mark{fill:#C8AA45}
+    .si-ring{fill:none;stroke:rgba(247,244,239,.30);stroke-width:1.6}
+    .si-key{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-bench{fill:rgba(176,144,32,.09)}
+    .si-sub{fill:none;stroke:rgba(247,244,239,.16);stroke-width:1.5;stroke-dasharray:8 11}
+  </style>
+</defs>
+
+<rect width="1280" height="540" fill="url(#sky)"/>
+<rect width="1280" height="540" fill="url(#glow)"/>
+<!-- the key, handed over -->
+<g class="si-key">
+  <circle cx="196" cy="286" r="48"/>
+  <circle cx="196" cy="286" r="17"/>
+  <path d="M196 334v136M196 396h34M196 428h26"/>
+</g>
+
+<!-- let and occupied -->
+<rect class="si-f" x="376" y="152" width="312" height="318" rx="3"/>
+<rect class="si-f" x="708" y="248" width="196" height="222" rx="3"/>
+<rect class="si-f" x="924" y="314" width="236" height="156" rx="3"/>
+
+<path class="si-l" d="M376 232h312M376 312h312M376 392h312M480 152v318M584 152v318
+  M708 322h196M708 396h196M806 248v222
+  M924 392h236M1042 314v156"/>
+
+<g class="si-gf">
+  <rect x="388" y="164" width="80" height="56" rx="2"/>
+  <rect x="596" y="244" width="80" height="56" rx="2"/>
+  <rect x="492" y="324" width="80" height="56" rx="2"/>
+  <rect x="388" y="404" width="80" height="56" rx="2"/>
+  <rect x="718" y="334" width="76" height="50" rx="2"/>
+  <rect x="816" y="408" width="76" height="50" rx="2"/>
+  <rect x="934" y="326" width="96" height="54" rx="2"/>
+  <rect x="1052" y="404" width="96" height="54" rx="2"/>
+</g>
+
+<path class="si-g" d="M376 152h312M708 248h196M924 314h236"/>
+
+<path class="si-h" d="M0 470h1280"/>
+</svg>

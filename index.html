@@ -51,7 +51,28 @@
     "https://www.facebook.com/swamiindiainternational",
     "https://www.instagram.com/swamiindiainternational",
     "https://www.linkedin.com/company/swami-india-international"
-  ]
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Divisions",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Real Estate Development",
+        "description": "From ocean-facing apartments to gated villa communities. Landmark developments across The Gambia, built with precision and lasting value.",
+        "areaServed": "The Gambia", "provider": { "@type": "Organization", "name": "Swami India International Limited" } } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Contracting",
+        "description": "Design-and-build delivery for our own developments and for select client projects — structure, services and finishes under one contract.",
+        "areaServed": "The Gambia", "provider": { "@type": "Organization", "name": "Swami India International Limited" } } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Borehole Drilling",
+        "description": "Water infrastructure across the country — surveyed, sunk deep enough to last, and plumbed into every estate we build.",
+        "areaServed": "The Gambia", "provider": { "@type": "Organization", "name": "Swami India International Limited" } } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Laterite Stone Mining",
+        "description": "Quarrying the laterite of the Gambian earth — graded, hauled and supplied to our own sites and to the wider trade.",
+        "areaServed": "The Gambia", "provider": { "@type": "Organization", "name": "Swami India International Limited" } } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rentals",
+        "description": "Furnished and unfurnished homes to let across our completed estates and towers, managed by the people who built them.",
+        "areaServed": "The Gambia", "provider": { "@type": "Organization", "name": "Swami India International Limited" } } }
+    ]
+  }
 }
 </script>
 </head>
@@ -148,7 +169,7 @@
     </nav>
     <div class="menu__aside">
       <div class="menu__block">
-        <h3 class="eyebrow">Sales Office</h3>
+        <h3 class="eyebrow">Head Office</h3>
         <p>Paradise Estate, Coastal Highway<br>Old Yundum, Banjul, The&nbsp;Gambia</p>
       </div>
       <div class="menu__block">
@@ -207,30 +228,17 @@
      ══════════════════════════════════════════════════════════════════ -->
 <section class="about section" id="about">
   <div class="shell">
-    <div class="about__grid">
+    <div class="about__grid about__grid--text">
 
-      <div class="about__media">
-        <figure class="about__img about__img--main" data-parallax="-0.06">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=80&auto=format&fit=crop"
-               alt="Interior of a completed Swami residence" loading="lazy" decoding="async" data-reveal="mask">
-        </figure>
-        <figure class="about__img about__img--inset" data-parallax="0.12">
-          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80&auto=format&fit=crop"
-               alt="Exterior of a Swami villa development" loading="lazy" decoding="async" data-reveal="mask" data-reveal-delay="200">
-        </figure>
-        <div class="about__badge glass" data-reveal="scale" data-reveal-delay="480">
-          <strong data-count="22" data-count-dur="1600">0</strong>
-          <span>Years<br>building</span>
-        </div>
-      </div>
-
-      <div class="about__body">
+      <div class="about__intro">
         <p class="eyebrow" data-reveal="fade"><span class="eyebrow__rule"></span>The House of Swami</p>
 
         <h2 class="h2" data-split="words">
           We build the landmarks a growing nation lives inside.
         </h2>
+      </div>
 
+      <div class="about__body">
         <p class="lead" data-reveal="up" data-reveal-delay="180">
           Established in 2004, Swami India International Limited was founded on a
           single idea: that high-quality homes and construction should be within
@@ -251,15 +259,7 @@
           <li><span class="tick" aria-hidden="true"></span>In-house property management and concierge after handover</li>
         </ul>
 
-        <div class="about__sign" data-reveal="up" data-reveal-delay="460">
-          <div class="about__sign-mark" aria-hidden="true">KP</div>
-          <div>
-            <strong>Khimji V. Pindoria</strong>
-            <span>Managing Director · 28 years across Kenya, Ghana &amp; The Gambia</span>
-          </div>
-        </div>
-
-        <a class="link-arrow" href="#developments" data-reveal="fade" data-reveal-delay="540">
+        <a class="link-arrow" href="#developments" data-reveal="fade" data-reveal-delay="420">
           <span>See what we have built</span>
           <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -285,7 +285,7 @@
         <span class="stat__label">Landmark developments</span>
       </div>
       <div class="stat">
-        <strong class="stat__num"><span data-count="6" data-count-dur="1200">0</span></strong>
+        <strong class="stat__num"><span data-count="5" data-count-dur="1200">0</span></strong>
         <span class="stat__label">Operating divisions</span>
       </div>
     </div>
@@ -323,8 +323,8 @@
           <span class="feat-card__name">The Horizon</span>
           <span class="feat-card__desc">14 floors and 182 residences, with an infinity pool and sky bar above the shoreline.</span>
           <span class="feat-card__meta">
-            <span class="feat-card__price">from <b class="gprice" data-price="US$57,000">US$ &#8226;&#8226;,&#8226;&#8226;&#8226;</b> <svg class="gprice-lock" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.3"/></svg></span>
-            <span class="feat-card__go" role="button" tabindex="0" aria-label="Quick price — enquire and see the starting price">
+            <span class="feat-card__cue">View details</span>
+            <span class="feat-card__go" aria-hidden="true">
               <svg viewBox="0 0 20 20" fill="none"><path d="M5 15 15 5m0 0H7.5M15 5v7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </span>
@@ -341,15 +341,15 @@
           <span class="feat-card__name">The Diplomat</span>
           <span class="feat-card__desc">Two towers, 92 apartments and penthouses over a commercial podium. Live. Work. Relax.</span>
           <span class="feat-card__meta">
-            <span class="feat-card__price">from <b class="gprice" data-price="US$78,500">US$ &#8226;&#8226;,&#8226;&#8226;&#8226;</b> <svg class="gprice-lock" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.3"/></svg></span>
-            <span class="feat-card__go" role="button" tabindex="0" aria-label="Quick price — enquire and see the starting price">
+            <span class="feat-card__cue">View details</span>
+            <span class="feat-card__go" aria-hidden="true">
               <svg viewBox="0 0 20 20" fill="none"><path d="M5 15 15 5m0 0H7.5M15 5v7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </span>
         </span>
       </a>
 
-      <a class="feat-card" href="availability.html#villas">
+      <a class="feat-card" href="airport-residency.html">
         <span class="feat-card__media">
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=78&auto=format&fit=crop" alt="Airport Residency, Old Yundum" loading="lazy" decoding="async">
           <span class="pill pill--selling">Selling</span>
@@ -359,8 +359,8 @@
           <span class="feat-card__name">Airport Residency</span>
           <span class="feat-card__desc">A gated community of 210 villas and duplexes around a clubhouse and gardens.</span>
           <span class="feat-card__meta">
-            <span class="feat-card__price">from <b class="gprice" data-price="US$79,500">US$ &#8226;&#8226;,&#8226;&#8226;&#8226;</b> <svg class="gprice-lock" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.3"/></svg></span>
-            <span class="feat-card__go" role="button" tabindex="0" aria-label="Quick price — enquire and see the starting price">
+            <span class="feat-card__cue">View details</span>
+            <span class="feat-card__go" aria-hidden="true">
               <svg viewBox="0 0 20 20" fill="none"><path d="M5 15 15 5m0 0H7.5M15 5v7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </span>
@@ -497,47 +497,136 @@
       <p class="eyebrow eyebrow--light" data-reveal="fade"><span class="eyebrow__rule"></span>What we do</p>
       <h2 class="h2" data-split="words">Every trade under one roof.</h2>
       <p class="lead lead--muted" data-reveal="up" data-reveal-delay="200">
-        Six divisions, one accountable name — the reason our timelines hold and
+        Five divisions, one accountable name — the reason our timelines hold and
         the finished home matches the brochure.
       </p>
     </header>
 
+    <!-- Each division leads with a plate, then the detail below it. The
+         plates are placeholder artwork in assets/img/svc/ — drawn in the
+         same architectural line language as the availability explorer.
+         Swap any one for a photograph by changing its src; nothing else
+         needs to move. -->
     <div class="svc__grid" data-reveal="stagger">
 
       <article class="svc-tile">
-        <i>01</i>
-        <h3>Real Estate Development</h3>
-        <p>Landmark residences from the business heart of Fajara to the villa community at Old Yundum.</p>
+        <figure class="svc-tile__media">
+          <img class="svc-ill" src="assets/img/svc/real-estate.svg" alt="Illustrated skyline of apartment towers" width="1280" height="540" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc-tile__body">
+          <h3>Real Estate Development</h3>
+          <p class="svc-tile__tag">Landmarks shaped for living.</p>
+          <p class="svc-tile__text">
+            From ocean-facing apartments to gated villa communities. Landmark
+            developments across The Gambia, built with precision and lasting value.
+          </p>
+          <ul class="svc-tile__chips">
+            <li>Apartments &amp; Penthouses</li>
+            <li>Villas &amp; Duplexes</li>
+            <li>Gated Communities</li>
+            <li>Commercial Podiums</li>
+          </ul>
+          <a class="svc-tile__link" href="#developments">
+            <span>Explore Developments</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </article>
 
       <article class="svc-tile">
-        <i>02</i>
-        <h3>Contracting</h3>
-        <p>Design-and-build delivery for our own developments and for select client projects.</p>
+        <figure class="svc-tile__media">
+          <img class="svc-ill" src="assets/img/svc/contracting.svg" alt="Illustrated building frame, scaffold and tower crane" width="1280" height="540" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc-tile__body">
+          <h3>Contracting</h3>
+          <p class="svc-tile__tag">Built to the drawing, on the date.</p>
+          <p class="svc-tile__text">
+            Design-and-build delivery for our own developments and for select
+            client projects — structure, services and finishes under one contract.
+          </p>
+          <ul class="svc-tile__chips">
+            <li>Design &amp; Build</li>
+            <li>Turnkey Delivery</li>
+            <li>Structural Works</li>
+            <li>Client Projects</li>
+          </ul>
+          <a class="svc-tile__link" href="#cta">
+            <span>Discuss a project</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </article>
 
       <article class="svc-tile">
-        <i>03</i>
-        <h3>Borehole Drilling</h3>
-        <p>Water infrastructure across the country — sunk deep enough to be dependable.</p>
+        <figure class="svc-tile__media">
+          <img class="svc-ill" src="assets/img/svc/borehole.svg" alt="Illustrated drilling derrick above the water table" width="1280" height="540" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc-tile__body">
+          <h3>Borehole Drilling</h3>
+          <p class="svc-tile__tag">Water, found and made dependable.</p>
+          <p class="svc-tile__text">
+            Water infrastructure across the country — surveyed, sunk deep enough
+            to last, and plumbed into every estate we build.
+          </p>
+          <ul class="svc-tile__chips">
+            <li>Site Survey</li>
+            <li>Deep Boreholes</li>
+            <li>Pumps &amp; Storage</li>
+            <li>Estate Supply</li>
+          </ul>
+          <a class="svc-tile__link" href="mailto:info@swamiindiainternational.com?subject=Borehole%20drilling%20enquiry">
+            <span>Request a survey</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </article>
 
       <article class="svc-tile">
-        <i>04</i>
-        <h3>Laterite Stone Mining</h3>
-        <p>Quarrying the red stone of the Gambian earth that grounds every build.</p>
+        <figure class="svc-tile__media">
+          <img class="svc-ill" src="assets/img/svc/mining.svg" alt="Illustrated quarry benches, cut stone and a haul truck" width="1280" height="540" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc-tile__body">
+          <h3>Laterite Stone Mining</h3>
+          <p class="svc-tile__tag">The red ground every build stands on.</p>
+          <p class="svc-tile__text">
+            Quarrying the laterite of the Gambian earth — graded, hauled and
+            supplied to our own sites and to the wider trade.
+          </p>
+          <ul class="svc-tile__chips">
+            <li>Licensed Quarries</li>
+            <li>Laterite &amp; Aggregate</li>
+            <li>Graded Supply</li>
+            <li>Site Haulage</li>
+          </ul>
+          <a class="svc-tile__link" href="mailto:info@swamiindiainternational.com?subject=Laterite%20supply%20enquiry">
+            <span>Enquire about supply</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </article>
 
       <article class="svc-tile">
-        <i>05</i>
-        <h3>Manufacturing</h3>
-        <p>Building materials produced in-house, to our own specification and standard.</p>
-      </article>
-
-      <article class="svc-tile">
-        <i>06</i>
-        <h3>Property Management</h3>
-        <p>Rentals, maintenance and concierge — long after the keys are handed over.</p>
+        <figure class="svc-tile__media">
+          <img class="svc-ill" src="assets/img/svc/rentals.svg" alt="Illustrated apartment blocks with lit windows beside a key" width="1280" height="540" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc-tile__body">
+          <h3>Rentals</h3>
+          <p class="svc-tile__tag">Keys handed over, and kept.</p>
+          <p class="svc-tile__text">
+            Furnished and unfurnished homes to let across our completed estates
+            and towers, managed by the people who built them.
+          </p>
+          <ul class="svc-tile__chips">
+            <li>Furnished Homes</li>
+            <li>Long &amp; Short Let</li>
+            <li>Managed Maintenance</li>
+            <li>Concierge</li>
+          </ul>
+          <a class="svc-tile__link" href="mailto:info@swamiindiainternational.com?subject=Rental%20enquiry">
+            <span>Enquire about a rental</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </article>
 
     </div>
@@ -678,19 +767,19 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════════
-     9b · OUR OFFICES — two locations, live maps (addresses and map pins
-     taken from the current swamiindiainternational.com)
+     9b · OUR OFFICE — head office, live map (address and map pin taken
+     from the current swamiindiainternational.com)
      ══════════════════════════════════════════════════════════════════ -->
 <section class="offices" id="offices">
   <div class="shell">
     <header class="section-head section-head--center offices__head">
       <p class="eyebrow" data-reveal="fade"><span class="eyebrow__rule"></span>Find us</p>
-      <h2 class="h2" data-split="words">Two offices, one welcome.</h2>
+      <h2 class="h2" data-split="words">One office, one welcome.</h2>
     </header>
   </div>
 
-  <!-- Full-bleed maps, glass info cards floating over each -->
-  <div class="office-grid" data-reveal="stagger">
+  <!-- Full-bleed map, glass info card floating over it -->
+  <div class="office-grid office-grid--single" data-reveal="stagger">
 
     <article class="office-card">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3881.6374704437217!2d-16.692622199999995!3d13.3728039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x29da9d74106d7889%3A0x978ac7786a406da1!2sSwami%20India%20International%20Limited!5e0!3m2!1sen!2sin!4v1655623144714!5m2!1sen!2sin"
@@ -705,25 +794,6 @@
         </ul>
         <p class="office-card__hours">Mon – Fri: 9am – 5pm · Sat: 9am – 1pm</p>
         <a class="link-arrow" href="https://maps.google.com/?q=Swami+India+International+Limited,+Old+Yundum,+Gambia" target="_blank" rel="noopener">
-          <span>Open in Google Maps</span>
-          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </article>
-
-    <article class="office-card">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3880.4833185433845!2d-16.7189586!3d13.444277399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec29b2215f4c2ab%3A0x6f74fd5dc22240e8!2sSwami%20India%20-%20Sales%20Office!5e0!3m2!1sen!2sin!4v1655623167222!5m2!1sen!2sin"
-              title="Map — Swami India sales office"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-      <div class="office-card__body on-dark">
-        <p class="eyebrow eyebrow--light"><span class="eyebrow__rule"></span>Sales Office</p>
-        <address>PO Box 409, Paradise Estate, Coastal Highway,<br>Old Yundum, Banjul, The Gambia</address>
-        <ul class="office-card__list">
-          <li><a href="tel:+2202082828">+220 208 2828</a> · <a href="tel:+2203492350">+220 349 2350</a></li>
-          <li><a href="mailto:sales@swamiindiainternational.com">sales@swamiindiainternational.com</a></li>
-        </ul>
-        <p class="office-card__hours">Mon – Fri: 9am – 5pm · Sat: 9am – 1pm</p>
-        <a class="link-arrow" href="https://maps.google.com/?q=Swami+India+-+Sales+Office,+Gambia" target="_blank" rel="noopener">
           <span>Open in Google Maps</span>
           <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -822,7 +892,7 @@
         <ul>
           <li><a href="availability.html">The Diplomat, Fajara</a></li>
           <li><a href="#">The Horizon, Bijilo</a></li>
-          <li><a href="availability.html#villas">Airport Residency</a></li>
+          <li><a href="airport-residency.html">Airport Residency</a></li>
           <li><a href="#">Aquaview Apartments</a></li>
           <li><a href="#">Paradise View</a></li>
           <li><a href="#">Forest View Apartments</a></li>
@@ -853,14 +923,8 @@
           <li><a href="mailto:info@swamiindiainternational.com">info@swamiindiainternational.com</a></li>
         </ul>
 
-        <h3 class="eyebrow">Sales Office</h3>
-        <ul class="footer__contact">
-          <li><a href="tel:+2202082828">+220 208 2828</a> · <a href="tel:+2203492350">+220 349 2350</a></li>
-          <li><a href="mailto:sales@swamiindiainternational.com">sales@swamiindiainternational.com</a></li>
-        </ul>
-
         <p class="footer__hours">Mon – Fri: 9am – 5pm · Sat: 9am – 1pm</p>
-        <a class="footer__maplink" href="#offices">View both offices on the map ↑</a>
+        <a class="footer__maplink" href="#offices">View the office on the map ↑</a>
       </div>
 
     </div>
@@ -882,23 +946,6 @@
 
   </div>
 </footer>
-
-
-<!-- ══════════════════════════════════════════════════════════════════
-     QUICK PRICE — small popup from a featured card's arrow.
-     Fill the form once → that project's price appears (and the same
-     unlock flag opens pricing across the whole site).
-     ══════════════════════════════════════════════════════════════════ -->
-<div class="qmodal" id="qmodal" role="dialog" aria-modal="true" aria-label="Project price" hidden>
-  <div class="qmodal__card on-dark">
-    <button class="qmodal__close" id="qmodalClose" aria-label="Close">
-      <svg viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-    <p class="qmodal__eyebrow" id="qLoc"></p>
-    <h3 class="qmodal__name" id="qName"></h3>
-    <div class="qmodal__body" id="qBody"><!-- rendered by state --></div>
-  </div>
-</div>
 
 
 <!-- ══════════════════════════════════════════════════════════════════

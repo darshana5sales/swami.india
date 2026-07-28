@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" width="1280" height="540" role="img" aria-label="Illustrated skyline of apartment and penthouse towers">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#101318"/><stop offset="1" stop-color="#191C21"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="99%" r="70%">
+    <stop offset="0" stop-color="#B09020" stop-opacity=".30"/>
+    <stop offset="1" stop-color="#B09020" stop-opacity="0"/>
+  </radialGradient>
+  <style>
+    .si-h{fill:none;stroke:rgba(247,244,239,.30);stroke-width:2}
+    .si-l{fill:none;stroke:rgba(247,244,239,.28);stroke-width:1.6;stroke-linecap:round}
+    .si-f{fill:rgba(247,244,239,.05);stroke:rgba(247,244,239,.22);stroke-width:1.5}
+    .si-g{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-gf{fill:rgba(217,192,112,.50)}
+    .si-lead{fill:rgba(176,144,32,.20);stroke:#C8AA45;stroke-width:1.6}
+    .si-mark{fill:#C8AA45}
+    .si-ring{fill:none;stroke:rgba(247,244,239,.30);stroke-width:1.6}
+    .si-key{fill:none;stroke:#C8AA45;stroke-width:2;stroke-linecap:round}
+    .si-bench{fill:rgba(176,144,32,.09)}
+    .si-sub{fill:none;stroke:rgba(247,244,239,.16);stroke-width:1.5;stroke-dasharray:8 11}
+  </style>
+</defs>
+
+<rect width="1280" height="540" fill="url(#sky)"/>
+<rect width="1280" height="540" fill="url(#glow)"/>
+<g class="si-f">
+  <rect x="88" y="286" width="80" height="184" rx="2"/>
+  <rect x="180" y="182" width="96" height="288" rx="2"/>
+  <rect x="288" y="246" width="72" height="224" rx="2"/>
+  <rect x="372" y="140" width="78" height="330" rx="2"/>
+  <rect x="586" y="206" width="80" height="264" rx="2"/>
+  <rect x="678" y="114" width="94" height="356" rx="2"/>
+  <rect x="784" y="262" width="74" height="208" rx="2"/>
+  <rect x="870" y="158" width="100" height="312" rx="2"/>
+  <rect x="982" y="224" width="76" height="246" rx="2"/>
+  <rect x="1070" y="126" width="88" height="344" rx="2"/>
+  <rect x="1170" y="278" width="70" height="192" rx="2"/>
+</g>
+
+<rect class="si-lead" x="462" y="64" width="112" height="406" rx="2"/>
+
+<path class="si-l" d="M88 324h80M88 362h80M88 400h80M88 438h80M180 220h96M180 258h96M180 296h96M180 334h96M180 372h96M180 410h96M180 448h96M288 284h72M288 322h72M288 360h72M288 398h72M288 436h72M372 178h78M372 216h78M372 254h78M372 292h78M372 330h78M372 368h78M372 406h78M372 444h78M586 244h80M586 282h80M586 320h80M586 358h80M586 396h80M586 434h80M678 152h94M678 190h94M678 228h94M678 266h94M678 304h94M678 342h94M678 380h94M678 418h94M678 456h94M784 300h74M784 338h74M784 376h74M784 414h74M784 452h74M870 196h100M870 234h100M870 272h100M870 310h100M870 348h100M870 386h100M870 424h100M982 262h76M982 300h76M982 338h76M982 376h76M982 414h76M982 452h76M1070 164h88M1070 202h88M1070 240h88M1070 278h88M1070 316h88M1070 354h88M1070 392h88M1070 430h88M1170 316h70M1170 354h70M1170 392h70M1170 430h70"/>
+<path class="si-g" d="M462 102h112M462 140h112M462 178h112M462 216h112M462 254h112M462 292h112M462 330h112M462 368h112M462 406h112M462 444h112"/>
+<circle class="si-mark" cx="518" cy="36" r="6"/>
+
+<path class="si-h" d="M0 470 h1280"/>
+</svg>

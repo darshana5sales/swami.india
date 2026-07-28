@@ -756,10 +756,14 @@
      TABS
      ====================================================================== */
 
+  /* Each development now has its own page, so a page carries at most one
+     panel. The tab switch is kept for any page that still ships both. */
   function selectTab(name) {
     var towers = name !== 'villas';
-    $('#panelTowers').hidden = !towers;
-    $('#panelVillas').hidden = towers;
+    var pt = $('#panelTowers'), pv = $('#panelVillas');
+    if (!pt || !pv) return;
+    pt.hidden = !towers;
+    pv.hidden = towers;
     $$('.xtab').forEach(function (b) {
       var onTab = b.getAttribute('data-tab') === (towers ? 'towers' : 'villas');
       b.classList.toggle('is-on', onTab);
@@ -793,7 +797,9 @@
   }
 
   function boot() {
-    if (!$('#elevSvg')) return;   // not the explorer page
+    /* Either explorer page will do — The Diplomat ships the tower stage,
+       Airport Residency ships the villa stage. */
+    if (!$('#elevSvg') && !$('#vSvg')) return;
 
     renderMasterplan();
     renderChips();
@@ -802,12 +808,15 @@
     armStage('#elevStage');
     armStage('#vStage');
 
-    /* header stats — real project totals, availability marked as preview */
-    var resTotal = countAll(function (u) { return !!u.tower; });   // 92
-    var avail = countAvail(function () { return true; });
+    /* Header stats count only the development this page is about, so the
+       villa page never reports apartment numbers and vice versa. */
+    var villaPage = !$('#elevSvg');
+    var inScope = villaPage
+      ? function (u) { return !!u.villa; }
+      : function (u) { return !!u.tower; };
     var sh = $('#statHomes'), sa = $('#statAvail');
-    if (sh) sh.textContent = resTotal;
-    if (sa) sa.textContent = avail;
+    if (sh) sh.textContent = countAll(inScope);
+    if (sa) sa.textContent = countAvail(inScope);
 
     /* tower switch buttons in the elevation header */
     $$('.elev__switch button').forEach(function (b) {

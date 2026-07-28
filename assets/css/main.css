@@ -100,7 +100,7 @@ address { font-style: normal; }
 .skip-link:focus { top: var(--sp-4); }
 
 /* Consistent photographic grade across all imagery */
-.hero__slide img, .about__img img, .dev-row__thumb img, .dev__preview img,
+.hero__slide img, .dev-row__thumb img, .dev__preview img,
 .lifestyle__bg img, .masonry__item img, .lightbox__figure img {
   filter: var(--img-grade);
 }
@@ -1168,80 +1168,26 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   gap: clamp(2.5rem, 1.5rem + 5vw, 6rem);
 }
 
-/* --- Media stack -------------------------------------------------------- */
-.about__media {
-  position: relative;
-  padding-bottom: 22%;
-  padding-right: 12%;
-}
-.about__img { overflow: hidden; border-radius: var(--r-lg); }
-.about__img img { width: 100%; height: 100%; object-fit: cover; }
-
-.about__img--main { aspect-ratio: 4 / 5; box-shadow: var(--sh-lg); }
-.about__img--inset {
-  position: absolute;
-  right: 0; bottom: 0;
-  width: 52%;
-  aspect-ratio: 1 / 1;
-  border: 6px solid var(--c-ivory);
-  border-radius: var(--r-lg);
-  box-shadow: var(--sh-xl);
-}
-
-.about__badge {
-  position: absolute;
-  left: 0; bottom: 8%;
-  transform: translateX(-8%);
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-5);
-  border-radius: var(--r-md);
-  background: rgba(10,11,13,.84);
-  border: 1px solid rgba(231,212,155,.22);
-  color: var(--c-ivory);
-  box-shadow: var(--sh-lg);
-}
-/* The float and the reveal both drive `transform`, and an animation always
-   beats a transition. So: hold the animation back until the reveal has
-   landed, and give the reveal a transform that matches the keyframe origin. */
-.js .about__badge[data-reveal] { transform: translateX(-8%) scale(.9); }
-.js .about__badge[data-reveal].is-in {
-  transform: translateX(-8%) scale(1);
-  animation: floaty 6s var(--e-in-out) 1.3s infinite;
-}
-.no-js .about__badge { animation: floaty 6s var(--e-in-out) infinite; }
-.about__badge strong {
-  font-family: var(--ff-display);
-  font-size: 2.5rem;
-  font-weight: var(--fw-thin);
-  line-height: 1;
-  background: var(--grad-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.about__badge span {
-  font-size: 10px;
-  font-weight: var(--fw-semibold);
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  line-height: 1.35;
-  color: var(--c-linen);
-}
-@keyframes floaty {
-  0%, 100% { transform: translate(-8%, 0); }
-  50%      { transform: translate(-8%, -10px); }
-}
+/* --- Intro (heading column) --------------------------------------------- */
+/* The section runs text-only, so the heading takes the column the image
+   stack used to hold and the copy reads down the other. */
+.about__grid--text { gap: clamp(2rem, 1rem + 3.5vw, 4.5rem); }
+.about__intro .h2 { margin-bottom: 0; }
 
 /* --- Body --------------------------------------------------------------- */
-.about__body .h2 { margin-bottom: var(--sp-5); }
 .about__body .lead { margin-bottom: var(--sp-4); }
+/* Keeps the measure readable when the copy column runs wide. */
+.about__body { max-width: 62ch; }
 
 .about__points {
   display: grid;
   gap: var(--sp-3);
   margin: var(--sp-6) 0;
+  /* The link below used to sit under a bordered signature block. That block
+     is gone, so the list carries the rule instead — `.link-arrow` is
+     inline-flex, so a border on it would only span the text. */
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--c-border-soft);
 }
 .about__points li {
   display: flex;
@@ -1249,38 +1195,6 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   font-size: var(--fs-sm);
   color: var(--c-text-muted);
   line-height: var(--lh-relaxed);
-}
-
-.about__sign {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-  padding: var(--sp-5) 0;
-  margin-bottom: var(--sp-5);
-  border-top: 1px solid var(--c-border-soft);
-  border-bottom: 1px solid var(--c-border-soft);
-}
-.about__sign-mark {
-  flex: none;
-  display: grid; place-items: center;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: var(--grad-gold);
-  color: var(--c-ink);
-  font-family: var(--ff-display);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  letter-spacing: .04em;
-}
-.about__sign strong {
-  display: block;
-  font-family: var(--ff-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--fw-light);
-}
-.about__sign span {
-  font-size: var(--fs-xs);
-  color: var(--c-text-muted);
 }
 
 /* --- Statistics --------------------------------------------------------- */
@@ -1316,7 +1230,9 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
 }
 
 @media (min-width: 900px) {
-  .about__grid { grid-template-columns: 0.95fr 1.05fr; align-items: center; }
+  /* Heading holds the left column, copy the right — aligned at the top so
+     both columns start on the same line. */
+  .about__grid--text { grid-template-columns: 0.95fr 1.05fr; align-items: start; }
   .stats { grid-template-columns: repeat(4, 1fr); }
 }
 
@@ -1506,24 +1422,17 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   padding-top: var(--sp-4);
   border-top: 1px solid var(--c-border-invert);
 }
-.feat-card__price {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+/* The whole card is the link — this just names the destination. */
+.feat-card__cue {
   font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
   color: var(--c-stone);
+  transition: color var(--d-base) var(--e-out);
 }
-.feat-card__price b { color: var(--c-gold-300); font-weight: var(--fw-semibold); font-size: var(--fs-sm); }
+.feat-card:hover .feat-card__cue { color: var(--c-gold-300); }
 
-/* gated price: dots + lock until the visitor enquires once */
-.gprice:not(.is-open) { letter-spacing: .08em; opacity: .85; }
-.gprice.is-open { animation: prin .6s var(--e-out) both; }
-.gprice-lock {
-  width: 13px; height: 13px;
-  color: var(--c-gold-400);
-  flex: none;
-}
-@keyframes prin { from { opacity: 0; transform: translateY(6px); } }
 .feat-card__go {
   display: grid; place-items: center;
   width: 40px; height: 40px;
@@ -1805,13 +1714,20 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
 
 .svc { background: var(--c-onyx); }
 
-.svc__grid { display: grid; gap: var(--sp-4); }
-@media (min-width: 640px)  { .svc__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .svc__grid { grid-template-columns: repeat(3, 1fr); } }
+/* One division per row: each is its own full-width band, plate above and
+   detail beneath — the same order at every breakpoint, so nothing reflows
+   into a different reading sequence on a phone. */
+.svc__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+}
 
 .svc-tile {
   position: relative;
-  padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: var(--r-lg);
   background: var(--c-graphite);
   border: 1px solid var(--c-border-invert);
@@ -1819,25 +1735,96 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
 }
 .svc-tile:hover { border-color: rgba(231, 212, 155, .4); transform: translateY(-4px); }
 
-.svc-tile i {
-  font-style: normal;
-  font-family: var(--ff-display);
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--fw-regular);
-  letter-spacing: .22em;
-  color: var(--c-gold-400);
+/* --- Plate -------------------------------------------------------------- */
+/* Placeholder artwork lives in assets/img/svc/*.svg — each file carries its
+   own gradient and linework, so swapping a plate for photography later is
+   a one-line src change with no CSS to follow. */
+.svc-tile__media {
+  position: relative;
+  margin: 0;
+  background: #101318;
+  border-bottom: 1px solid var(--c-border-invert);
+}
+/* Natural aspect at every width — a cover-crop would clip the key, the
+   stockpile and the storage tank that sit near the plate edges. */
+.svc-ill {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1280 / 540;
+}
+
+
+/* --- Detail below the plate --------------------------------------------- */
+/* --- Detail beneath the plate ------------------------------------------- */
+.svc-tile__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
 }
 .svc-tile h3 {
-  font-size: var(--fs-h4);
+  font-size: var(--fs-h3);
   font-weight: var(--fw-light);
+  line-height: var(--lh-snug);
   color: var(--c-ivory);
-  margin: var(--sp-3) 0 var(--sp-2);
+  margin-bottom: 8px;
 }
-.svc-tile p {
+.svc-tile__tag {
+  font-style: italic;
+  font-size: var(--fs-sm);
+  color: var(--c-gold-300);
+  margin-bottom: var(--sp-4);
+}
+/* Full-width rows would otherwise run the copy to an unreadable measure. */
+.svc-tile__text {
   font-size: var(--fs-sm);
   color: var(--c-stone);
   line-height: var(--lh-relaxed);
+  max-width: 62ch;
 }
+
+.svc-tile__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--sp-5);
+}
+.svc-tile__chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: .4rem .85rem;
+  border-radius: var(--r-pill);
+  background: rgba(247, 244, 239, .05);
+  border: 1px solid var(--c-border-invert);
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--c-linen);
+}
+.svc-tile__chips li::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-gold-400);
+  flex: none;
+}
+
+.svc-tile__link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .02em;
+  color: var(--c-gold-300);
+  transition: color var(--d-fast) var(--e-out);
+}
+.svc-tile__link svg { width: 18px; height: 18px; flex: none; transition: transform var(--d-base) var(--e-out); }
+.svc-tile__link:hover { color: var(--c-gold-200); }
+.svc-tile__link:hover svg { transform: translateX(5px); }
 
 /* ==========================================================================
    13c · RENTALS + E-CATALOGUES BAND
@@ -1913,6 +1900,8 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   border-block: 1px solid var(--c-border);
 }
 @media (min-width: 900px) { .office-grid { grid-template-columns: 1fr 1fr; } }
+/* One office — the map runs the full width and the card floats over it. */
+.office-grid--single { grid-template-columns: 1fr; }
 
 .office-card { position: relative; background: var(--c-linen); }
 .office-card iframe {
@@ -1997,7 +1986,6 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
 .totop:hover { background: var(--c-gold-500); color: var(--c-ink); }
 
 /* footer additions */
-.footer__col--contact .eyebrow:not(:first-child) { margin-top: var(--sp-5); }
 .footer__hours {
   margin-top: var(--sp-4);
   font-size: var(--fs-xs);
@@ -2617,108 +2605,6 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
 
 
 /* ==========================================================================
-   19b · QUICK PRICE POPUP
-   ========================================================================== */
-
-.qmodal {
-  position: fixed; inset: 0;
-  z-index: var(--z-lightbox);
-  display: grid;
-  place-items: center;
-  padding: clamp(1rem, 4vw, 3rem);
-  background: rgba(7, 8, 10, .78);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  opacity: 0;
-  transition: opacity var(--d-base) var(--e-out);
-}
-.qmodal[hidden] { display: none; }
-.qmodal.is-open { opacity: 1; }
-
-.qmodal__card {
-  position: relative;
-  width: 100%;
-  max-width: 430px;
-  padding: clamp(1.5rem, 4vw, 2.25rem);
-  border-radius: var(--r-xl);
-  background: var(--c-graphite);
-  border: 1px solid rgba(231, 212, 155, .25);
-  box-shadow: var(--sh-xl);
-  transform: translateY(14px) scale(.97);
-  transition: transform var(--d-base) var(--e-out);
-}
-.qmodal.is-open .qmodal__card { transform: none; }
-
-.qmodal__close {
-  position: absolute;
-  top: 12px; right: 12px;
-  display: grid; place-items: center;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  color: var(--c-ivory);
-  border: 1px solid var(--c-border-invert);
-  transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
-}
-.qmodal__close svg { width: 16px; height: 16px; }
-.qmodal__close:hover { background: var(--c-gold-500); color: var(--c-ink); }
-
-.qmodal__eyebrow {
-  font-size: 10px;
-  font-weight: var(--fw-bold);
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--c-gold-300);
-  margin-bottom: var(--sp-2);
-}
-.qmodal__name {
-  font-family: var(--ff-display);
-  font-size: clamp(1.5rem, 4vw, 1.9rem);
-  font-weight: var(--fw-thin);
-  color: var(--c-ivory);
-  margin-bottom: var(--sp-4);
-}
-
-.qmodal__price {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-}
-.qmodal__price b {
-  font-family: var(--ff-display);
-  font-size: clamp(1.5rem, 4.5vw, 2rem);
-  font-weight: var(--fw-thin);
-  background: var(--grad-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: prin .6s var(--e-out) both;
-}
-.qmodal__price.is-locked b { filter: blur(8px); user-select: none; animation: none; }
-.qmodal__price svg { width: 20px; height: 20px; color: var(--c-gold-300); flex: none; }
-
-.qmodal__note {
-  font-size: var(--fs-xs);
-  color: var(--c-stone);
-  line-height: 1.6;
-  margin-top: var(--sp-3);
-  max-width: 38ch;
-}
-
-.qmodal__form {
-  display: grid;
-  gap: var(--sp-4);
-  margin-top: var(--sp-5);
-}
-.qmodal__form .btn { justify-self: start; margin-top: var(--sp-2); }
-
-.qmodal__cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-  margin-top: var(--sp-5);
-}
-
-/* ==========================================================================
    20 · LIGHTBOX
    ========================================================================== */
 
@@ -2809,7 +2695,6 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   }
   /* Keep decorative loops from running at all. */
   .hero__slide.is-active img,
-  .about__badge,
   .cta__ring,
   .cta__aurora,
   .voices__glow,
