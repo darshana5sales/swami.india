@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 460" width="1920" height="460" preserveAspectRatio="xMidYMax slice" role="presentation" aria-hidden="true" focusable="false">
+<!-- Panoramic banner backdrop. Transparent — the page CSS supplies the wash,
+     so one cached 3 KB file serves every inner page and tints per section. -->
+<style>
+  .b-l{fill:none;stroke:rgba(247,244,239,.22);stroke-width:1.6;stroke-linecap:round}
+  .b-f{fill:rgba(247,244,239,.035);stroke:rgba(247,244,239,.18);stroke-width:1.4}
+  .b-g{fill:none;stroke:#C8AA45;stroke-width:1.8;stroke-linecap:round}
+  .b-lead{fill:rgba(176,144,32,.14);stroke:rgba(200,170,69,.75);stroke-width:1.5}
+  .b-h{fill:none;stroke:rgba(247,244,239,.26);stroke-width:1.8}
+  .b-d{fill:#C8AA45}
+</style>
+
+<!-- villas and low blocks, left -->
+<g class="b-f">
+  <rect x="60"  y="290" width="96"  height="90" rx="2"/>
+  <rect x="172" y="256" width="78"  height="124" rx="2"/>
+  <rect x="266" y="304" width="70"  height="76" rx="2"/>
+</g>
+<path class="b-l" d="M60 318h96M60 348h96M172 288h78M172 320h78M172 352h78M266 334h70M266 360h70"/>
+<path class="b-l" d="M60 290 108 262 156 290M266 304 301 282 336 304"/>
+
+<!-- palms -->
+<path class="b-l" d="M368 380v-58M368 322c-14-10-28-8-36 2M368 322c14-10 28-8 36 2M368 322c-8-14-4-26 6-32M368 322c8-14 4-26-6-32"/>
+<path class="b-l" d="M1560 380v-46M1560 334c-11-8-22-6-28 2M1560 334c11-8 22-6 28 2M1560 334c-6-11-3-20 5-25"/>
+
+<!-- the skyline -->
+<g class="b-f">
+  <rect x="430"  y="214" width="86"  height="166" rx="2"/>
+  <rect x="532"  y="168" width="98"  height="212" rx="2"/>
+  <rect x="646"  y="240" width="74"  height="140" rx="2"/>
+  <rect x="880"  y="196" width="92"  height="184" rx="2"/>
+  <rect x="988"  y="150" width="104" height="230" rx="2"/>
+  <rect x="1108" y="228" width="80"  height="152" rx="2"/>
+  <rect x="1204" y="182" width="96"  height="198" rx="2"/>
+  <rect x="1316" y="248" width="72"  height="132" rx="2"/>
+  <rect x="1404" y="206" width="88"  height="174" rx="2"/>
+</g>
+
+<rect class="b-lead" x="736" y="104" width="126" height="276" rx="2"/>
+<path class="b-g" d="M736 144h126M736 184h126M736 224h126M736 264h126M736 304h126M736 344h126"/>
+<circle class="b-d" cx="799" cy="76" r="5"/>
+
+<path class="b-l" d="M430 252h86M430 290h86M430 328h86M430 366h86
+  M532 206h98M532 244h98M532 282h98M532 320h98M532 358h98
+  M646 278h74M646 316h74M646 354h74
+  M880 234h92M880 272h92M880 310h92M880 348h92
+  M988 188h104M988 226h104M988 264h104M988 302h104M988 340h104
+  M1108 266h80M1108 304h80M1108 342h80
+  M1204 220h96M1204 258h96M1204 296h96M1204 334h96
+  M1316 286h72M1316 324h72M1316 362h72
+  M1404 244h88M1404 282h88M1404 320h88M1404 358h88"/>
+
+<!-- a crane, still working, right of frame -->
+<path class="b-l" d="M1660 380V196M1692 380V196M1660 232h32M1660 272h32M1660 312h32M1660 352h32"/>
+<path class="b-g" d="M1580 200h230M1676 200v-34M1676 166l-26 34M1676 166l26 34M1764 200v58"/>
+<rect class="b-lead" x="1750" y="258" width="30" height="22" rx="2"/>
+
+<!-- low block far right -->
+<rect class="b-f" x="1820" y="272" width="90" height="108" rx="2"/>
+<path class="b-l" d="M1820 306h90M1820 342h90"/>
+
+<path class="b-h" d="M0 380h1920"/>
+</svg>

@@ -1763,7 +1763,11 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   flex: 1;
   padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
 }
-.svc-tile h3 {
+/* h3 on the homepage (under its h2), h2 on the What We Do page where each
+   division is a top-level section — same look either way. */
+.svc-tile h3,
+.svc-tile__h {
+  font-family: var(--ff-display);
   font-size: var(--fs-h3);
   font-weight: var(--fw-light);
   line-height: var(--lh-snug);
@@ -2711,3 +2715,62 @@ body.menu-open .nav .brand__logo--dark  { opacity: 0; }
   .on-dark { background: #fff !important; color: #000 !important; }
   .section { padding-block: 2rem; }
 }
+
+/* ==========================================================================
+   14b · NAV — PROJECTS SUBMENU
+   The Diplomat and The Horizon have brochure-driven pages of their own, so
+   Projects opens onto them rather than only the listing.
+   ========================================================================== */
+
+.nav__sub { position: relative; display: inline-flex; }
+.nav__drop {
+  position: absolute;
+  top: 100%; left: 50%;
+  translate: -50% 0;
+  min-width: 250px;
+  display: grid;
+  padding: var(--sp-3);
+  margin-top: var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--c-graphite);
+  border: 1px solid rgba(231, 212, 155, .22);
+  box-shadow: var(--sh-xl);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--d-fast) var(--e-out), transform var(--d-fast) var(--e-out), visibility var(--d-fast);
+  z-index: 5;
+}
+/* A gap-free hover bridge, so the pointer can travel to the panel. */
+.nav__sub::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: var(--sp-4);
+}
+.nav__sub:hover .nav__drop,
+.nav__sub:focus-within .nav__drop {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.nav__drop a {
+  padding: .6rem .85rem;
+  border-radius: 8px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--c-linen);
+  white-space: nowrap;
+  transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.nav__drop a:hover,
+.nav__drop a:focus-visible { background: rgba(231, 212, 155, .12); color: var(--c-gold-300); }
+.nav__drop a small { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--c-stone); margin-top: 2px; }
+
+/* The panel is always dark, so its links stay light even when the nav
+   has flipped to its frosted scrolled state. */
+.nav.is-stuck .nav__drop a { color: var(--c-linen); }
+.nav.is-stuck .nav__drop a:hover { color: var(--c-gold-300); }
+
+/* Touch and small screens use the full-screen menu instead. */
+@media (max-width: 1079px) { .nav__drop { display: none; } }

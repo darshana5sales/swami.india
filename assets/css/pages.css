@@ -1,0 +1,868 @@
+/* ==========================================================================
+   SWAMI — INNER PAGES
+   pages.css — the shared shell for every page other than the homepage and
+   the availability explorer: page header, breadcrumb, and the blocks the
+   About / What We Do / Projects / Gallery / News / Contact pages are made
+   from. Loaded after main.css; tokens.css supplies every value.
+
+   All of these pages sit on ink, like the explorer, so the nav starts in
+   its light-on-dark state and flips to frosted on scroll exactly as it
+   does on the homepage.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01 · PAGE SHELL
+   ========================================================================== */
+
+body.subpage {
+  /* main.css paints an ivory radial on body; inner pages live on ink. */
+  background: var(--c-onyx);
+  background-image:
+    radial-gradient(90% 50% at 50% 0%, rgba(176, 144, 32, .07), transparent 60%),
+    radial-gradient(120% 80% at 50% 110%, #07080A 0%, var(--c-onyx) 55%);
+}
+
+
+/* ==========================================================================
+   02 · PAGE HERO (BANNER) + BREADCRUMB
+   Every inner page opens on the same banner: breadcrumb, eyebrow, H1 and
+   lead sitting over a drawn horizon.
+
+   PERFORMANCE — the backdrop is a 3 KB line-art SVG applied as a CSS
+   background, not an <img>. That keeps the LCP element the H1 text rather
+   than a photograph, costs one cached request across the whole site, and
+   cannot shift layout because the band's height is set here.
+   ========================================================================== */
+
+/* The band is deliberately a different SURFACE from the page: a photograph
+   under a scrim, against flat ink content below. That contrast — plus a
+   fixed height and a gold hairline closing it off — is what makes it read
+   as a header banner rather than just the top of the page. */
+.phero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(300px, 34vw, 440px);
+  padding-top: calc(var(--nav-h-sm) + var(--sp-7));
+  padding-bottom: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+  background: #0A0B0D;
+}
+@media (min-width: 1080px) {
+  .phero { padding-top: calc(var(--nav-h) + var(--sp-7)); }
+}
+
+/* The photograph. An <img> rather than a background so it carries alt text,
+   can be preloaded at high priority, and is sized by the browser's
+   preload scanner before CSS arrives. */
+.phero__img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(.28) contrast(1.04) brightness(.85);
+}
+
+/* Scrim: a dark wedge anchored at the lower left where the breadcrumb and
+   H1 sit, clearing towards the upper right so the photograph still reads as
+   a photograph. Text stays legible whatever the image behind it. */
+.phero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(10, 11, 13, .55) 0%, rgba(10, 11, 13, .22) 28%, rgba(10, 11, 13, .94) 94%),
+    linear-gradient(102deg, rgba(10, 11, 13, .95) 0%, rgba(10, 11, 13, .74) 32%, rgba(10, 11, 13, .22) 64%, transparent 88%);
+}
+
+/* Gold hairline closing the band off from the content beneath it. */
+.phero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: var(--grad-hairline);
+}
+
+.phero__inner { position: relative; max-width: 66ch; }
+
+/* Banner holds a breadcrumb and an H1 — nothing else. */
+.phero .phead__title {
+  font-size: clamp(2.125rem, 1.5rem + 2.6vw, 3.5rem);
+  max-width: 24ch;
+  margin-bottom: 0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .5);
+}
+.phero .crumb { margin-bottom: var(--sp-3); }
+
+/* ---- Page intro -------------------------------------------------------- */
+/* The standfirst that used to sit in the banner now opens the content, so
+   the band stays a band and the copy gets a readable measure. */
+.pintro {
+  padding-top: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+}
+.pintro__eyebrow { margin-bottom: var(--sp-4); }
+.pintro__lead {
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
+  color: var(--c-stone);
+  max-width: 62ch;
+}
+
+.phead__title {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-thin);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  max-width: 18ch;
+  margin-bottom: var(--sp-5);
+}
+.phead__lead {
+  color: var(--c-stone);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
+  max-width: 62ch;
+}
+
+/* Breadcrumb doubles as the BreadcrumbList markup Google reads. */
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.crumb a { color: var(--c-stone); transition: color var(--d-fast) var(--e-out); }
+.crumb a:hover { color: var(--c-gold-300); }
+.crumb li { display: flex; align-items: center; gap: var(--sp-2); }
+.crumb li + li::before { content: '/'; opacity: .45; }
+.crumb [aria-current] { color: var(--c-linen); }
+
+
+/* ==========================================================================
+   03 · SHARED DARK-PAGE PRIMITIVES
+   ========================================================================== */
+
+/* A plain bordered panel — used for vision/mission, spec tables, asides. */
+.pnl {
+  padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+}
+.pnl__title {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+  margin-bottom: var(--sp-3);
+}
+.pnl p { color: var(--c-stone); line-height: var(--lh-relaxed); font-size: var(--fs-sm); }
+
+.duo { display: grid; gap: var(--sp-4); }
+@media (min-width: 860px) { .duo { grid-template-columns: 1fr 1fr; } }
+
+.trio { display: grid; gap: var(--sp-4); }
+@media (min-width: 700px)  { .trio { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .trio { grid-template-columns: repeat(3, 1fr); } }
+
+/* Section heads on ink pages need the light eyebrow by default. */
+.subpage .section-head { margin-bottom: clamp(2rem, 1.5rem + 2.5vw, 3.5rem); }
+
+/* A rule-bounded band of headline figures. Same treatment as the explorer's
+   .xhead__stats, restated here so inner pages need not load explorer.css. */
+.pstats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6) var(--sp-8);
+  padding: var(--sp-5) 0;
+  border-top: 1px solid var(--c-border-invert);
+  border-bottom: 1px solid var(--c-border-invert);
+}
+.pstat { display: grid; gap: 2px; }
+.pstat b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  font-weight: var(--fw-thin);
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pstat span {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+
+
+/* ==========================================================================
+   04 · ABOUT — values, leadership, milestones
+   ========================================================================== */
+
+.values { display: grid; gap: var(--sp-3); }
+@media (min-width: 640px)  { .values { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .values { grid-template-columns: repeat(3, 1fr); } }
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-md);
+  background: rgba(247, 244, 239, .04);
+  border: 1px solid var(--c-border-invert);
+  transition: border-color var(--d-base) var(--e-out);
+}
+.value:hover { border-color: rgba(231, 212, 155, .35); }
+.value b {
+  font-family: var(--ff-display);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.value span { font-size: var(--fs-xs); color: var(--c-stone); }
+
+/* --- Leadership --------------------------------------------------------- */
+.leads { display: grid; gap: var(--sp-4); }
+@media (min-width: 860px) { .leads { grid-template-columns: 1fr 1fr; } }
+
+.lead-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-4) var(--sp-5);
+  padding: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+}
+.lead-card__mark {
+  grid-row: 1 / span 2;
+  display: grid; place-items: center;
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: var(--grad-gold);
+  color: var(--c-ink);
+  font-family: var(--ff-display);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .04em;
+}
+.lead-card__who strong {
+  display: block;
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.lead-card__who span {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+}
+.lead-card p {
+  grid-column: 2;
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+}
+
+/* --- Milestones --------------------------------------------------------- */
+/* A single hairline with the years hung off it. */
+.mstones { display: grid; gap: 0; }
+.mstone {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-4) var(--sp-5);
+  padding: var(--sp-5) 0 var(--sp-5) var(--sp-5);
+  border-left: 1px solid var(--c-border-invert);
+  position: relative;
+}
+.mstone::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: calc(var(--sp-5) + 8px);
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--c-gold-500);
+}
+.mstone:last-child { border-left-color: transparent; }
+.mstone b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.25rem, 1.1rem + .7vw, 1.75rem);
+  font-weight: var(--fw-thin);
+  line-height: 1;
+  color: var(--c-gold-300);
+  min-width: 4ch;
+}
+.mstone span {
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+}
+@media (min-width: 700px) {
+  .mstone { grid-template-columns: 6rem 1fr; align-items: baseline; }
+}
+
+
+/* ==========================================================================
+   05 · WHAT WE DO — division detail rows
+   ========================================================================== */
+
+/* Reuses .svc-tile / .svc-ill from main.css for the plate; this adds the
+   hard numbers each division is measured by. */
+.svc-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5) var(--sp-7);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-border-invert);
+}
+.svc-fact { display: grid; gap: 3px; }
+.svc-fact b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.35rem, 1.15rem + .9vw, 2rem);
+  font-weight: var(--fw-thin);
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.svc-fact span {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+
+/* Reference list — the named jobs behind a division. */
+.reflist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  margin-top: var(--sp-5);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.reflist li { display: flex; align-items: center; gap: var(--sp-3); }
+.reflist li + li::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: var(--c-gold-500); }
+
+
+/* ==========================================================================
+   06 · PROJECTS — listing + detail
+   ========================================================================== */
+
+.proj-grid { display: grid; gap: var(--sp-4); }
+@media (min-width: 700px)  { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .proj-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.proj-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+  transition: border-color var(--d-base) var(--e-out), transform var(--d-base) var(--e-out);
+}
+.proj-card:hover { border-color: rgba(231, 212, 155, .4); transform: translateY(-4px); }
+.proj-card__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+.proj-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: var(--img-grade);
+  transition: transform var(--d-slow) var(--e-out), filter var(--d-base) var(--e-out);
+}
+.proj-card:hover .proj-card__media img { transform: scale(1.05); filter: none; }
+.proj-card__media .pill { position: absolute; top: 14px; left: 14px; }
+
+.proj-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+}
+.proj-card__loc {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin-bottom: 8px;
+}
+.proj-card__name {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+  margin-bottom: 8px;
+}
+.proj-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+}
+.proj-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--c-border-invert);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.proj-card__foot b { color: var(--c-gold-300); font-weight: var(--fw-semibold); }
+.proj-card__foot svg { width: 18px; height: 18px; color: var(--c-gold-300); flex: none; transition: transform var(--d-base) var(--e-out); }
+.proj-card:hover .proj-card__foot svg { transform: translateX(4px); }
+
+/* --- Detail page -------------------------------------------------------- */
+.pd-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border-invert);
+  aspect-ratio: 21 / 9;
+}
+.pd-media img { width: 100%; height: 100%; object-fit: cover; filter: var(--img-grade); }
+
+.pd-grid { display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4rem); }
+@media (min-width: 960px) { .pd-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: start; } }
+
+.pd-body p { color: var(--c-stone); line-height: var(--lh-relaxed); max-width: 62ch; }
+.pd-body p + p { margin-top: var(--sp-4); }
+.pd-body h2 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+  margin: var(--sp-7) 0 var(--sp-4);
+}
+
+/* Specification table — a definition list, so it reads as data. */
+.spec { display: grid; gap: 0; }
+.spec div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--c-border-invert);
+  font-size: var(--fs-sm);
+}
+.spec dt { color: var(--c-stone); }
+.spec dd { color: var(--c-ivory); text-align: right; font-weight: var(--fw-medium); }
+
+.pd-aside { position: sticky; top: calc(var(--nav-h) + 1.5rem); display: grid; gap: var(--sp-4); }
+@media (max-width: 959px) { .pd-aside { position: static; } }
+
+.pd-contact { display: grid; gap: 6px; font-size: var(--fs-sm); }
+.pd-contact a { color: var(--c-gold-300); transition: color var(--d-fast) var(--e-out); }
+.pd-contact a:hover { color: var(--c-gold-200); }
+
+/* Amenity ticks */
+.amen { display: grid; gap: var(--sp-3); }
+.amen li {
+  display: flex;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+}
+
+
+/* ==========================================================================
+   07 · GALLERY
+   ========================================================================== */
+
+/* Filter chips — CSS-only :target would fight the lightbox, so these are
+   plain anchors to the album sections below. */
+.gal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+.gal-nav a {
+  padding: .5rem 1.1rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--c-border-invert);
+  background: rgba(247, 244, 239, .04);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--c-linen);
+  transition: border-color var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.gal-nav a:hover { border-color: rgba(231, 212, 155, .5); color: var(--c-gold-300); }
+
+.album + .album { margin-top: clamp(3rem, 2rem + 4vw, 5rem); }
+.album__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--c-border-invert);
+}
+.album__head h2 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.album__head span { font-size: var(--fs-xs); color: var(--c-stone); }
+
+/* An even grid — the homepage masonry is the showpiece, this is the archive. */
+.gal-grid { display: grid; gap: var(--sp-3); grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 700px)  { .gal-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1080px) { .gal-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.gal-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border: 1px solid var(--c-border-invert);
+}
+.gal-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: var(--img-grade);
+  transition: transform var(--d-slow) var(--e-out), filter var(--d-base) var(--e-out);
+}
+.gal-item:hover img { transform: scale(1.07); filter: none; }
+.gal-item figcaption {
+  position: absolute; inset: auto 0 0 0;
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  background: linear-gradient(180deg, transparent, rgba(7, 8, 10, .88));
+  font-size: var(--fs-xs);
+  color: var(--c-linen);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--d-base) var(--e-out), transform var(--d-base) var(--e-out);
+}
+.gal-item:hover figcaption { opacity: 1; transform: none; }
+
+
+/* ==========================================================================
+   08 · NEWS — listing + article
+   ========================================================================== */
+
+.post-grid { display: grid; gap: var(--sp-4); }
+@media (min-width: 700px)  { .post-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .post-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+  transition: border-color var(--d-base) var(--e-out), transform var(--d-base) var(--e-out);
+}
+.post-card:hover { border-color: rgba(231, 212, 155, .4); transform: translateY(-4px); }
+.post-card__media { aspect-ratio: 16 / 9; overflow: hidden; }
+.post-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: var(--img-grade);
+  transition: transform var(--d-slow) var(--e-out), filter var(--d-base) var(--e-out);
+}
+.post-card:hover .post-card__media img { transform: scale(1.05); filter: none; }
+
+.post-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+}
+.post-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+.post-card__meta .tagx { color: var(--c-gold-300); }
+.post-card__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-snug);
+  color: var(--c-ivory);
+  margin-bottom: var(--sp-3);
+}
+.post-card__excerpt {
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+}
+.post-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--c-gold-300);
+}
+.post-card__more svg { width: 15px; height: 15px; transition: transform var(--d-base) var(--e-out); }
+.post-card:hover .post-card__more svg { transform: translateX(4px); }
+
+/* --- Article ------------------------------------------------------------ */
+/* The article runs the full width of the shell. Body copy still needs a
+   readable measure, so the width is used by a sticky rail beside the prose
+   rather than by stretching lines to 180 characters. */
+.article { max-width: none; margin-inline: 0; }
+
+.article__grid { display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4.5rem); }
+@media (min-width: 1024px) {
+  .article__grid {
+    grid-template-columns: minmax(0, 68ch) minmax(0, 1fr);
+    align-items: start;
+  }
+  .article__rail { position: sticky; top: calc(var(--nav-h) + 1.5rem); }
+}
+
+/* Category left, date right, on a rule that closes the header off. */
+.article__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-4);
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+  border-bottom: 1px solid var(--c-border-invert);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.article__date {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  letter-spacing: .06em;
+  color: var(--c-linen);
+}
+.article__meta .tagx {
+  padding: .3rem .7rem;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(231, 212, 155, .3);
+  color: var(--c-gold-300);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.article__cover {
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border-invert);
+  aspect-ratio: 16 / 9;
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+.article__cover img { width: 100%; height: 100%; object-fit: cover; filter: var(--img-grade); }
+
+/* Prose — generous measure and rhythm, the one place long copy lives. */
+.prose { color: var(--c-stone); line-height: var(--lh-relaxed); }
+.prose > * + * { margin-top: var(--sp-4); }
+.prose p { font-size: var(--fs-body); }
+.prose h2 {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-snug);
+  color: var(--c-ivory);
+  margin-top: var(--sp-8);
+}
+.prose h3 {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+  margin-top: var(--sp-7);
+}
+.prose ul, .prose ol { display: grid; gap: var(--sp-3); padding-left: 1.15rem; }
+.prose li { font-size: var(--fs-body); }
+.prose ul li { list-style: none; position: relative; }
+.prose ul li::before {
+  content: '';
+  position: absolute; left: -1.15rem; top: .65em;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-gold-500);
+}
+.prose ol { list-style: decimal; }
+.prose ol li::marker { color: var(--c-gold-400); }
+.prose strong { color: var(--c-linen); font-weight: var(--fw-semibold); }
+.prose a { color: var(--c-gold-300); border-bottom: 1px solid rgba(217, 192, 112, .35); }
+.prose a:hover { border-bottom-color: currentColor; }
+.prose blockquote {
+  margin-block: var(--sp-6);
+  padding: var(--sp-5) var(--sp-6);
+  border-left: 2px solid var(--c-gold-500);
+  background: rgba(247, 244, 239, .04);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  font-style: italic;
+  color: var(--c-linen);
+}
+
+.article__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-border-invert);
+}
+
+/* The rail beside the prose: share, and the way back to the index. */
+.article__rail .pnl + .pnl { margin-top: var(--sp-4); }
+.article__rail .pnl__title {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin-bottom: var(--sp-4);
+}
+
+.share { display: flex; align-items: center; gap: var(--sp-3); font-size: var(--fs-xs); color: var(--c-stone); }
+.share a {
+  display: grid; place-items: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--c-border-invert);
+  color: var(--c-linen);
+  transition: border-color var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.share a:hover { border-color: rgba(231, 212, 155, .5); color: var(--c-gold-300); }
+.share svg { width: 16px; height: 16px; }
+
+
+/* ==========================================================================
+   09 · CONTACT
+   ========================================================================== */
+
+.ct-grid { display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4rem); }
+@media (min-width: 960px) { .ct-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; } }
+
+.ct-form { display: grid; gap: var(--sp-5); }
+@media (min-width: 620px) {
+  .ct-form { grid-template-columns: 1fr 1fr; }
+  .ct-form .field--wide, .ct-form .btn { grid-column: 1 / -1; }
+}
+.ct-form .btn { justify-self: start; }
+
+/* Textarea shares the .field underline treatment from main.css. */
+.field textarea {
+  width: 100%;
+  min-height: 8rem;
+  padding: var(--sp-4) 0 var(--sp-3);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--c-border-invert);
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+.field textarea:focus { outline: none; }
+
+.ct-cards { display: grid; gap: var(--sp-4); }
+.ct-card {
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+}
+.ct-card h3 {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin-bottom: var(--sp-3);
+}
+.ct-card address {
+  font-style: normal;
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+  line-height: var(--lh-relaxed);
+  margin-bottom: var(--sp-3);
+}
+.ct-card ul { display: grid; gap: 6px; font-size: var(--fs-sm); }
+.ct-card a { color: var(--c-linen); transition: color var(--d-fast) var(--e-out); }
+.ct-card a:hover { color: var(--c-gold-300); }
+.ct-card__hours { margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--c-stone); }
+
+.ct-map {
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border-invert);
+  background: var(--c-graphite);
+}
+.ct-map iframe {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 34vw, 420px);
+  border: 0;
+  filter: grayscale(1) contrast(1.04) brightness(.97);
+  transition: filter var(--d-base) var(--e-out);
+}
+.ct-map:hover iframe { filter: none; }
+
+
+/* ==========================================================================
+   10 · CLOSING CTA — shared by every inner page
+   ========================================================================== */
+
+.endcta {
+  margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  padding: clamp(2rem, 1.5rem + 3vw, 3.5rem);
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(231, 212, 155, .22);
+  background:
+    radial-gradient(110% 140% at 50% 120%, rgba(176, 144, 32, .16), transparent 62%),
+    var(--c-graphite);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+.endcta__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-snug);
+  color: var(--c-ivory);
+  max-width: 20ch;
+}
+.endcta__lead { margin-top: var(--sp-2); font-size: var(--fs-sm); color: var(--c-stone); max-width: 46ch; }
+.endcta__act { display: flex; flex-wrap: wrap; gap: var(--sp-3); }

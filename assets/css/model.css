@@ -1,0 +1,282 @@
+/* ==========================================================================
+   THE DIPLOMAT — BUILDING & FLOOR-PLATE EXPLORER
+   model.css — styling for the isometric massing, the typical floor plate
+   and the residence sheet. Drawn in the same line language as the
+   availability explorer; every value comes from tokens.css.
+   ========================================================================== */
+
+.dmodel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border-invert);
+  background:
+    radial-gradient(120% 90% at 50% 100%, rgba(176, 144, 32, .14) 0%, transparent 62%),
+    linear-gradient(180deg, #101318 0%, var(--c-graphite) 100%);
+}
+
+.dmodel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: clamp(1rem, .8rem + 1vw, 1.5rem) clamp(1rem, .8rem + 1vw, 1.75rem);
+  border-bottom: 1px solid var(--c-border-invert);
+}
+.dmodel__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.dmodel__note { font-size: var(--fs-xs); color: var(--c-stone); }
+
+/* --- Stage: massing left, plate right ----------------------------------- */
+.dmodel__grid { display: grid; }
+@media (min-width: 1000px) {
+  .dmodel__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr); }
+  .dmodel__pane + .dmodel__pane { border-left: 1px solid var(--c-border-invert); }
+}
+@media (max-width: 999px) {
+  .dmodel__pane + .dmodel__pane { border-top: 1px solid var(--c-border-invert); }
+}
+
+.dmodel__pane { padding: clamp(1rem, .8rem + 1vw, 1.5rem); min-width: 0; }
+.dmodel__ptitle {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin-bottom: var(--sp-3);
+}
+
+/* --- Massing ------------------------------------------------------------ */
+.dm-wrap { display: flex; gap: var(--sp-4); align-items: stretch; }
+.dm-svg { flex: 1; min-width: 0; display: block; width: 100%; height: auto; }
+
+.dm-ground { fill: rgba(247, 244, 239, .03); stroke: rgba(247, 244, 239, .10); stroke-width: 1.2; }
+.dm-pod .dm-top   { fill: #1B1F26; stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
+.dm-pod .dm-left  { fill: #14171D; stroke: rgba(247,244,239,.16); stroke-width: 1.1; }
+.dm-pod .dm-right { fill: #0F1216; stroke: rgba(247,244,239,.16); stroke-width: 1.1; }
+
+.dm-slab { cursor: pointer; transition: opacity var(--d-fast) var(--e-out); }
+.dm-slab .dm-top   { fill: rgba(247,244,239,.07); stroke: rgba(247,244,239,.24); stroke-width: 1.1; }
+.dm-slab .dm-left  { fill: rgba(247,244,239,.045); stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
+.dm-slab .dm-right { fill: rgba(247,244,239,.025); stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
+.dm-slab:hover .dm-top,
+.dm-slab:focus-visible .dm-top { fill: rgba(217,192,112,.22); }
+.dm-slab.is-on .dm-top   { fill: rgba(200,170,69,.42); stroke: var(--c-gold-300); stroke-width: 1.6; }
+.dm-slab.is-on .dm-left  { fill: rgba(200,170,69,.24); stroke: var(--c-gold-400); stroke-width: 1.4; }
+.dm-slab.is-on .dm-right { fill: rgba(200,170,69,.16); stroke: var(--c-gold-400); stroke-width: 1.4; }
+.dm-slab:focus { outline: none; }
+
+.dm-pent .dm-top   { fill: rgba(176,144,32,.20); stroke: var(--c-gold-400); stroke-width: 1.3; }
+.dm-pent .dm-left  { fill: rgba(176,144,32,.13); stroke: var(--c-gold-400); stroke-width: 1.2; }
+.dm-pent .dm-right { fill: rgba(176,144,32,.09); stroke: var(--c-gold-400); stroke-width: 1.2; }
+
+/* floor rail */
+.dm-rail {
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  flex: none;
+}
+.dm-fbtn {
+  width: 34px; height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--c-border-invert);
+  background: rgba(247, 244, 239, .04);
+  color: var(--c-stone);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  transition: border-color var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out);
+}
+.dm-fbtn:hover { border-color: rgba(231, 212, 155, .5); color: var(--c-linen); }
+.dm-fbtn.is-on {
+  background: var(--grad-gold);
+  border-color: transparent;
+  color: var(--c-ink);
+  font-weight: var(--fw-semibold);
+}
+
+/* --- Floor plate -------------------------------------------------------- */
+.pl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.pl-svg { display: block; width: 100%; min-width: 640px; height: auto; }
+
+.pl-shell { fill: rgba(247, 244, 239, .025); stroke: rgba(247, 244, 239, .18); stroke-width: 1.4; }
+.pl-corr  { fill: rgba(247, 244, 239, .05); }
+.pl-core  { fill: rgba(247, 244, 239, .08); stroke: rgba(247, 244, 239, .18); stroke-width: 1.2; }
+.pl-lbl {
+  fill: var(--c-stone);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-anchor: middle;
+  font-family: var(--ff-body);
+}
+
+.pl-unit { cursor: pointer; }
+.pl-unit:focus { outline: none; }
+.pl-fill {
+  fill: rgba(247, 244, 239, .06);
+  stroke: rgba(247, 244, 239, .26);
+  stroke-width: 1.4;
+  transition: fill var(--d-fast) var(--e-out), stroke var(--d-fast) var(--e-out);
+}
+.pl-unit:hover .pl-fill,
+.pl-unit:focus-visible .pl-fill { fill: rgba(217, 192, 112, .26); stroke: var(--c-gold-300); stroke-width: 2; }
+
+/* One tint per home type, so the mix reads at a glance. */
+.t-E1A .pl-fill, .t-E1B .pl-fill, .t-E1C .pl-fill { fill: rgba(143, 211, 174, .13); stroke: rgba(143, 211, 174, .42); }
+.t-P1A .pl-fill, .t-P1B .pl-fill { fill: rgba(217, 192, 112, .13); stroke: rgba(217, 192, 112, .45); }
+.t-A2  .pl-fill { fill: rgba(140, 178, 224, .13); stroke: rgba(140, 178, 224, .42); }
+.t-A3  .pl-fill { fill: rgba(212, 150, 120, .15); stroke: rgba(212, 150, 120, .48); }
+
+.pl-no {
+  fill: var(--c-ivory);
+  font-family: var(--ff-display);
+  font-size: 22px;
+  font-weight: 300;
+  text-anchor: middle;
+}
+.pl-ty {
+  fill: var(--c-stone);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-anchor: middle;
+  font-family: var(--ff-body);
+}
+
+/* legend */
+.pl-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--c-border-invert);
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+}
+.pl-key li { display: flex; align-items: center; gap: var(--sp-2); }
+.pl-key i { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.k-e { background: rgba(143, 211, 174, .5); }
+.k-p { background: rgba(217, 192, 112, .55); }
+.k-2 { background: rgba(140, 178, 224, .5); }
+.k-3 { background: rgba(212, 150, 120, .55); }
+
+/* --- Residence sheet ---------------------------------------------------- */
+.dsheet {
+  position: fixed; inset: 0;
+  z-index: var(--z-lightbox);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(7, 8, 10, .78);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity var(--d-base) var(--e-out);
+}
+.dsheet[hidden] { display: none; }
+.dsheet.is-open { opacity: 1; }
+
+.dsheet__card {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 86vh;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 1.2rem + 1.6vw, 2.5rem);
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid rgba(231, 212, 155, .24);
+  box-shadow: var(--sh-xl);
+  transform: translateY(14px);
+  transition: transform var(--d-base) var(--e-out);
+}
+.dsheet.is-open .dsheet__card { transform: none; }
+
+.dsheet__close {
+  position: absolute; top: 14px; right: 14px;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--c-border-invert);
+  color: var(--c-linen);
+  transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out);
+}
+.dsheet__close:hover { background: var(--c-gold-500); color: var(--c-ink); }
+.dsheet__close svg { width: 16px; height: 16px; }
+
+.dsheet__no {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  font-weight: var(--fw-thin);
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dsheet__type {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin: var(--sp-2) 0 var(--sp-5);
+}
+
+.dfacts { display: grid; margin-bottom: var(--sp-5); }
+.dfacts div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--c-border-invert);
+  font-size: var(--fs-sm);
+}
+.dfacts dt { color: var(--c-stone); }
+.dfacts dd { color: var(--c-ivory); text-align: right; }
+
+.drooms { display: grid; gap: 6px; margin-bottom: var(--sp-6); }
+.drooms li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--c-stone);
+}
+.drooms b { color: var(--c-linen); font-weight: var(--fw-medium); white-space: nowrap; }
+
+.dsheet__note {
+  font-size: var(--fs-xs);
+  color: var(--c-stone);
+  margin-bottom: var(--sp-5);
+  line-height: var(--lh-relaxed);
+}
+.dsheet__act { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* Floor 9 — the penthouse level, distinguished from the repeating floors. */
+.dm-pent { cursor: pointer; }
+.dm-pent:focus { outline: none; }
+.dm-pent:hover .dm-top { fill: rgba(217,192,112,.34); }
+.dm-pent.is-on .dm-top   { fill: rgba(200,170,69,.55); stroke: var(--c-gold-200); stroke-width: 1.8; }
+.dm-pent.is-on .dm-left  { fill: rgba(200,170,69,.34); stroke: var(--c-gold-300); stroke-width: 1.5; }
+.dm-pent.is-on .dm-right { fill: rgba(200,170,69,.24); stroke: var(--c-gold-300); stroke-width: 1.5; }
+.dm-fbtn.is-pent { font-size: 10px; letter-spacing: .06em; }
+/* Penthouse tints — floor 9 has its own palette. */
+.t-PH3A .pl-fill, .t-PH3B .pl-fill { fill: rgba(212, 150, 120, .16); stroke: rgba(212, 150, 120, .5); }
+.t-PH4  .pl-fill { fill: rgba(217, 192, 112, .18); stroke: rgba(217, 192, 112, .55); }
+.t-PH1  .pl-fill { fill: rgba(197, 130, 160, .16); stroke: rgba(197, 130, 160, .5); }
+.k-ph3 { background: rgba(212, 150, 120, .55); }
+.k-ph4 { background: rgba(217, 192, 112, .6); }
+.k-ph1 { background: rgba(197, 130, 160, .55); }
+
+/* Nine buttons need to fit the pane without the bottom one clipping. */
+.dm-rail { align-content: center; }
+.dm-fbtn { height: 24px; }
