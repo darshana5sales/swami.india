@@ -280,3 +280,28 @@
 /* Nine buttons need to fit the pane without the bottom one clipping. */
 .dm-rail { align-content: center; }
 .dm-fbtn { height: 24px; }
+/* ==========================================================================
+   11 · SPACING AROUND THE EXPLORER
+   The explorer is a heavy bordered block and the aside beneath it starts
+   flush with the grid, while the body column's first heading carries a top
+   margin. Left alone the panel reads as touching the module above it.
+   ========================================================================== */
+
+.dmodel { margin-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem); }
+
+/* The first heading in a column should not push its column down past the
+   one beside it — the grid already sets the top edge. */
+.pd-body > h2:first-child,
+.pd-body > *:first-child { margin-top: 0; }
+
+/* Belt and braces: the big blocks on a project page always keep their
+   distance from each other, whatever order a page puts them in and
+   whatever inline margin it sets. */
+.dmodel + .pd-grid,
+.dmodel + .pstats,
+.pstats + .pd-grid,
+.pstats + .dmodel,
+.pd-grid + .endcta { margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem) !important; }
+
+/* Sticky aside needs breathing room from the module when it pins. */
+.pd-aside { scroll-margin-top: calc(var(--nav-h) + 2rem); }
