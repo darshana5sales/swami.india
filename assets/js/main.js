@@ -682,26 +682,32 @@
      ====================================================================== */
 
   function initLightbox() {
-    var group = $('[data-lightbox-group]');
+    /* A page can carry several galleries — the project pages have one per
+       plan section. Every [data-lightbox-group] is wired, and opening a
+       figure loads that group's images so prev/next stays inside the set
+       the visitor clicked. */
+    var groups = $$('[data-lightbox-group]');
     var box = $('#lightbox');
-    if (!group || !box) return;
+    if (!groups.length || !box) return;
 
     var img = $('#lightboxImg');
     var cap = $('#lightboxCap');
     var counter = $('#lightboxCount');
     var closeBtn = $('[data-lb-close]', box);
 
-    var figures = $$('figure', group);
-    var items = figures.map(function (fig) {
-      var i = $('img', fig);
-      var c = $('figcaption', fig);
-      return {
-        src: i ? (i.getAttribute('data-full') || i.src) : '',
-        alt: i ? i.alt : '',
-        caption: c ? c.textContent.replace(/\s+/g, ' ').trim() : ''
-      };
-    });
+    function readGroup(group) {
+      return $$('figure', group).map(function (fig) {
+        var i = $('img', fig);
+        var c = $('figcaption', fig);
+        return {
+          src: i ? (i.getAttribute('data-full') || i.src) : '',
+          alt: i ? i.alt : '',
+          caption: c ? c.textContent.replace(/\s+/g, ' ').trim() : ''
+        };
+      });
+    }
 
+    var items = [];
     var index = 0;
     var lastFocus = null;
 
@@ -730,13 +736,16 @@
       if (lastFocus) lastFocus.focus({ preventScroll: true });
     }
 
-    figures.forEach(function (fig, i) {
-      fig.setAttribute('role', 'button');
-      fig.setAttribute('tabindex', '0');
-      fig.setAttribute('aria-label', 'Open image ' + (i + 1) + ' in viewer');
-      on(fig, 'click', function () { open(i); });
-      on(fig, 'keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+    groups.forEach(function (group) {
+      $$('figure', group).forEach(function (fig, i) {
+        fig.setAttribute('role', 'button');
+        fig.setAttribute('tabindex', '0');
+        fig.setAttribute('aria-label', 'Open image ' + (i + 1) + ' in viewer');
+        var openThis = function () { items = readGroup(group); open(i); };
+        on(fig, 'click', openThis);
+        on(fig, 'keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openThis(); }
+        });
       });
     });
 

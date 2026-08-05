@@ -305,3 +305,294 @@
 
 /* Sticky aside needs breathing room from the module when it pins. */
 .pd-aside { scroll-margin-top: calc(var(--nav-h) + 2rem); }
+/* ==========================================================================
+   12 · RESIDENCE SHEET — plan left, details and price gate right
+   Mirrors the availability explorer's sheet: a cream drawing beside the
+   dark detail panel, so the plan reads like paper and the data like screen.
+   ========================================================================== */
+
+.dsheet__card { width: min(1060px, 100%); padding: 0; overflow: hidden; }
+.dsheet__grid { display: grid; }
+@media (min-width: 900px) {
+  .dsheet__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+}
+
+/* --- The drawing -------------------------------------------------------- */
+.dsheet__plan {
+  margin: 0;
+  padding: clamp(1.25rem, 1rem + 1.4vw, 2rem);
+  background: #F2EEE6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fp-svg { display: block; width: 100%; height: auto; }
+.fp-wall { fill: none; stroke: #2B2F36; stroke-width: 3; }
+.fp-room rect { fill: #FFFFFF; stroke: #6E7076; stroke-width: 1.3; }
+.fp-room.is-svc rect { fill: #E4E7EA; }
+.fp-room.is-out rect { fill: none; stroke: #8A8D93; stroke-dasharray: 6 5; }
+.fp-n { fill: #2B2F36; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-anchor: middle; font-family: var(--ff-body); }
+.fp-d { fill: #74777D; font-size: 10.5px; text-anchor: middle; font-family: var(--ff-body); }
+.fp-none { fill: #74777D; font-size: 14px; text-anchor: middle; font-family: var(--ff-body); }
+.fp-door { fill: none; stroke: #6E7076; stroke-width: 1.3; }
+.dsheet__plan figcaption {
+  margin-top: var(--sp-4);
+  font-size: 11px;
+  line-height: 1.5;
+  color: #74777D;
+}
+
+/* --- The detail panel --------------------------------------------------- */
+.dsheet__body {
+  padding: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);
+  max-height: 86vh;
+  overflow-y: auto;
+}
+@media (max-width: 899px) { .dsheet__body { max-height: none; } }
+
+/* --- Price gate --------------------------------------------------------- */
+/* Panelled and rule-topped, so it is unmistakable as the thing to fill in
+   even when the detail column has been scrolled past the facts table. */
+.pgate {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: 2px solid rgba(200, 170, 69, .45);
+}
+.pgate--locked {
+  margin-inline: calc(clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem) * -1);
+  padding: var(--sp-5) clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem) clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(176, 144, 32, .10), transparent 62%),
+    rgba(247, 244, 239, .03);
+}
+.pgate__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+  margin-bottom: var(--sp-3);
+}
+.pgate__title svg { width: 15px; height: 15px; flex: none; }
+
+.pgate__masked {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.pgate__masked b {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  font-weight: var(--fw-thin);
+  letter-spacing: .06em;
+  color: var(--c-gold-300);
+  filter: blur(7px);
+  user-select: none;
+}
+.pgate__masked svg { width: 20px; height: 20px; color: var(--c-gold-300); flex: none; }
+
+.pgate__price {
+  font-family: var(--ff-display);
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem);
+  font-weight: var(--fw-thin);
+  color: var(--c-stone);
+  margin-bottom: var(--sp-3);
+}
+.pgate__price b {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: var(--fw-light);
+}
+.pgate__price--pending { font-size: clamp(1.1rem, 1rem + .6vw, 1.4rem); color: var(--c-ivory); }
+
+.pgate__note { font-size: var(--fs-xs); color: var(--c-stone); line-height: var(--lh-relaxed); margin-bottom: var(--sp-5); }
+/* Row 1: name + email. Row 2: phone, full width. Then the button. */
+.pgate__form { display: grid; gap: var(--sp-4); }
+@media (min-width: 520px) {
+  .pgate__form { grid-template-columns: 1fr 1fr; column-gap: var(--sp-5); }
+  .pgate__form .field--wide,
+  .pgate__form .btn { grid-column: 1 / -1; }
+}
+.pgate__form .btn { justify-self: start; margin-top: var(--sp-2); }
+.pgate__act { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* Field error state, matching the site's other forms. */
+.field.is-error .field__line,
+.field.is-error input { border-color: #D4736B; }
+.field.is-error label { color: #D4736B; }
+/* ==========================================================================
+   13 · FLOOR-PLAN GALLERIES
+   The brochure's plates are drawings on white, so each sits on its own
+   light card rather than the page's ink — the way a plan should read.
+   ========================================================================== */
+
+/* Each plan section owns the air around it. The last grid row often holds
+   a single card, so without a real bottom margin the next section's
+   heading lands immediately under it and the two read as one block. */
+.plans {
+  margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+  margin-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+}
+/* Consecutive plan sections get a hairline and real padding between them,
+   so where one ends and the next begins is never in doubt — especially
+   when the previous grid's last row holds a single card. */
+.plans + .plans {
+  margin-top: 0;
+  padding-top: clamp(3rem, 2rem + 3vw, 5rem);
+  border-top: 1px solid var(--c-border-invert);
+}
+.plans .album__head { margin-bottom: var(--sp-5); }
+
+.plan-grid { display: grid; gap: var(--sp-4); }
+@media (min-width: 620px)  { .plan-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .plan-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Render, layout plan and location map — two up on tablet, three on wide. */
+.plan-duo { display: grid; gap: var(--sp-4); }
+@media (min-width: 700px)  { .plan-duo { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .plan-duo { grid-template-columns: repeat(3, 1fr); } }
+
+.plan-card {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--c-graphite);
+  border: 1px solid var(--c-border-invert);
+  transition: border-color var(--d-base) var(--e-out), transform var(--d-base) var(--e-out),
+              box-shadow var(--d-base) var(--e-out);
+}
+.plan-card:hover {
+  border-color: rgba(231, 212, 155, .45);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .45);
+}
+.plan-card--full { margin-bottom: var(--sp-4); }
+
+/* The drawing itself — white ground, contained, click to enlarge. */
+.plan-card__media {
+  display: block;
+  position: relative;
+  background: #FFFFFF;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.plan-card__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--d-slow) var(--e-out);
+}
+.plan-card:hover .plan-card__media img { transform: scale(1.03); }
+
+/* A quiet magnifier badge, so the click affordance is obvious. */
+.plan-card__media::after {
+  content: '';
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(10, 11, 13, .72) center / 16px 16px no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E7D49B' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M16 16l5 5M11 8v6M8 11h6'/%3E%3C/svg%3E");
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity var(--d-fast) var(--e-out), transform var(--d-fast) var(--e-out);
+}
+.plan-card:hover .plan-card__media::after { opacity: 1; transform: none; }
+
+.plan-card figcaption {
+  display: grid;
+  gap: 4px;
+  padding: var(--sp-4) clamp(1rem, .85rem + .6vw, 1.25rem);
+}
+.plan-card figcaption b {
+  font-family: var(--ff-display);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-light);
+  color: var(--c-ivory);
+}
+.plan-card figcaption span {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--c-gold-300);
+}
+
+/* The plate inside the residence popup, in place of the schematic. */
+.fp-plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+  cursor: zoom-in;
+}
+/* --- Gate cue ------------------------------------------------------------
+   A chevron sitting on the gold rule, nudging downward, so the eye is
+   carried from the room table into the form below it. Purely decorative:
+   it is a pseudo-element, so it never lands in the tab order or the
+   accessibility tree.
+   ------------------------------------------------------------------------ */
+.pgate--locked { position: relative; }
+.pgate--locked::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  translate: -50% -50%;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--c-graphite) center / 15px 15px no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D9C070' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  border: 2px solid rgba(200, 170, 69, .55);
+  box-shadow: 0 0 0 5px var(--c-graphite);
+  animation: pgnudge 1.9s var(--e-in-out) infinite;
+}
+@keyframes pgnudge {
+  0%, 62%, 100% { transform: translateY(0); }
+  28%           { transform: translateY(5px); }
+}
+/* The ring pulses with it, so the cue reads even at a glance. */
+.pgate--locked::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  translate: -50% -50%;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(200, 170, 69, .5);
+  animation: pgring 1.9s var(--e-out) infinite;
+  pointer-events: none;
+}
+@keyframes pgring {
+  0%   { opacity: .55; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(1.9); }
+  100% { opacity: 0;   transform: scale(1.9); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pgate--locked::before,
+  .pgate--locked::after { animation: none; }
+  .pgate--locked::after { opacity: 0; }
+}
+/* --- Revealed price ------------------------------------------------------ */
+.pgate--open { position: relative; }
+.pgate__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.pgate__price i {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-stone);
+}
+.pgate--open .pgate__title { color: #8FD3AE; }
+.pgate__price--pending { display: block; }

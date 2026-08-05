@@ -11,12 +11,29 @@
    module states neither.
    ========================================================================== */
 
-(function () {
+(function (w) {
   'use strict';
 
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function on(el, ev, fn) { if (el) el.addEventListener(ev, fn, false); }
+
+  /* ======================================================================
+     ►►► PRICE LIST — PLACEHOLDER FIGURES. REPLACE BEFORE LAUNCH. ◄◄◄
+
+     The brochure publishes NO prices. These are derived from the only
+     published figure — "The Horizon from US$57,000" — spread across the
+     brochure's areas at a flat US$1,230/m². INDICATIVE ONLY; overwrite
+     with the real price list. Set a value to null and that home falls
+     back to "our sales team will be in touch".
+     ====================================================================== */
+  var PRICES = {
+    '1': 'US$132,200',   // 3 BHK            · 107.5 m²
+    '2': 'US$98,600',    // 2 BHK            ·  80.2 m²
+    '3': 'US$98,900',    // 2 BHK            ·  80.4 m²
+    '4': 'US$67,900',    // 1 BHK Premium    ·  55.2 m²
+    '5': 'US$57,000'     // 1 BHK Executive  ·  46.3 m²
+  };
 
   /* ---- Typologies, from the brochure's plan pages --------------------- */
   var TYPES = {
@@ -146,9 +163,29 @@
       row('Bathrooms', t.bath) +
       row('Outlook', t.view) +
       row('Floor', state.floor + ' of ' + FLOORS);
-    $('#horUnitRooms').innerHTML = t.rooms.map(function (r) {
+    var hasRooms = t.rooms.length > 0;
+    $('#horUnitRooms').innerHTML = hasRooms ? t.rooms.map(function (r) {
       return '<li><span>' + r[0] + '</span><b>' + r[1] + '</b></li>';
-    }).join('');
+    }).join('') : '';
+    $('#horUnitRooms').hidden = !hasRooms;
+    var rt = $('#horRoomsTitle');
+    if (rt) rt.hidden = !hasRooms;
+
+    /* Drawn plan + price gate — shared with The Diplomat. */
+    var label = 'Home ' + id + ', floor ' + state.floor;
+    if (w.SwamiSheet) {
+      $('#horPlanBox').innerHTML = w.SwamiSheet.plan(t.rooms, label);
+      var gate = $('#horPrice');
+      /* Locked on every opening — see diplomat.js. */
+      var unit = { label: label, price: PRICES[key] || null };
+      var opened = false;
+      var paint = function () {
+        gate.innerHTML = w.SwamiSheet.priceBlock(unit, opened);
+        if (!opened) w.SwamiSheet.bindGate(gate, unit, function () { opened = true; paint(); });
+      };
+      paint();
+    }
+
     var sh = $('#horSheet');
     sh.hidden = false;
     requestAnimationFrame(function () { sh.classList.add('is-open'); });
@@ -205,4 +242,4 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-})();
+})(window);

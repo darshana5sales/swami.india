@@ -12,7 +12,7 @@
    states either — price stays behind the site's existing enquiry gate.
    ========================================================================== */
 
-(function () {
+(function (w) {
   'use strict';
 
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,50 +21,78 @@
   function on(el, ev, fn) { if (el) el.addEventListener(ev, fn, false); }
 
   /* ======================================================================
+     ►►► PRICE LIST — PLACEHOLDER FIGURES. REPLACE BEFORE LAUNCH. ◄◄◄
+
+     The brochure publishes NO prices. These are derived from the only
+     published figure — "The Diplomat from US$78,500" on the live site —
+     spread across the brochure's areas at a flat US$1,250/m². They are
+     therefore INDICATIVE ONLY and must be overwritten with the real
+     price list before this page goes live.
+
+     To use the real list: replace each value below. Nothing else changes;
+     the figure flows straight into the unit popup once the visitor has
+     filled in the enquiry form. Set a value to null and that home falls
+     back to "our sales team will be in touch".
+     ====================================================================== */
+  var PRICES = {
+    'E1A':  'US$78,500',    // 1 Bed Executive A   ·  63.10 m²
+    'E1B':  'US$84,000',    // 1 Bed Executive B   ·  67.20 m²
+    'E1C':  'US$81,900',    // 1 Bed Executive C   ·  65.50 m²
+    'P1A':  'US$101,400',   // 1 Bed Premium A     ·  81.14 m²
+    'P1B':  'US$103,500',   // 1 Bed Premium B     ·  82.80 m²
+    'A2':   'US$146,400',   // 2 Bedroom           · 117.10 m²
+    'A3':   'US$206,000',   // 3 Bedroom           · 164.80 m²
+    'PH3A': 'US$232,900',   // 3 Bed Penthouse A   · 186.30 m²
+    'PH3B': 'US$323,500',   // 3 Bed Penthouse B   · 258.80 m²
+    'PH4':  'US$425,800',   // 4 Bed Penthouse     · 340.60 m²
+    'PH1':  'US$78,100'     // 1 Bed Penthouse     ·  62.50 m²
+  };
+
+  /* ======================================================================
      DATA — transcribed from the brochure
      ====================================================================== */
 
   var TYPES = {
     'P1A': {
       name: '1 Bedroom Premium', variant: 'Type A', bed: 1, bath: 1,
-      built: 62.14, balcony: 19.00, total: 81.14, qty: 16,
+      built: 62.14, balcony: 19.00, total: 81.14, qty: 16, img: 'prem-a',
       rooms: [['Bedroom', '3.60 × 4.90 m'], ['Living / Dining', '3.70 × 6.70 m'],
               ['Kitchen', '1.80 × 4.90 m'], ['Toilet', '2.90 × 1.60 m']]
     },
     'P1B': {
       name: '1 Bedroom Premium', variant: 'Type B', bed: 1, bath: 1,
-      built: 63.80, balcony: 19.00, total: 82.80, qty: 8,
+      built: 63.80, balcony: 19.00, total: 82.80, qty: 8, img: 'prem-b',
       rooms: [['Bedroom', '3.50 × 4.89 m'], ['Living / Dining', '3.50 × 6.70 m'],
               ['Kitchen', '1.80 × 4.65 m'], ['Toilet', '3.60 × 1.60 m']]
     },
     'E1A': {
       name: '1 Bedroom Executive', variant: 'Type A', bed: 1, bath: 1,
-      built: 39.40, balcony: 23.70, total: 63.10, qty: 8,
+      built: 39.40, balcony: 23.70, total: 63.10, qty: 8, img: 'exec-a',
       rooms: [['Bedroom', '3.12 × 3.67 m'], ['Living / Kitchen', '3.30 × 3.70 m'],
               ['Toilet', '2.09 × 2.18 m']]
     },
     'E1B': {
       name: '1 Bedroom Executive', variant: 'Type B', bed: 1, bath: 1,
-      built: 44.10, balcony: 23.10, total: 67.20, qty: 8,
+      built: 44.10, balcony: 23.10, total: 67.20, qty: 8, img: 'exec-b',
       rooms: [['Bedroom', '3.70 × 4.45 m'], ['Living / Kitchen', '3.70 × 5.03 m'],
               ['Toilet', '1.69 × 3.69 m']]
     },
     'E1C': {
       name: '1 Bedroom Executive', variant: 'Type C', bed: 1, bath: 1,
-      built: 42.60, balcony: 22.90, total: 65.50, qty: 8,
+      built: 42.60, balcony: 22.90, total: 65.50, qty: 8, img: 'exec-c',
       rooms: [['Bedroom', '3.30 × 3.35 m'], ['Living / Kitchen', '4.54 × 3.20 m'],
               ['Toilet', '2.51 × 1.68 m'], ['Lobby', '1.60 × 1.80 m']]
     },
     'A2': {
       name: '2 Bedroom Apartment', variant: '', bed: 2, bath: 2,
-      built: 90.80, balcony: 26.30, total: 117.10, qty: 32,
+      built: 90.80, balcony: 26.30, total: 117.10, qty: 32, img: 'apt-2bed',
       rooms: [['Living / Dining', '3.70 × 7.30 m'], ['Bedroom 1', '3.65 × 5.40 m'],
               ['Bedroom 2', '3.48 × 3.70 m'], ['Kitchen', '1.80 × 4.95 m'],
               ['Toilet 1', '2.35 × 2.15 m'], ['Toilet 2', '1.80 × 1.85 m']]
     },
     'A3': {
       name: '3 Bedroom Apartment', variant: '', bed: 3, bath: 3,
-      built: 117.00, balcony: 47.80, total: 164.80, qty: 8,
+      built: 117.00, balcony: 47.80, total: 164.80, qty: 8, img: 'apt-3bed',
       rooms: [['Living / Dining', '3.70 × 6.70 m'], ['Bedroom 1', '5.05 × 2.80 m'],
               ['Bedroom 2', '4.23 × 3.70 m'], ['Bedroom 3', '3.38 × 4.90 m'],
               ['Kitchen', '1.80 × 4.90 m'], ['Toilet 1', '3.38 × 1.60 m'],
@@ -95,17 +123,23 @@
      stairs serving all eleven homes. Floor 9 is a separate penthouse plate
      of four homes. 88 + 4 = the published 92. Any A/B tower split would be
      invented, so the model has floor → unit and nothing between. */
+  /* The key diagram on each penthouse plate fixes which is which: the
+     186.30 m² plan highlights 902, the 258.80 m² plan highlights 901. */
   var PENT = [
-    { n: 2, t: 'PH3B', x: 60,  w: 430, row: 0 },
-    { n: 1, t: 'PH3A', x: 60,  w: 430, row: 1, cap: 'W' },
+    { n: 2, t: 'PH3A', x: 60,  w: 430, row: 0 },
+    { n: 1, t: 'PH3B', x: 60,  w: 430, row: 1, cap: 'W' },
     { n: 4, t: 'PH1',  x: 512, w: 168, row: 1 },
     { n: 3, t: 'PH4',  x: 700, w: 330, row: 0, span: 1, cap: 'E' }
   ];
 
-  TYPES.PH3A = { name: '3 Bedroom Penthouse', variant: 'Type A', bed: 3, bath: 3, qty: 1, rooms: [] };
-  TYPES.PH3B = { name: '3 Bedroom Penthouse', variant: 'Type B', bed: 3, bath: 3, qty: 1, rooms: [] };
-  TYPES.PH4  = { name: '4 Bedroom Penthouse', variant: '',       bed: 4, bath: 4, qty: 1, rooms: [] };
-  TYPES.PH1  = { name: '1 Bedroom Penthouse', variant: '',       bed: 1, bath: 1, qty: 1, rooms: [] };
+  TYPES.PH3A = { name: '3 Bedroom Penthouse', variant: 'Type A', bed: 3, bath: 3, qty: 1,
+                 built: 113.90, balcony: 72.40, total: 186.30, img: 'ph-3bed-a', rooms: [] };
+  TYPES.PH3B = { name: '3 Bedroom Penthouse', variant: 'Type B', bed: 3, bath: 4, qty: 1,
+                 built: 132.30, balcony: 126.50, total: 258.80, img: 'ph-3bed-b', rooms: [] };
+  TYPES.PH4  = { name: '4 Bedroom Penthouse', variant: '', bed: 4, bath: 5, qty: 1,
+                 built: 179.40, balcony: 161.20, total: 340.60, img: 'ph-4bed', rooms: [] };
+  TYPES.PH1  = { name: '1 Bedroom Penthouse', variant: '', bed: 1, bath: 1, qty: 1,
+                 built: 43.30, balcony: 19.20, total: 62.50, img: 'ph-1bed', rooms: [] };
 
   var FLOORS = 9;          // 1–8 apartments, 9 penthouses
   var PENT_FLOOR = 9;
@@ -279,9 +313,36 @@
     facts += row('Homes of this type', t.qty + ' in the building');
     $('#dipUnitFacts').innerHTML = facts;
 
-    $('#dipUnitRooms').innerHTML = t.rooms.length
+    /* The penthouse pages publish areas but not room-by-room sizes, so the
+       whole block goes rather than leaving an empty heading behind. */
+    var hasRooms = t.rooms.length > 0;
+    $('#dipUnitRooms').innerHTML = hasRooms
       ? t.rooms.map(function (r) { return '<li><span>' + r[0] + '</span><b>' + r[1] + '</b></li>'; }).join('')
-      : '<li><span>Room dimensions available from our sales team</span></li>';
+      : '';
+    $('#dipUnitRooms').hidden = !hasRooms;
+    var rt = $('#dipRoomsTitle');
+    if (rt) rt.hidden = !hasRooms;
+
+    /* Plan drawing + price gate — shared with The Horizon. */
+    var label = 'Residence ' + num;
+    if (w.SwamiSheet) {
+      /* Prefer the brochure's own plate; fall back to the drawn schematic
+         for any type that has no published plan. */
+      $('#dipPlanBox').innerHTML = t.img
+        ? w.SwamiSheet.plate('assets/img/diplomat/' + t.img + '.jpg',
+                             t.name + (t.variant ? ' ' + t.variant : ''))
+        : w.SwamiSheet.plan(t.rooms, label);
+      var gate = $('#dipPrice');
+      /* Locked on every opening — the visitor fills the form for each home
+         they look at, and closing the popup resets it. */
+      var unit = { label: label, price: PRICES[u.t] || null };
+      var opened = false;
+      var paint = function () {
+        gate.innerHTML = w.SwamiSheet.priceBlock(unit, opened);
+        if (!opened) w.SwamiSheet.bindGate(gate, unit, function () { opened = true; paint(); });
+      };
+      paint();
+    }
 
     var sheet = $('#dipSheet');
     sheet.hidden = false;
@@ -364,4 +425,4 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-})();
+})(window);
