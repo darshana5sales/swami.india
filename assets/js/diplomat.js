@@ -149,12 +149,33 @@
   var state = { floor: 1, unit: null };
 
   /* ======================================================================
-     BUILDING — isometric massing of the two curved wings
+     BUILDING — isometric massing
+
+     The brochure's aerial render shows two quite different masses, not the
+     two matching arms this used to draw: a long slab with an eased east
+     end, and a wedge-shaped wing to its west whose plan tapers to a point.
+     They are joined at every level — the brochure's typical plate is one
+     continuous floor with a single corridor serving all eleven homes — so
+     both wings rise the same eight floors, with floor 9 set back on each.
      ====================================================================== */
 
-  /* True isometric, scaled so the whole L-shaped footprint plus eight
-     floors of extrusion fits the 1040 × 560 viewBox without clipping. */
-  var ISO = { ox: 470, oy: 528, s: 0.68 };
+  /* Footprints in plan. In this projection +x runs up-and-right on screen
+     and +y up-and-left, so the corner nearest the viewer is (0, 0) and a
+     wall is only in view when its edge runs with dx greater than dy. */
+  var SLAB  = [[196, 0], [688, 0], [742, 48], [742, 110], [688, 158], [196, 158]];
+  var LINK  = [[120, 20], [206, 20], [206, 120], [120, 120]];
+  var WEDGE = [[157, 106], [123, 364], [103, 370], [-93, 140], [-84, 116], [134, 84]];
+
+  /* The site: a wedge-shaped plot, with the pool court and the parking
+     bay the render shows sitting in the crook between the two wings. */
+  var SITE  = [[-130, -70], [800, -70], [800, 190], [250, 420], [-130, 300]];
+  var COURT = [[-20, -56], [150, -56], [150, 30], [-20, 30]];
+  var POOL  = [[440, -54], [640, -54], [640, -6], [440, -6]];
+  var PARK  = [[664, -56], [782, -56], [782, 96], [664, 96]];
+
+  /* True isometric, scaled so the plot, both wings and nine floors of
+     extrusion fit the 1040 × 720 viewBox without clipping. */
+  var ISO = { ox: 368, oy: 602, s: 0.80 };
   function iso(x, y, z) {
     return [
       ISO.ox + (x - y) * 0.866 * ISO.s,
@@ -165,54 +186,86 @@
     return 'M' + pts.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('L') + 'Z';
   }
 
+  /* Winding decides which walls face the viewer, so normalise it once
+     rather than trusting whoever typed the footprint to go anticlockwise. */
+  function ccw(poly) {
+    var a = 0, i, q;
+    for (i = 0; i < poly.length; i++) {
+      q = poly[(i + 1) % poly.length];
+      a += poly[i][0] * q[1] - q[0] * poly[i][1];
+    }
+    return a < 0 ? poly.slice().reverse() : poly;
+  }
+
+  /* Each vertex pulled toward the centroid — the penthouse level sits back
+     from the floors below on both wings, whatever shape they are. */
+  function inset(poly, k) {
+    var cx = 0, cy = 0;
+    poly.forEach(function (p) { cx += p[0]; cy += p[1]; });
+    cx /= poly.length; cy /= poly.length;
+    return poly.map(function (p) { return [cx + (p[0] - cx) * k, cy + (p[1] - cy) * k]; });
+  }
+
+  function ground(poly, cls) {
+    return '<path class="' + cls + '" d="' +
+           facePath(poly.map(function (p) { return iso(p[0], p[1], 0); })) + '"/>';
+  }
+
+  /* One extruded footprint of any shape. Walls are back-face culled, and
+     take the lighter shade when they turn toward the right of the screen. */
+  function prism(poly, z, h, cls, floor) {
+    var p = ccw(poly), i, a, b, dx, dy, s = '';
+    var attr = floor ? ' data-floor="' + floor + '" tabindex="0" role="button" aria-label="Floor ' + floor + '"' : '';
+    for (i = 0; i < p.length; i++) {
+      a = p[i]; b = p[(i + 1) % p.length];
+      dx = b[0] - a[0]; dy = b[1] - a[1];
+      if (dx - dy <= 0) continue;                 // wall turned away from us
+      s += '<path class="' + (dx + dy > 0 ? 'dm-left' : 'dm-right') + '" d="' +
+           facePath([iso(a[0], a[1], z + h), iso(b[0], b[1], z + h),
+                     iso(b[0], b[1], z), iso(a[0], a[1], z)]) + '"/>';
+    }
+    s += '<path class="dm-top" d="' +
+         facePath(p.map(function (q) { return iso(q[0], q[1], z + h); })) + '"/>';
+    return '<g class="' + cls + '"' + attr + '>' + s + '</g>';
+  }
+
   function renderBuilding() {
     var svg = $('#dipBuilding');
     if (!svg) return;
 
-    var FH = 22;              // drawn height of one residential floor
-    var POD = 30;             // ground + mezzanine commercial podium
+    var FH = 20;              // drawn height of one residential floor
+    var POD = 28;             // ground + mezzanine commercial podium
     var s = '';
 
-    // site plate
-    var g = [iso(-60, -60, 0), iso(680, -60, 0), iso(680, 470, 0), iso(-60, 470, 0)];
-    s += '<path class="dm-ground" d="' + facePath(g) + '"/>';
+    // The plot, then what sits on it: the landscaped court between the
+    // wings, the pool deck, and the parking bay along the east boundary.
+    s += ground(SITE, 'dm-ground');
+    s += ground(COURT, 'dm-court');
+    s += ground(PARK, 'dm-park');
+    s += ground(POOL, 'dm-pool');
 
     // Podium — ground and mezzanine are commercial (retail, restaurants,
     // pharmacy), which is why the residential count starts at floor 1.
-    s += wing(0, 0, 620, 150, 0, POD, 'dm-pod', null);
-    s += wing(0, 150, 190, 280, 0, POD, 'dm-pod', null);
+    s += prism(SLAB, 0, POD, 'dm-pod', null);
+    s += prism(LINK, 0, POD, 'dm-pod', null);
+    s += prism(WEDGE, 0, POD, 'dm-pod', null);
 
-    // Wing A runs east–west; Wing B is the triangular-ended arm running
-    // south. Drawn bottom-up so upper floors paint over lower ones.
+    // Bottom-up, and slab before wedge, so nearer masses paint over farther.
     for (var f = 1; f <= PENT_FLOOR - 1; f++) {
       var z0 = POD + (f - 1) * FH;
       var cls = (f === state.floor) ? 'dm-slab is-on' : 'dm-slab';
-      s += wing(0, 0, 620, 150, z0, FH - 3, cls, f);
-      s += wing(0, 150, 190, 280, z0, FH - 3, cls, f);
+      s += prism(SLAB, z0, FH - 3, cls, f);
+      s += prism(LINK, z0, FH - 3, cls, f);
+      s += prism(WEDGE, z0, FH - 3, cls, f);
     }
 
     // Floor 9 — the penthouse level, set back from the floors below.
     var zp = POD + (PENT_FLOOR - 1) * FH;
     var pc = (state.floor === PENT_FLOOR) ? 'dm-pent is-on' : 'dm-pent';
-    s += wing(24, 16, 570, 118, zp, FH + 2, pc, PENT_FLOOR);
-    s += wing(16, 150, 154, 246, zp, FH + 2, pc, PENT_FLOOR);
+    s += prism(inset(SLAB, 0.9), zp, FH + 2, pc, PENT_FLOOR);
+    s += prism(inset(WEDGE, 0.86), zp, FH + 2, pc, PENT_FLOOR);
 
     svg.innerHTML = s;
-  }
-
-  // one extruded box in iso, returned as three faces
-  function wing(x, y, w, d, z, h, cls, floor) {
-    var a = iso(x, y, z + h),       b = iso(x + w, y, z + h);
-    var c = iso(x + w, y + d, z + h), e = iso(x, y + d, z + h);
-    var a0 = iso(x, y, z),          b0 = iso(x + w, y, z);
-    var c0 = iso(x + w, y + d, z);
-    var attr = floor ? ' data-floor="' + floor + '" tabindex="0" role="button" aria-label="Floor ' + floor + '"' : '';
-    var g = '<g class="' + cls + '"' + attr + '>';
-    g += '<path class="dm-top"  d="' + facePath([a, b, c, e]) + '"/>';
-    g += '<path class="dm-left" d="' + facePath([a, a0, b0, b]) + '"/>';
-    g += '<path class="dm-right" d="' + facePath([b, b0, c0, c]) + '"/>';
-    g += '</g>';
-    return g;
   }
 
   /* ======================================================================

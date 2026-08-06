@@ -53,28 +53,53 @@
 }
 
 /* --- Massing ------------------------------------------------------------ */
-.dm-wrap { display: flex; gap: var(--sp-4); align-items: stretch; }
+/* The massing is shorter than the floor plate beside it, so let the pane
+   grow and sit the drawing in the middle of it rather than leaving a well
+   of empty panel underneath. */
+.dmodel__pane { display: flex; flex-direction: column; }
+.dm-wrap { display: flex; gap: var(--sp-4); align-items: center; flex: 1; }
 .dm-svg { flex: 1; min-width: 0; display: block; width: 100%; height: auto; }
 
 .dm-ground { fill: rgba(247, 244, 239, .03); stroke: rgba(247, 244, 239, .10); stroke-width: 1.2; }
+/* What sits on the plot: the landscaped court between the wings, the
+   parking bay on the east boundary, and the pool deck. */
+.dm-court  { fill: rgba(150, 176, 128, .10); stroke: rgba(150, 176, 128, .30); stroke-width: 1; }
+.dm-park   { fill: rgba(247, 244, 239, .05);  stroke: rgba(247, 244, 239, .14); stroke-width: 1; }
+.dm-pool   { fill: rgba(120, 180, 205, .20);  stroke: rgba(140, 200, 225, .45); stroke-width: 1; }
 .dm-pod .dm-top   { fill: #1B1F26; stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
 .dm-pod .dm-left  { fill: #14171D; stroke: rgba(247,244,239,.16); stroke-width: 1.1; }
 .dm-pod .dm-right { fill: #0F1216; stroke: rgba(247,244,239,.16); stroke-width: 1.1; }
 
+/* Floors are opaque, not glass. Eight translucent slabs stacked on top of
+   one another accumulate into a solid block and the building loses its
+   shape; painting each floor over the one below keeps the massing legible
+   and leaves the storey lines reading as storey lines. */
 .dm-slab { cursor: pointer; transition: opacity var(--d-fast) var(--e-out); }
-.dm-slab .dm-top   { fill: rgba(247,244,239,.07); stroke: rgba(247,244,239,.24); stroke-width: 1.1; }
-.dm-slab .dm-left  { fill: rgba(247,244,239,.045); stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
-.dm-slab .dm-right { fill: rgba(247,244,239,.025); stroke: rgba(247,244,239,.20); stroke-width: 1.1; }
+.dm-slab .dm-top   { fill: #262C35; stroke: rgba(247,244,239,.26); stroke-width: 1.1; }
+.dm-slab .dm-left  { fill: #1B2028; stroke: rgba(247,244,239,.22); stroke-width: 1.1; }
+.dm-slab .dm-right { fill: #12151B; stroke: rgba(247,244,239,.22); stroke-width: 1.1; }
 .dm-slab:hover .dm-top,
-.dm-slab:focus-visible .dm-top { fill: rgba(217,192,112,.22); }
-.dm-slab.is-on .dm-top   { fill: rgba(200,170,69,.42); stroke: var(--c-gold-300); stroke-width: 1.6; }
-.dm-slab.is-on .dm-left  { fill: rgba(200,170,69,.24); stroke: var(--c-gold-400); stroke-width: 1.4; }
-.dm-slab.is-on .dm-right { fill: rgba(200,170,69,.16); stroke: var(--c-gold-400); stroke-width: 1.4; }
+.dm-slab:focus-visible .dm-top { fill: #4A4634; }
+.dm-slab:hover .dm-left,
+.dm-slab:focus-visible .dm-left { fill: #3A3728; }
+.dm-slab.is-on .dm-top   { fill: #C9AC4C; stroke: var(--c-gold-200); stroke-width: 1.5; }
+.dm-slab.is-on .dm-left  { fill: #9C8437; stroke: var(--c-gold-300); stroke-width: 1.3; }
+.dm-slab.is-on .dm-right { fill: #6E5D27; stroke: var(--c-gold-300); stroke-width: 1.3; }
 .dm-slab:focus { outline: none; }
 
-.dm-pent .dm-top   { fill: rgba(176,144,32,.20); stroke: var(--c-gold-400); stroke-width: 1.3; }
-.dm-pent .dm-left  { fill: rgba(176,144,32,.13); stroke: var(--c-gold-400); stroke-width: 1.2; }
-.dm-pent .dm-right { fill: rgba(176,144,32,.09); stroke: var(--c-gold-400); stroke-width: 1.2; }
+.dm-pent .dm-top   { fill: #3E3721; stroke: var(--c-gold-400); stroke-width: 1.3; }
+.dm-pent .dm-left  { fill: #2E2A1A; stroke: var(--c-gold-400); stroke-width: 1.2; }
+.dm-pent .dm-right { fill: #201E13; stroke: var(--c-gold-400); stroke-width: 1.2; }
+
+/* The amenity floor is not one of the repeats — it gets a cooler cast so it
+   is picked out of the stack even when another floor is selected. Selection
+   still wins over it, hence the doubled class on the is-on rules. */
+.dm-slab.dm-amen .dm-top   { fill: #24343C; stroke: rgba(140,200,225,.45); }
+.dm-slab.dm-amen .dm-left  { fill: #1A262D; stroke: rgba(140,200,225,.36); }
+.dm-slab.dm-amen .dm-right { fill: #121B20; stroke: rgba(140,200,225,.36); }
+.dm-slab.dm-amen.is-on .dm-top   { fill: #C9AC4C; stroke: var(--c-gold-200); }
+.dm-slab.dm-amen.is-on .dm-left  { fill: #9C8437; stroke: var(--c-gold-300); }
+.dm-slab.dm-amen.is-on .dm-right { fill: #6E5D27; stroke: var(--c-gold-300); }
 
 /* floor rail */
 .dm-rail {
@@ -107,6 +132,11 @@
 
 .pl-shell { fill: rgba(247, 244, 239, .025); stroke: rgba(247, 244, 239, .18); stroke-width: 1.4; }
 .pl-corr  { fill: rgba(247, 244, 239, .05); }
+/* First-floor amenities, and the void that replaces them higher up. */
+.pl-amen  { fill: rgba(140, 200, 225, .10); stroke: rgba(140, 200, 225, .30); stroke-width: 1.1; }
+.pl-amen--pool { fill: rgba(120, 180, 205, .30); stroke: rgba(150, 205, 230, .55); }
+.pl-void  { fill: rgba(247, 244, 239, .015); stroke: rgba(247, 244, 239, .12);
+            stroke-width: 1.1; stroke-dasharray: 6 5; }
 .pl-core  { fill: rgba(247, 244, 239, .08); stroke: rgba(247, 244, 239, .18); stroke-width: 1.2; }
 .pl-lbl {
   fill: var(--c-stone);
@@ -167,6 +197,7 @@
 .k-p { background: rgba(217, 192, 112, .55); }
 .k-2 { background: rgba(140, 178, 224, .5); }
 .k-3 { background: rgba(212, 150, 120, .55); }
+.k-am { background: rgba(140, 200, 225, .45); }
 
 /* --- Residence sheet ---------------------------------------------------- */
 .dsheet {
@@ -264,10 +295,10 @@
 /* Floor 9 — the penthouse level, distinguished from the repeating floors. */
 .dm-pent { cursor: pointer; }
 .dm-pent:focus { outline: none; }
-.dm-pent:hover .dm-top { fill: rgba(217,192,112,.34); }
-.dm-pent.is-on .dm-top   { fill: rgba(200,170,69,.55); stroke: var(--c-gold-200); stroke-width: 1.8; }
-.dm-pent.is-on .dm-left  { fill: rgba(200,170,69,.34); stroke: var(--c-gold-300); stroke-width: 1.5; }
-.dm-pent.is-on .dm-right { fill: rgba(200,170,69,.24); stroke: var(--c-gold-300); stroke-width: 1.5; }
+.dm-pent:hover .dm-top { fill: #59502C; }
+.dm-pent.is-on .dm-top   { fill: #D8BC5A; stroke: var(--c-gold-200); stroke-width: 1.7; }
+.dm-pent.is-on .dm-left  { fill: #A88F3B; stroke: var(--c-gold-300); stroke-width: 1.4; }
+.dm-pent.is-on .dm-right { fill: #77652A; stroke: var(--c-gold-300); stroke-width: 1.4; }
 .dm-fbtn.is-pent { font-size: 10px; letter-spacing: .06em; }
 /* Penthouse tints — floor 9 has its own palette. */
 .t-PH3A .pl-fill, .t-PH3B .pl-fill { fill: rgba(212, 150, 120, .16); stroke: rgba(212, 150, 120, .5); }

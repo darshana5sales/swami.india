@@ -48,7 +48,7 @@
                    ['Master bedroom', '3.48 × 4.10 m'], ['Bedroom 1', '3.13 × 3.40 m'],
                    ['Deck', '3.10 × 1.80 m'], ['Laundry', '1.40 × 1.35 m']] },
     '3': { name: '2 Bedroom', bhk: 2, bath: 2, area: 80.4, grade: '', tint: 't-A2', img: 'typ-3a', iw: 938, ih: 1400,
-           view: 'Podium pool · city · Bijilo National Park',
+           view: 'Pool deck · city · Bijilo National Park',
            rooms: [['Living', '3.20 × 6.75 m'], ['Kitchen', '2.55 × 4.30 m'],
                    ['Master bedroom', '3.45 × 4.20 m'], ['Bedroom 1', '3.45 × 3.20 m'],
                    ['Deck', '3.40 × 1.80 m'], ['Laundry', '1.55 × 1.35 m']] },
@@ -58,27 +58,30 @@
                    ['Master bedroom', '3.40 × 4.10 m'], ['Deck', '2.75 × 1.80 m'],
                    ['Laundry', '1.75 × 1.55 m'], ['Bathroom', '1.50 × 2.70 m']] },
     '5': { name: '1 Bedroom', bhk: 1, bath: 1, area: 46.3, grade: 'Executive', tint: 't-E1A', img: 'typ-5a', iw: 938, ih: 1400,
-           view: 'Podium-top pool & city view',
+           view: 'Pool deck & city view',
            rooms: [['Living', '3.63 × 3.90 m'], ['Kitchen', '3.63 × 2.50 m'],
                    ['Bedroom', '3.15 × 3.45 m'], ['Deck', '1.93 × 1.80 m'],
                    ['Utility', '1.50 × 1.75 m'], ['Bathroom', '1.50 × 2.45 m']] }
   };
 
-  /* The plate, laid out as the brochure's key diagram draws it: a ring of
-     homes around a central bank of the compact 5A/5B typologies. */
+  /* THE TYPICAL PLATE — sixteen homes, transcribed unit by unit from the
+     brochure's "TYPICAL FLOOR" drawing, reading left to right as it is
+     printed. The plan is a C: homes wrap the north, west and east sides
+     and the south side opens onto the void over the pool deck. */
   var PLATE = [
-    { id: '1B', t: '1', x: 60,  y: 40,  w: 190, h: 130 },
+    { id: '1A', t: '1', x: 60,  y: 40,  w: 190, h: 130 },
     { id: '2A', t: '2', x: 258, y: 40,  w: 175, h: 130 },
     { id: '2B', t: '2', x: 441, y: 40,  w: 175, h: 130 },
-    { id: '1A', t: '1', x: 624, y: 40,  w: 190, h: 130 },
+    { id: '1B', t: '1', x: 624, y: 40,  w: 190, h: 130 },
 
     { id: '2B', t: '2', x: 60,  y: 178, w: 190, h: 118, k: 'l2' },
     { id: '2A', t: '2', x: 624, y: 178, w: 190, h: 118, k: 'r2' },
 
     { id: '2A', t: '2', x: 60,  y: 304, w: 190, h: 118, k: 'l3' },
-    { id: '5B', t: '5', x: 292, y: 304, w: 118, h: 118 },
-    { id: '5A', t: '5', x: 418, y: 304, w: 118, h: 118 },
-    { id: '5B', t: '5', x: 544, y: 304, w: 118, h: 118, k: 'c2' },
+    { id: '5B', t: '5', x: 262, y: 304, w: 86,  h: 118 },
+    { id: '5A', t: '5', x: 352, y: 304, w: 86,  h: 118 },
+    { id: '5B', t: '5', x: 442, y: 304, w: 86,  h: 118, k: 'c2' },
+    { id: '5A', t: '5', x: 532, y: 304, w: 86,  h: 118, k: 'c3' },
     { id: '2B', t: '2', x: 624, y: 304, w: 190, h: 118, k: 'r3' },
 
     { id: '4B', t: '4', x: 60,  y: 430, w: 190, h: 118 },
@@ -88,39 +91,122 @@
     { id: '3A', t: '3', x: 624, y: 556, w: 190, h: 130 }
   ];
 
-  var FLOORS = 14;                 // 14 floors above the podium
+  /* THE FIRST FLOOR IS NOT A TYPICAL FLOOR. Its own drawing carries just
+     six homes along the north side and the two flanking the core — and its
+     legend prints only Typology 1 and Typology 2, which is exactly what
+     those six are. Everything south of the corridor is the amenity deck:
+     pool, pool deck, gym, mini spa, indoor games, café and kids' play area.
+     Six here plus sixteen on each of the eleven typical floors is the 182
+     apartments the brochure advertises. */
+  var FIRST = [
+    { id: '1A', t: '1', x: 60,  y: 40,  w: 190, h: 130 },
+    { id: '2A', t: '2', x: 258, y: 40,  w: 175, h: 130 },
+    { id: '2B', t: '2', x: 441, y: 40,  w: 175, h: 130 },
+    { id: '1B', t: '1', x: 624, y: 40,  w: 190, h: 130 },
+
+    { id: '2B', t: '2', x: 60,  y: 178, w: 190, h: 118, k: 'l2' },
+    { id: '2A', t: '2', x: 624, y: 178, w: 190, h: 118, k: 'r2' }
+  ];
+
+  /* The amenities that take the rest of the first floor, drawn where the
+     brochure's numbered legend puts them. */
+  var AMEN = [
+    // west side
+    { x: 60,  y: 304, w: 190, h: 130, n: 'GYM' },
+    { x: 60,  y: 442, w: 190, h: 110, n: 'MINI SPA' },
+    { x: 60,  y: 560, w: 190, h: 126, n: 'LADIES &amp; GENTS' },
+    // centre — the deck, with the pool at its foot
+    { x: 262, y: 304, w: 356, h: 196, n: 'POOL DECK' },
+    { x: 262, y: 508, w: 356, h: 178, n: 'SWIMMING POOL', pool: 1 },
+    // east side
+    { x: 630, y: 304, w: 184, h: 92,  n: "KIDS' PLAY" },
+    { x: 630, y: 404, w: 184, h: 84,  n: 'INDOOR GAMES' },
+    { x: 630, y: 496, w: 184, h: 84,  n: 'KITCHEN' },
+    { x: 630, y: 588, w: 184, h: 98,  n: 'CAFÉ' }
+  ];
+
+  /* Thirteen storeys: the ground floor is lobby, restaurant and parking,
+     the first floor is the amenity level, and floors 2–12 repeat. */
+  var FLOORS = 12;
+  var FIRST_FLOOR = 1;
+  function plateFor(f) { return f === FIRST_FLOOR ? FIRST : PLATE; }
+  function floorLabel(f) { return f === FIRST_FLOOR ? 'First floor' : 'Floor ' + f; }
+
   var state = { floor: 1, unit: null };
 
-  /* ---- Tower massing --------------------------------------------------- */
-  var ISO = { ox: 300, oy: 560, s: 1 };
+  /* ---- Tower massing ---------------------------------------------------
+     "13 Storeyed towers placed in C shape" — so the floors are drawn as a
+     C, open on the south side over the pool deck, not as a solid block.
+     ---------------------------------------------------------------------- */
+  var ISO = { ox: 292, oy: 566, s: 1 };
   function iso(x, y, z) {
     return [ISO.ox + (x - y) * 0.866 * ISO.s, ISO.oy - (x + y) * 0.5 * ISO.s - z * ISO.s];
   }
   function facePath(p) { return 'M' + p.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join('L') + 'Z'; }
 
-  function box(x, y, w, d, z, h, cls, floor) {
-    var a = iso(x, y, z + h), b = iso(x + w, y, z + h), c = iso(x + w, y + d, z + h), e = iso(x, y + d, z + h);
-    var a0 = iso(x, y, z), b0 = iso(x + w, y, z), c0 = iso(x + w, y + d, z);
+  /* The C, in plan. The notch is the void the homes look into. */
+  var RING = [[0, 0], [64, 0], [64, 150], [180, 150], [180, 0], [244, 0], [244, 236], [0, 236]];
+  var GROUND = [[-16, -16], [260, -16], [260, 252], [-16, 252]];
+
+  function ccw(poly) {
+    var a = 0, i, q;
+    for (i = 0; i < poly.length; i++) { q = poly[(i + 1) % poly.length]; a += poly[i][0] * q[1] - q[0] * poly[i][1]; }
+    return a < 0 ? poly.slice().reverse() : poly;
+  }
+  function inset(poly, k) {
+    var cx = 0, cy = 0;
+    poly.forEach(function (p) { cx += p[0]; cy += p[1]; });
+    cx /= poly.length; cy /= poly.length;
+    return poly.map(function (p) { return [cx + (p[0] - cx) * k, cy + (p[1] - cy) * k]; });
+  }
+
+  /* Extrudes any footprint. Walls facing away are dropped, and the rest are
+     painted far to near so the arms of the C overlap in the right order. */
+  function prism(poly, z, h, cls, floor) {
+    var p = ccw(poly), i, a, b, dx, dy, faces = [];
     var at = floor ? ' data-floor="' + floor + '" tabindex="0" role="button" aria-label="Floor ' + floor + '"' : '';
-    return '<g class="' + cls + '"' + at + '>' +
-      '<path class="dm-top" d="' + facePath([a, b, c, e]) + '"/>' +
-      '<path class="dm-left" d="' + facePath([a, a0, b0, b]) + '"/>' +
-      '<path class="dm-right" d="' + facePath([b, b0, c0, c]) + '"/></g>';
+    for (i = 0; i < p.length; i++) {
+      a = p[i]; b = p[(i + 1) % p.length];
+      dx = b[0] - a[0]; dy = b[1] - a[1];
+      if (dx - dy <= 0) continue;
+      faces.push({
+        depth: a[0] + a[1] + b[0] + b[1],
+        cls: (dx + dy > 0) ? 'dm-left' : 'dm-right',
+        d: facePath([iso(a[0], a[1], z + h), iso(b[0], b[1], z + h),
+                     iso(b[0], b[1], z), iso(a[0], a[1], z)])
+      });
+    }
+    faces.sort(function (m, n) { return n.depth - m.depth; });
+    var s = faces.map(function (f) { return '<path class="' + f.cls + '" d="' + f.d + '"/>'; }).join('');
+    s += '<path class="dm-top" d="' + facePath(p.map(function (q) { return iso(q[0], q[1], z + h); })) + '"/>';
+    return '<g class="' + cls + '"' + at + '>' + s + '</g>';
   }
 
   function renderTower() {
     var svg = $('#horTower');
     if (!svg) return;
-    var FH = 21, POD = 46, s = '';
-    s += '<path class="dm-ground" d="' + facePath([iso(-90, -90, 0), iso(330, -90, 0), iso(330, 330, 0), iso(-90, 330, 0)]) + '"/>';
-    // podium: parking, amenities and the pool deck the 5-series looks onto
-    s += box(0, 0, 260, 250, 0, POD, 'dm-pod', null);
+    var FH = 26, POD = 40, s = '';
+    s += '<path class="dm-ground" d="' +
+         facePath([iso(-80, -80, 0), iso(324, -80, 0), iso(324, 320, 0), iso(-80, 320, 0)]) + '"/>';
+
+    // Ground floor: lobby, restaurant, sales office and parking — no homes,
+    // so it is drawn as the base and is not selectable.
+    s += prism(GROUND, 0, POD, 'dm-pod', null);
+
     for (var f = 1; f <= FLOORS; f++) {
-      s += box(28, 24, 200, 196, POD + (f - 1) * FH, FH - 3,
-               (f === state.floor) ? 'dm-slab is-on' : 'dm-slab', f);
+      var z0 = POD + (f - 1) * FH;
+      var cls = (f === state.floor) ? 'dm-slab is-on' : 'dm-slab';
+      // The first floor is the amenity level and carries only six homes,
+      // so it reads as its own band rather than one of the repeats.
+      // Eleven floors stand over the mouth of the C, so a deck drawn down
+      // there is all but invisible from this angle — the band's own colour
+      // is what says "amenity floor", and the plate shows what is on it.
+      if (f === FIRST_FLOOR) cls += ' dm-amen';
+      s += prism(RING, z0, FH - 4, cls, f);
     }
+
     // roof / sky deck
-    s += box(46, 42, 164, 160, POD + FLOORS * FH, 14, 'dm-pent', null);
+    s += prism(inset(RING, 0.9), POD + FLOORS * FH, 14, 'dm-pent', null);
     svg.innerHTML = s;
   }
 
@@ -128,12 +214,28 @@
   function renderPlate() {
     var svg = $('#horPlate');
     if (!svg) return;
+    var first = state.floor === FIRST_FLOOR;
     var s = '';
     s += '<rect class="pl-shell" x="40" y="24" width="794" height="678" rx="26"/>';
-    s += '<rect class="pl-corr" x="266" y="178" width="342" height="244" rx="10"/>';
-    s += '<text class="pl-lbl" x="437" y="214">LIFT &amp; STAIR CORE</text>';
+    s += '<rect class="pl-corr" x="266" y="178" width="342" height="112" rx="10"/>';
+    s += '<text class="pl-lbl" x="437" y="240">LIFT &amp; STAIR CORE</text>';
 
-    PLATE.forEach(function (u) {
+    if (first) {
+      /* The amenity deck, which is what the first floor has instead of the
+         5-series homes and the two lower rows of the typical plate. */
+      AMEN.forEach(function (a) {
+        s += '<rect class="pl-amen' + (a.pool ? ' pl-amen--pool' : '') + '" x="' + a.x + '" y="' + a.y +
+             '" width="' + a.w + '" height="' + a.h + '" rx="8"/>';
+        s += '<text class="pl-lbl" x="' + (a.x + a.w / 2) + '" y="' + (a.y + a.h / 2 + 4) + '">' + a.n + '</text>';
+      });
+    } else {
+      /* On a typical floor the same ground is the void over the deck — the
+         open side of the C. */
+      s += '<rect class="pl-void" x="262" y="430" width="356" height="256" rx="10"/>';
+      s += '<text class="pl-lbl" x="440" y="562">OPEN TO POOL DECK BELOW</text>';
+    }
+
+    plateFor(state.floor).forEach(function (u) {
       var t = TYPES[u.t];
       // The brochure names homes by typology, not by a floor-prefixed
       // number — "1" + "1B" would read as unit 11B, which is wrong.
@@ -142,13 +244,27 @@
            'aria-label="Home ' + num + ' — typology ' + u.id + ', ' + t.name + ', ' + t.area + ' square metres">';
       s += '<rect class="pl-fill" x="' + u.x + '" y="' + u.y + '" width="' + u.w + '" height="' + u.h + '" rx="5"/>';
       s += '<text class="pl-no" x="' + (u.x + u.w / 2) + '" y="' + (u.y + u.h / 2 - 4) + '">' + num + '</text>';
+      // The four 5-series cells are half the width of the rest, so they take
+      // the area alone rather than spilling the configuration into next door.
       s += '<text class="pl-ty" x="' + (u.x + u.w / 2) + '" y="' + (u.y + u.h / 2 + 18) + '">' +
-           t.bhk + ' BHK · ' + t.area.toFixed(1) + ' m²</text>';
+           (u.w < 110 ? '' : t.bhk + ' BHK · ') + t.area.toFixed(1) + ' m²</text>';
       s += '</g>';
     });
     svg.innerHTML = s;
     var tag = $('#horFloorTag');
-    if (tag) tag.textContent = 'Floor ' + state.floor;
+    if (tag) tag.textContent = first ? 'First floor · 6 homes + amenities'
+                                     : 'Floor ' + state.floor + ' · 16 homes';
+
+    /* The first floor's legend prints only Typology 1 and 2, because those
+       are the only two that appear on it. */
+    var key = $('#horKey');
+    if (key) {
+      key.innerHTML = first
+        ? '<li><i class="k-2"></i>2 BHK</li><li><i class="k-3"></i>3 BHK</li>' +
+          '<li><i class="k-am"></i>Amenities</li>'
+        : '<li><i class="k-e"></i>1 BHK Executive</li><li><i class="k-p"></i>1 BHK Premium</li>' +
+          '<li><i class="k-2"></i>2 BHK</li><li><i class="k-3"></i>3 BHK</li>';
+    }
   }
 
   /* ---- Home sheet ------------------------------------------------------ */
@@ -156,13 +272,15 @@
     var t = TYPES[key];
     if (!t) return;
     $('#horUnitNo').textContent = id;
-    $('#horUnitType').textContent = 'Floor ' + state.floor + ' · ' + t.name + (t.grade ? ' ' + t.grade : '');
+    $('#horUnitType').textContent = floorLabel(state.floor) + ' · ' + t.name + (t.grade ? ' ' + t.grade : '');
     $('#horUnitFacts').innerHTML =
       row('Carpet area', '<b>' + t.area.toFixed(1) + ' m²</b>') +
       row('Configuration', t.bhk + ' BHK') +
       row('Bathrooms', t.bath) +
       row('Outlook', t.view) +
-      row('Floor', state.floor + ' of ' + FLOORS);
+      row('Floor', state.floor === FIRST_FLOOR
+                     ? 'First floor · amenity level'
+                     : state.floor + ' of ' + FLOORS);
     var hasRooms = t.rooms.length > 0;
     $('#horUnitRooms').innerHTML = hasRooms ? t.rooms.map(function (r) {
       return '<li><span>' + r[0] + '</span><b>' + r[1] + '</b></li>';
