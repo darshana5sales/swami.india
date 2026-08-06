@@ -37,27 +37,27 @@
 
   /* ---- Typologies, from the brochure's plan pages --------------------- */
   var TYPES = {
-    '1': { name: '3 Bedroom', bhk: 3, bath: 3, area: 107.5, grade: '', tint: 't-A3',
+    '1': { name: '3 Bedroom', bhk: 3, bath: 3, area: 107.5, grade: '', tint: 't-A3', img: 'typ-1a', iw: 899, ih: 1400,
            view: 'Sea view · Bijilo National Park',
            rooms: [['Living', '5.10 × 3.43 m'], ['Dining', '2.65 × 2.30 m'], ['Kitchen', '2.55 × 5.28 m'],
                    ['Master bedroom', '4.10 × 3.45 m'], ['Bedroom 1', '3.40 × 3.20 m'], ['Bedroom 2', '3.15 × 3.45 m'],
                    ['Deck', '1.80 × 3.38 m'], ['Juliet balcony', '0.60 × 3.55 m'], ['Laundry', '1.60 × 1.30 m']] },
-    '2': { name: '2 Bedroom', bhk: 2, bath: 2, area: 80.2, grade: '', tint: 't-A2',
+    '2': { name: '2 Bedroom', bhk: 2, bath: 2, area: 80.2, grade: '', tint: 't-A2', img: 'typ-2a', iw: 938, ih: 1400,
            view: 'Bijilo National Park & Conference Centre',
            rooms: [['Living', '3.15 × 5.10 m'], ['Dining', '1.95 × 2.65 m'], ['Kitchen', '5.10 × 2.55 m'],
                    ['Master bedroom', '3.48 × 4.10 m'], ['Bedroom 1', '3.13 × 3.40 m'],
                    ['Deck', '3.10 × 1.80 m'], ['Laundry', '1.40 × 1.35 m']] },
-    '3': { name: '2 Bedroom', bhk: 2, bath: 2, area: 80.4, grade: '', tint: 't-A2',
+    '3': { name: '2 Bedroom', bhk: 2, bath: 2, area: 80.4, grade: '', tint: 't-A2', img: 'typ-3a', iw: 938, ih: 1400,
            view: 'Podium pool · city · Bijilo National Park',
            rooms: [['Living', '3.20 × 6.75 m'], ['Kitchen', '2.55 × 4.30 m'],
                    ['Master bedroom', '3.45 × 4.20 m'], ['Bedroom 1', '3.45 × 3.20 m'],
                    ['Deck', '3.40 × 1.80 m'], ['Laundry', '1.55 × 1.35 m']] },
-    '4': { name: '1 Bedroom', bhk: 1, bath: 1, area: 55.2, grade: 'Premium', tint: 't-P1A',
+    '4': { name: '1 Bedroom', bhk: 1, bath: 1, area: 55.2, grade: 'Premium', tint: 't-P1A', img: 'typ-4a', iw: 938, ih: 1400,
            view: 'Bijilo National Park & Conference Centre',
            rooms: [['Living', '3.15 × 5.10 m'], ['Kitchen', '3.15 × 2.55 m'],
                    ['Master bedroom', '3.40 × 4.10 m'], ['Deck', '2.75 × 1.80 m'],
                    ['Laundry', '1.75 × 1.55 m'], ['Bathroom', '1.50 × 2.70 m']] },
-    '5': { name: '1 Bedroom', bhk: 1, bath: 1, area: 46.3, grade: 'Executive', tint: 't-E1A',
+    '5': { name: '1 Bedroom', bhk: 1, bath: 1, area: 46.3, grade: 'Executive', tint: 't-E1A', img: 'typ-5a', iw: 938, ih: 1400,
            view: 'Podium-top pool & city view',
            rooms: [['Living', '3.63 × 3.90 m'], ['Kitchen', '3.63 × 2.50 m'],
                    ['Bedroom', '3.15 × 3.45 m'], ['Deck', '1.93 × 1.80 m'],
@@ -174,7 +174,15 @@
     /* Drawn plan + price gate — shared with The Diplomat. */
     var label = 'Home ' + id + ', floor ' + state.floor;
     if (w.SwamiSheet) {
-      $('#horPlanBox').innerHTML = w.SwamiSheet.plan(t.rooms, label);
+      /* The brochure's own plate when we have one, else the drawn schematic.
+         Only the A variant is drawn in the brochure; B is its mirror, so we
+         show the same plate and say so rather than pretend it is B's own. */
+      var mirrored = /B$/.test(id);
+      $('#horPlanBox').innerHTML = t.img
+        ? w.SwamiSheet.plate('assets/img/horizon/' + t.img + '.jpg',
+                             'Typology ' + id + (mirrored ? ' (mirror of ' + id.replace(/B$/, 'A') + ')' : ''),
+                             t.iw, t.ih)
+        : w.SwamiSheet.plan(t.rooms, label);
       var gate = $('#horPrice');
       /* Locked on every opening — see diplomat.js. */
       var unit = { label: label, price: PRICES[key] || null };

@@ -196,9 +196,11 @@
 
   /* The brochure's own plate, when the project publishes one. Clicking it
      hands off to the site lightbox for a full-size look. */
-  function plate(src, label) {
+  function plate(src, label, iw, ih) {
+    /* Intrinsic size matters here: the browser reserves the box from it, so
+       a landscape default on a portrait plate would shift the sheet. */
     return '<img class="fp-plate" src="' + src + '" alt="Floor plan — ' + label + '" ' +
-           'loading="lazy" decoding="async" width="1400" height="977" ' +
+           'loading="lazy" decoding="async" width="' + (iw || 1400) + '" height="' + (ih || 977) + '" ' +
            'data-full="' + src + '" title="Click to enlarge">';
   }
 

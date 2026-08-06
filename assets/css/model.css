@@ -457,6 +457,9 @@
 .plan-duo { display: grid; gap: var(--sp-4); }
 @media (min-width: 700px)  { .plan-duo { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1080px) { .plan-duo { grid-template-columns: repeat(3, 1fr); } }
+/* A pair, not a trio: two full plates read better side by side than as two
+   thirds of a three-column row with a hole in it. */
+@media (min-width: 1080px) { .plan-duo--pair { grid-template-columns: repeat(2, 1fr); } }
 
 .plan-card {
   margin: 0;
@@ -476,7 +479,13 @@
 
 /* The drawing itself — white ground, contained, click to enlarge. */
 .plan-card__media {
-  display: block;
+  /* One full-bleed column so the plate still tracks the card width, and
+     align-content so it sits centred in whatever height the row hands us.
+     `place-items: center` would size the column to the plate's intrinsic
+     1800px and burst the card on a phone. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
   position: relative;
   background: #FFFFFF;
   cursor: zoom-in;
@@ -488,6 +497,14 @@
   height: auto;
   transition: transform var(--d-slow) var(--e-out);
 }
+/* Plates in a row are not all the same shape — a 3-bed plan is narrower
+   than a 2-bed. The grid already stretches the cards to a common height,
+   so let the white ground take up the slack and the captions line up
+   instead of stepping down the row. */
+.plan-grid .plan-card,
+.plan-duo .plan-card { display: flex; flex-direction: column; }
+.plan-grid .plan-card__media,
+.plan-duo .plan-card__media { flex: 1 1 auto; }
 .plan-card:hover .plan-card__media img { transform: scale(1.03); }
 
 /* A quiet magnifier badge, so the click affordance is obvious. */
